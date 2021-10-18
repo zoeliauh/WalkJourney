@@ -56,6 +56,10 @@
 		6B868A16271B18B400965075 = {
 			isa = PBXGroup;
 			children = (
+				6B868A5C271D14B100965075 /* Extension */,
+				6B868A59271D148B00965075 /* Model */,
+				6B868A5A271D149600965075 /* View */,
+				6B868A5B271D14A100965075 /* Controller */,
 				6B868A21271B18B400965075 /* WalkJourney */,
 				6B868A20271B18B400965075 /* Products */,
 				0C26505A9ED6D82763EF933D /* Pods */,
@@ -76,14 +80,42 @@
 			children = (
 				6B868A22271B18B400965075 /* AppDelegate.swift */,
 				6B868A24271B18B400965075 /* SceneDelegate.swift */,
-				6B868A26271B18B400965075 /* ViewController.swift */,
-				6B868A28271B18B400965075 /* Main.storyboard */,
 				6B868A2B271B18B700965075 /* Assets.xcassets */,
-				6B868A2D271B18B700965075 /* LaunchScreen.storyboard */,
 				6B868A30271B18B700965075 /* Info.plist */,
 				6B868A57271D0C8100965075 /* GoogleService-Info.plist */,
 			);
 			path = WalkJourney;
+			sourceTree = "<group>";
+		};
+		6B868A59271D148B00965075 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6B868A5A271D149600965075 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6B868A2D271B18B700965075 /* LaunchScreen.storyboard */,
+				6B868A28271B18B400965075 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6B868A5B271D14A100965075 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6B868A26271B18B400965075 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		6B868A5C271D14B100965075 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		98F51EC5B520F25195E60846 /* Frameworks */ = {
