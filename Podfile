@@ -7,5 +7,11 @@ target 'WalkJourney' do
 
   # Pods for WalkJourney
 pod 'SwiftLint'
+pod 'Firebase/Firestore'
+pod 'FirebaseFirestoreSwift'
+pod 'Firebase/Analytics'
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
+pod 'Firebase/Database'
 
 end

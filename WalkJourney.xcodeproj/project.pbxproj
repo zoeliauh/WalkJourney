@@ -14,6 +14,7 @@
 		6B868A2A271B18B400965075 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A28271B18B400965075 /* Main.storyboard */; };
 		6B868A2C271B18B700965075 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A2B271B18B700965075 /* Assets.xcassets */; };
 		6B868A2F271B18B700965075 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A2D271B18B700965075 /* LaunchScreen.storyboard */; };
+		6B868A58271D0C8100965075 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A57271D0C8100965075 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		6B868A2B271B18B700965075 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B868A2E271B18B700965075 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B868A30271B18B700965075 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B868A57271D0C8100965075 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		E2DFC9EFBB8970AA843AABFA /* Pods-WalkJourney.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkJourney.debug.xcconfig"; path = "Target Support Files/Pods-WalkJourney/Pods-WalkJourney.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,6 +81,7 @@
 				6B868A2B271B18B700965075 /* Assets.xcassets */,
 				6B868A2D271B18B700965075 /* LaunchScreen.storyboard */,
 				6B868A30271B18B700965075 /* Info.plist */,
+				6B868A57271D0C8100965075 /* GoogleService-Info.plist */,
 			);
 			path = WalkJourney;
 			sourceTree = "<group>";
@@ -103,6 +106,7 @@
 				6B868A1C271B18B400965075 /* Frameworks */,
 				6B868A1D271B18B400965075 /* Resources */,
 				6B868A36271B250D00965075 /* Swiftlint */,
+				1FF1013275770142B19041B1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -152,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B868A2F271B18B700965075 /* LaunchScreen.storyboard in Resources */,
+				6B868A58271D0C8100965075 /* GoogleService-Info.plist in Resources */,
 				6B868A2C271B18B700965075 /* Assets.xcassets in Resources */,
 				6B868A2A271B18B400965075 /* Main.storyboard in Resources */,
 			);
@@ -160,6 +165,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1FF1013275770142B19041B1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkJourney/Pods-WalkJourney-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkJourney/Pods-WalkJourney-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalkJourney/Pods-WalkJourney-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6B868A36271B250D00965075 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
