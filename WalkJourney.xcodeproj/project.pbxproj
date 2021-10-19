@@ -8,27 +8,63 @@
 
 /* Begin PBXBuildFile section */
 		09CEC3A766DB056577C782F7 /* Pods_WalkJourney.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C95A1CA0FB6576E82C7124 /* Pods_WalkJourney.framework */; };
+		6B022157271D742700C61593 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022156271D742600C61593 /* UIImage+Extension.swift */; };
+		6B022159271D74D000C61593 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022158271D74D000C61593 /* UIColor+Extension.swift */; };
+		6B02215B271D752400C61593 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B02215A271D752400C61593 /* UIScreen+Extension.swift */; };
+		6B02215D271D758200C61593 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B02215C271D758200C61593 /* UIStoryboard+Extension.swift */; };
+		6B02215F271D7AD700C61593 /* BarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B02215E271D7AD700C61593 /* BarChartViewController.swift */; };
+		6B022161271D7AE900C61593 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022160271D7AE900C61593 /* RecordViewController.swift */; };
+		6B022163271D7AFF00C61593 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022162271D7AFF00C61593 /* ShareViewController.swift */; };
+		6B022165271D7B1000C61593 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022164271D7B1000C61593 /* ProfileViewController.swift */; };
+		6B02216B271E6D7100C61593 /* StartToWalkPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B02216A271E6D7100C61593 /* StartToWalkPageViewController.swift */; };
+		6B02216E271E74C400C61593 /* Position.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A5D271D413F00965075 /* Position.storyboard */; };
+		6B022170271EC4DF00C61593 /* MapChosenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B02216F271EC4DF00C61593 /* MapChosenViewController.swift */; };
+		6B022172271ED25100C61593 /* FunnyMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022171271ED25100C61593 /* FunnyMapViewController.swift */; };
+		6B022174271ED54B00C61593 /* FunnyMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022173271ED54B00C61593 /* FunnyMapTableViewCell.swift */; };
 		6B868A23271B18B400965075 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B868A22271B18B400965075 /* AppDelegate.swift */; };
 		6B868A25271B18B400965075 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B868A24271B18B400965075 /* SceneDelegate.swift */; };
-		6B868A27271B18B400965075 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B868A26271B18B400965075 /* ViewController.swift */; };
+		6B868A27271B18B400965075 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B868A26271B18B400965075 /* TabBarController.swift */; };
 		6B868A2A271B18B400965075 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A28271B18B400965075 /* Main.storyboard */; };
 		6B868A2C271B18B700965075 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A2B271B18B700965075 /* Assets.xcassets */; };
 		6B868A2F271B18B700965075 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A2D271B18B700965075 /* LaunchScreen.storyboard */; };
 		6B868A58271D0C8100965075 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A57271D0C8100965075 /* GoogleService-Info.plist */; };
+		6B868A60271D418300965075 /* BarChart.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A5F271D418300965075 /* BarChart.storyboard */; };
+		6B868A62271D41AD00965075 /* Recode.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A61271D41AD00965075 /* Recode.storyboard */; };
+		6B868A64271D41BA00965075 /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A63271D41BA00965075 /* Share.storyboard */; };
+		6B868A66271D41C800965075 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A65271D41C800965075 /* Profile.storyboard */; };
+		6B868A68271D42C400965075 /* MapSearchingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B868A67271D42C300965075 /* MapSearchingPageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		002A293F15A6FA7A8241A3AE /* Pods-WalkJourney.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkJourney.release.xcconfig"; path = "Target Support Files/Pods-WalkJourney/Pods-WalkJourney.release.xcconfig"; sourceTree = "<group>"; };
 		00C95A1CA0FB6576E82C7124 /* Pods_WalkJourney.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalkJourney.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B022156271D742600C61593 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		6B022158271D74D000C61593 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		6B02215A271D752400C61593 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
+		6B02215C271D758200C61593 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
+		6B02215E271D7AD700C61593 /* BarChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartViewController.swift; sourceTree = "<group>"; };
+		6B022160271D7AE900C61593 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
+		6B022162271D7AFF00C61593 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		6B022164271D7B1000C61593 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		6B02216A271E6D7100C61593 /* StartToWalkPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartToWalkPageViewController.swift; sourceTree = "<group>"; };
+		6B02216F271EC4DF00C61593 /* MapChosenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapChosenViewController.swift; sourceTree = "<group>"; };
+		6B022171271ED25100C61593 /* FunnyMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunnyMapViewController.swift; sourceTree = "<group>"; };
+		6B022173271ED54B00C61593 /* FunnyMapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunnyMapTableViewCell.swift; sourceTree = "<group>"; };
 		6B868A1F271B18B400965075 /* WalkJourney.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalkJourney.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B868A22271B18B400965075 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B868A24271B18B400965075 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		6B868A26271B18B400965075 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6B868A26271B18B400965075 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		6B868A29271B18B400965075 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6B868A2B271B18B700965075 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B868A2E271B18B700965075 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B868A30271B18B700965075 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B868A57271D0C8100965075 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		6B868A5D271D413F00965075 /* Position.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Position.storyboard; sourceTree = "<group>"; };
+		6B868A5F271D418300965075 /* BarChart.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = BarChart.storyboard; sourceTree = "<group>"; };
+		6B868A61271D41AD00965075 /* Recode.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Recode.storyboard; sourceTree = "<group>"; };
+		6B868A63271D41BA00965075 /* Share.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Share.storyboard; sourceTree = "<group>"; };
+		6B868A65271D41C800965075 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		6B868A67271D42C300965075 /* MapSearchingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchingPageViewController.swift; sourceTree = "<group>"; };
 		E2DFC9EFBB8970AA843AABFA /* Pods-WalkJourney.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkJourney.debug.xcconfig"; path = "Target Support Files/Pods-WalkJourney/Pods-WalkJourney.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -51,6 +87,17 @@
 				002A293F15A6FA7A8241A3AE /* Pods-WalkJourney.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		6B02216C271E718C00C61593 /* PositionPage */ = {
+			isa = PBXGroup;
+			children = (
+				6B02216F271EC4DF00C61593 /* MapChosenViewController.swift */,
+				6B868A67271D42C300965075 /* MapSearchingPageViewController.swift */,
+				6B02216A271E6D7100C61593 /* StartToWalkPageViewController.swift */,
+				6B022171271ED25100C61593 /* FunnyMapViewController.swift */,
+			);
+			path = PositionPage;
 			sourceTree = "<group>";
 		};
 		6B868A16271B18B400965075 = {
@@ -99,6 +146,12 @@
 			children = (
 				6B868A2D271B18B700965075 /* LaunchScreen.storyboard */,
 				6B868A28271B18B400965075 /* Main.storyboard */,
+				6B868A5D271D413F00965075 /* Position.storyboard */,
+				6B022173271ED54B00C61593 /* FunnyMapTableViewCell.swift */,
+				6B868A61271D41AD00965075 /* Recode.storyboard */,
+				6B868A5F271D418300965075 /* BarChart.storyboard */,
+				6B868A63271D41BA00965075 /* Share.storyboard */,
+				6B868A65271D41C800965075 /* Profile.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -106,7 +159,12 @@
 		6B868A5B271D14A100965075 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				6B868A26271B18B400965075 /* ViewController.swift */,
+				6B868A26271B18B400965075 /* TabBarController.swift */,
+				6B02216C271E718C00C61593 /* PositionPage */,
+				6B022160271D7AE900C61593 /* RecordViewController.swift */,
+				6B02215E271D7AD700C61593 /* BarChartViewController.swift */,
+				6B022162271D7AFF00C61593 /* ShareViewController.swift */,
+				6B022164271D7B1000C61593 /* ProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -114,6 +172,10 @@
 		6B868A5C271D14B100965075 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				6B02215C271D758200C61593 /* UIStoryboard+Extension.swift */,
+				6B022156271D742600C61593 /* UIImage+Extension.swift */,
+				6B022158271D74D000C61593 /* UIColor+Extension.swift */,
+				6B02215A271D752400C61593 /* UIScreen+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -139,6 +201,7 @@
 				6B868A1D271B18B400965075 /* Resources */,
 				6B868A36271B250D00965075 /* Swiftlint */,
 				1FF1013275770142B19041B1 /* [CP] Embed Pods Frameworks */,
+				C2A7CA36B281D49E44C621C8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -189,8 +252,13 @@
 			files = (
 				6B868A2F271B18B700965075 /* LaunchScreen.storyboard in Resources */,
 				6B868A58271D0C8100965075 /* GoogleService-Info.plist in Resources */,
+				6B02216E271E74C400C61593 /* Position.storyboard in Resources */,
+				6B868A64271D41BA00965075 /* Share.storyboard in Resources */,
 				6B868A2C271B18B700965075 /* Assets.xcassets in Resources */,
+				6B868A60271D418300965075 /* BarChart.storyboard in Resources */,
+				6B868A66271D41C800965075 /* Profile.storyboard in Resources */,
 				6B868A2A271B18B400965075 /* Main.storyboard in Resources */,
+				6B868A62271D41AD00965075 /* Recode.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +300,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
+		C2A7CA36B281D49E44C621C8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkJourney/Pods-WalkJourney-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkJourney/Pods-WalkJourney-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalkJourney/Pods-WalkJourney-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D77A7364DCB7E07F21CDF018 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -261,9 +346,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B868A27271B18B400965075 /* ViewController.swift in Sources */,
+				6B02215F271D7AD700C61593 /* BarChartViewController.swift in Sources */,
+				6B022172271ED25100C61593 /* FunnyMapViewController.swift in Sources */,
+				6B022163271D7AFF00C61593 /* ShareViewController.swift in Sources */,
+				6B868A68271D42C400965075 /* MapSearchingPageViewController.swift in Sources */,
+				6B868A27271B18B400965075 /* TabBarController.swift in Sources */,
+				6B02216B271E6D7100C61593 /* StartToWalkPageViewController.swift in Sources */,
+				6B022157271D742700C61593 /* UIImage+Extension.swift in Sources */,
+				6B022174271ED54B00C61593 /* FunnyMapTableViewCell.swift in Sources */,
+				6B022159271D74D000C61593 /* UIColor+Extension.swift in Sources */,
+				6B022165271D7B1000C61593 /* ProfileViewController.swift in Sources */,
 				6B868A23271B18B400965075 /* AppDelegate.swift in Sources */,
 				6B868A25271B18B400965075 /* SceneDelegate.swift in Sources */,
+				6B022161271D7AE900C61593 /* RecordViewController.swift in Sources */,
+				6B022170271EC4DF00C61593 /* MapChosenViewController.swift in Sources */,
+				6B02215D271D758200C61593 /* UIStoryboard+Extension.swift in Sources */,
+				6B02215B271D752400C61593 /* UIScreen+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +424,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
