@@ -7,95 +7,68 @@
 
 import UIKit
 import GoogleMaps
-import MapKit
+import GooglePlaces
 import CoreLocation
+import MapKit
 
-class MapSearchingPageViewController: UIViewController {
-    
-    @IBOutlet var mapInsertButtons: [UIButton]!
-    
+class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
+        
     @IBOutlet weak var googleMapView: GMSMapView!
     
     @IBOutlet weak var startButton: UIButton!
     
-    let locationManager = CLLocationManager()
+    let searchVC = UISearchController(searchResultsController: ResultsViewController())
     
-    var location: CLLocation?
+    var locationManager = CLLocationManager()
     
-    var isUpdatingLocation = false
+    var placesClient = GMSPlacesClient()
     
-    var lastLocationError: Error?
+    let marker = GMSMarker()
     
+    var camera = GMSCameraPosition()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-        let camera = GMSCameraPosition.camera(withLatitude: 25.043, longitude: 121.565, zoom: 16.0)
-        googleMapView.camera = camera
+        print(GMSServices.openSourceLicenseInfo())
+    
+        GoogleMapsHelper.initLocationManager(locationManager, delegate: self)
+        
+        defaultPosition()
+        
+        searchVC.searchResultsUpdater = self
+        
+        navigationItem.searchController = searchVC
         
         googleMapView.layer.cornerRadius = 10
         
         startButton.layer.cornerRadius = 20
-    }
-    
-    @IBAction func defineLocation(_ sender: UIButton) {
-        for maps in mapInsertButtons {
-            
-            UIView.animate(withDuration: 0.3, animations: { maps.isHidden = !maps.isHidden
-                
-                self.view.layoutIfNeeded()
-            })
-        }
-    }
-    
-    @IBAction func autoLocationPressed(_ sender: UIButton) {
-        findLocation()
+        
+        searchVC.searchBar.backgroundColor = .secondarySystemBackground
     }
     
     @IBAction func startButtonPressed(_ sender: UIButton) {
+        
         guard let startToWalkPagevc = UIStoryboard.position.instantiateViewController(withIdentifier: "StartToWalkPage") as? StartToWalkPageViewController else { return }
     }
     
-    // MARK: - Target / Action
-    func findLocation() {
+    func defaultPosition() {
         
-        // 1. get the user's permission to use location services
-        let authorizationStatus: CLAuthorizationStatus
+        camera = GMSCameraPosition.camera(withLatitude: 25.043, longitude: 121.565, zoom: 16.0)
+                        
+        marker.position = CLLocationCoordinate2D(latitude: 25.043, longitude: 121.565)
         
-        let manager = CLLocationManager()
+        googleMapView.delegate = self
         
-        if #available(iOS 14, *) {
-            
-            authorizationStatus = manager.authorizationStatus
-            
-        } else {
-            
-            authorizationStatus = CLLocationManager.authorizationStatus()
-            
-        }
+        googleMapView.camera = camera
         
-        if authorizationStatus == .notDetermined {
-            
-            locationManager.requestWhenInUseAuthorization()
-            
-            return
-        }
+        googleMapView.settings.myLocationButton = true
         
-        // 2. report to user if permission is denied - (1) user accidentally refused (2) the device is restricted
-        if authorizationStatus == .denied || authorizationStatus == .restricted {
-            
-            reportLocationServicesDeniedError()
-            
-            return
-        }
-        
-        // 3. start / stop finding location
-        locationManager.delegate = self
-        
-        locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
-        
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        googleMapView.isMyLocationEnabled = true
+                
+        marker.map = googleMapView
     }
     
     func reportLocationServicesDeniedError() {
@@ -112,21 +85,77 @@ class MapSearchingPageViewController: UIViewController {
 
 extension MapSearchingPageViewController: CLLocationManagerDelegate {
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Error")
-        
-        if (error as NSError).code == CLError.locationUnknown.rawValue { return }
-        
-        lastLocationError = error
-    }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        // current location
         let currentLocation: CLLocation = locations[0] as CLLocation
+        
+        GoogleMapsHelper.didUpdateLocations(locations, locationManager: locationManager, mapView: googleMapView)
         
         print("\(currentLocation.coordinate.latitude)")
         
         print("\(currentLocation.coordinate.longitude)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+
+        GoogleMapsHelper.handle(manager, didChangeAuthorization: status)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        
+        locationManager.stopUpdatingLocation()
+        
+        print("Error: \(error)")
+    }
+}
+
+extension MapSearchingPageViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        guard let query = searchController.searchBar.text,
+              
+                !query.trimmingCharacters(in: .whitespaces).isEmpty,
+              let resultsVC = searchController.searchResultsController as? ResultsViewController else { return }
+        
+        resultsVC.delegate = self
+        
+        GooglePlacesManager.shared.findPlace(query: query) { result in
+            switch result {
+                
+            case .success(let places):
+                
+                DispatchQueue.main.async {
+                    resultsVC.update(with: places)
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+}
+
+extension MapSearchingPageViewController: ResultsViewControllerDelegate {
+    
+    func didTapPlace(with coordinate: CLLocationCoordinate2D) {
+        
+        searchVC.searchBar.resignFirstResponder()
+        
+        searchVC.dismiss(animated: true, completion: nil)
+        
+        camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude, longitude: coordinate.longitude, zoom: 16.0)
+        
+        marker.position = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        
+        googleMapView.camera = camera
+        
+        googleMapView.settings.myLocationButton = true
+        
+        googleMapView.isMyLocationEnabled = true
+        
+        print("\(coordinate.latitude)")
+        
+        print("\(coordinate.longitude)")
     }
 }

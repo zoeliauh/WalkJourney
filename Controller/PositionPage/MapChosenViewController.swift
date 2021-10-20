@@ -9,6 +9,8 @@ import UIKit
 
 class MapChosenViewController: UIViewController {
     
+    @IBOutlet weak var walkLabel: UILabel!
+    
     @IBOutlet weak var walkYourselfButton: UIButton!
     
     @IBOutlet weak var walkFunButton: UIButton!

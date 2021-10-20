@@ -32,8 +32,6 @@ class StartToWalkPageViewController: UIViewController {
     @IBAction func finishButtonPressed(_ sender: UIButton!) {
         
         self.dismiss(animated: true, completion: nil)
-        
-        print("back to map search")
     }
     
 }

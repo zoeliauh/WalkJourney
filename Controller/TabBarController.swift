@@ -27,22 +27,34 @@ class TabBarController: UITabBarController {
     func setupTabBar() {
         
         let mapChosennav = UINavigationController(rootViewController: mapChosenvc)
+        
         self.setViewControllers([mapChosennav, recordvc, barChartvc, profilevc], animated: false)
+        
         self.tabBar.backgroundColor = .clear
+        
         self.tabBar.tintColor = UIColor.systemGreen
+        
         self.tabBar.layer.borderColor = UIColor.systemGray6.cgColor
+        
         self.tabBar.layer.borderWidth = 2
     }
     
     func setupvcTitle() {
         
         mapChosenvc.tabBarItem.image = UIImage(systemName: "house")
+        
         mapChosenvc.tabBarItem.selectedImage = UIImage(systemName: "house.fill")
+        
         recordvc.tabBarItem.image = UIImage(systemName: "doc.on.doc")
+        
         recordvc.tabBarItem.selectedImage = UIImage(systemName: "doc.on.doc.fill")
+        
         barChartvc.tabBarItem.image = UIImage(systemName: "chart.bar")
+        
         barChartvc.tabBarItem.selectedImage = UIImage(systemName: "chart.bar.fill")
+        
         profilevc.tabBarItem.image = UIImage(systemName: "person.circle")
+        
         profilevc.tabBarItem.selectedImage = UIImage(systemName: "person.circle.fill")
     }
 }

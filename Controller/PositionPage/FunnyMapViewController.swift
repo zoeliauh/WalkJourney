@@ -15,6 +15,7 @@ class FunnyMapViewController: UIViewController {
         super.viewDidLoad()
         
         funnyMapTableView.delegate = self
+        
         funnyMapTableView.dataSource = self
     }
 }
