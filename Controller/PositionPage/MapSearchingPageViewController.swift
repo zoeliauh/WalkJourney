@@ -9,10 +9,9 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 import CoreLocation
-import MapKit
 
 class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
-        
+    
     @IBOutlet weak var googleMapView: GMSMapView!
     
     @IBOutlet weak var startButton: UIButton!
@@ -26,38 +25,51 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     let marker = GMSMarker()
     
     var camera = GMSCameraPosition()
-        
+    
+    var currentLocation = [Double]()
+    
+    var newlocation: (() -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
         print(GMSServices.openSourceLicenseInfo())
-    
+        
         GoogleMapsHelper.initLocationManager(locationManager, delegate: self)
         
+        setupSearchVC()
+        
         defaultPosition()
-        
-        searchVC.searchResultsUpdater = self
-        
-        navigationItem.searchController = searchVC
         
         googleMapView.layer.cornerRadius = 10
         
         startButton.layer.cornerRadius = 20
-        
-        searchVC.searchBar.backgroundColor = .secondarySystemBackground
     }
     
     @IBAction func startButtonPressed(_ sender: UIButton) {
         
         guard let startToWalkPagevc = UIStoryboard.position.instantiateViewController(withIdentifier: "StartToWalkPage") as? StartToWalkPageViewController else { return }
+        
+        startToWalkPagevc.currentLocation = currentLocation
+    }
+    
+    func setupSearchVC() {
+        
+        searchVC.searchResultsUpdater = self
+        
+        navigationItem.searchController = searchVC
+        
+        searchVC.searchBar.searchTextField.textColor = .black
+        
+        searchVC.searchBar.backgroundColor = .white
     }
     
     func defaultPosition() {
         
         camera = GMSCameraPosition.camera(withLatitude: 25.043, longitude: 121.565, zoom: 16.0)
-                        
+        
         marker.position = CLLocationCoordinate2D(latitude: 25.043, longitude: 121.565)
         
         googleMapView.delegate = self
@@ -67,8 +79,27 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
         googleMapView.settings.myLocationButton = true
         
         googleMapView.isMyLocationEnabled = true
-                
+        
         marker.map = googleMapView
+    }
+    
+    func createLocation() {
+        
+        CountingStepManager.shared.addNewLocation(latitude: currentLocation[0], longitude: currentLocation[1]) { result in
+            
+            switch result {
+                
+            case .success:
+                
+                print("success to create new location")
+                
+                self.newlocation?()
+                
+            case .failure(let error):
+                
+                print("create location.failure: \(error)")
+            }
+        }
     }
     
     func reportLocationServicesDeniedError() {
@@ -87,17 +118,23 @@ extension MapSearchingPageViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        let currentLocation: CLLocation = locations[0] as CLLocation
-        
         GoogleMapsHelper.didUpdateLocations(locations, locationManager: locationManager, mapView: googleMapView)
         
-        print("\(currentLocation.coordinate.latitude)")
+        locationManager.stopUpdatingLocation()
         
-        print("\(currentLocation.coordinate.longitude)")
+        if let currentLocation = manager.location?.coordinate {
+            
+            self.currentLocation = []
+            
+            self.currentLocation = [currentLocation.latitude, currentLocation.longitude]
+            
+            createLocation()
+        }
+        print("currentLocation is \(locations)")
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-
+        
         GoogleMapsHelper.handle(manager, didChangeAuthorization: status)
     }
     
@@ -154,8 +191,12 @@ extension MapSearchingPageViewController: ResultsViewControllerDelegate {
         
         googleMapView.isMyLocationEnabled = true
         
-        print("\(coordinate.latitude)")
+        currentLocation = []
         
-        print("\(coordinate.longitude)")
+        currentLocation = [coordinate.latitude, coordinate.longitude]
+        
+        createLocation()
+        
+        print("location defined by user is \(coordinate)")
     }
 }

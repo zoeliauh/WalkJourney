@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import FirebaseCore
 import GoogleMaps
 import GooglePlaces
 

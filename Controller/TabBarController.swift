@@ -32,11 +32,7 @@ class TabBarController: UITabBarController {
         
         self.tabBar.backgroundColor = .clear
         
-        self.tabBar.tintColor = UIColor.systemGreen
-        
-        self.tabBar.layer.borderColor = UIColor.systemGray6.cgColor
-        
-        self.tabBar.layer.borderWidth = 2
+        self.tabBar.tintColor = UIColor.hexStringToUIColor(hex: "#00B110")
     }
     
     func setupvcTitle() {

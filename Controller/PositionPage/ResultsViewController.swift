@@ -29,11 +29,13 @@ class ResultsViewController: UIViewController {
 
         view.addSubview(tableView)
         
-        view.backgroundColor = .clear
-        
+        view.backgroundColor = .white
+                
         tableView.delegate = self
         
         tableView.dataSource = self
+        
+        tableView.backgroundColor = .white
     }
     
     override func viewDidLayoutSubviews() {

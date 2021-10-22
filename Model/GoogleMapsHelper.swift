@@ -18,10 +18,6 @@ struct GoogleMapsHelper {
     
     static func initLocationManager(_ locationManager: CLLocationManager, delegate: UIViewController) {
         
-        var locationManager =  locationManager
-        
-        locationManager = CLLocationManager()
-        
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         locationManager.requestWhenInUseAuthorization()
@@ -48,7 +44,7 @@ struct GoogleMapsHelper {
                 
         mapView.camera = camera
         
-        marker.map = mapView
+        marker.map = mapView        
     }
     
     static func handle(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -69,10 +65,10 @@ struct GoogleMapsHelper {
             print("Location access was restricted.")
         case .denied:
             print("User denied access to location.")
-            // Display the map using the default location.
         case .notDetermined:
             print("Location status not determined.")
-        case .authorizedAlways: fallthrough
+        case .authorizedAlways:
+            print("Location status is authorizedAlways.")
         case .authorizedWhenInUse:
             print("Location status is OK.")
         @unknown default:
