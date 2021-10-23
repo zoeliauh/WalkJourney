@@ -28,7 +28,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     
     var currentLocation = [Double]()
     
-    var newlocation: (() -> Void)?
+    var newLocation: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,7 +93,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
                 
                 print("success to create new location")
                 
-                self.newlocation?()
+                self.newLocation?()
                 
             case .failure(let error):
                 

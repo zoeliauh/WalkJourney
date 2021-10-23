@@ -35,18 +35,20 @@ struct Geopoint: Codable {
     }
 }
 
-struct StepData {
+struct StepData: Codable {
     var numberOfSteps: Int
     var durationOfTime: String
     var distanceOfWalk: String
     var date: String
-    var time: String
+    var screenshot: String
+    var id: String
     
     enum CodingKeys: String, CodingKey {
         case numberOfSteps
         case durationOfTime
         case distanceOfWalk
         case date
-        case time
+        case screenshot
+        case id
     }
 }
