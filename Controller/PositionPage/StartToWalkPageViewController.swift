@@ -10,6 +10,7 @@ import GoogleMaps
 import Firebase
 import FirebaseFirestore
 import CoreMotion
+import CoreLocation
 
 class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
 
@@ -24,6 +25,8 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     @IBOutlet weak var currentRouteMap: GMSMapView!
         
     var db: Firestore!
+    
+    let manager = CLLocationManager()
     
     var currentLocation = [Double]()
             
@@ -42,6 +45,10 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     let stepData = StepData(numberOfSteps: 0, durationOfTime: "", distanceOfWalk: "", date: "", time: "")
     
     var timeString: String = ""
+    
+    var lastLocation: CLLocation?
+    
+    var distanceSum: Double = 0
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +60,10 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         loadData()
                 
         countSteps()
+        
+        manager.startUpdatingLocation()
+        
+        manager.delegate = self
                 
         currentRouteMap.layer.cornerRadius = 20
         
@@ -74,6 +85,8 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     }
     
     @IBAction func finishButtonPressed(_ sender: UIButton!) {
+        
+        manager.stopUpdatingLocation()
         
         self.dismiss(animated: true, completion: nil)
     }
@@ -218,5 +231,28 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         timeString += " : "
         timeString += String(format: "%02d", sec)
         return timeString
+    }
+}
+
+extension StartToWalkPageViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.last
+        if let lastLocation = lastLocation,
+           let location = location {
+            let distance = location.distance(from: lastLocation)
+            distanceSum += distance
+            let formatDistanceSum = String(format: "%.2f", distanceSum / 1000)
+            currentDistance.text = formatDistanceSum
+            print(formatDistanceSum)
+        }
+        lastLocation = location
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        
+        manager.stopUpdatingLocation()
+        
+        print("Error: \(error)")
     }
 }

@@ -70,7 +70,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
         
         camera = GMSCameraPosition.camera(withLatitude: 25.043, longitude: 121.565, zoom: 16.0)
         
-        marker.position = CLLocationCoordinate2D(latitude: 25.043, longitude: 121.565)
+//        marker.position = CLLocationCoordinate2D(latitude: 25.043, longitude: 121.565)
         
         googleMapView.delegate = self
         
