@@ -1,5 +1,7 @@
 excluded:
   - Pods
+  - WalkJourney/AppDelegate.swift
+  - WalkJourney/SceneDelegate.swift
 disabled_rules:
   - trailing_whitespace
 identifier_name:
