@@ -19,8 +19,8 @@ class RecordAfterWalking {
 // read
     func fetchRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection("stepData").order(by: "createdTime", descending: true).getDocuments() {
-(querySnapshot, error) in
+        db.collection("stepData").order(by: "createdTime", descending: true).getDocuments()
+        { (querySnapshot, error) in
             
             if let error = error {
                 
@@ -29,10 +29,8 @@ class RecordAfterWalking {
                 
                 var stepDatas = [StepData]()
                 
-                for document in querySnapshot!.documents
-                {
-                    print(document.data())
-                    
+                for document in querySnapshot!.documents {
+
                     do {
                         if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
                             stepDatas.append(stepData)

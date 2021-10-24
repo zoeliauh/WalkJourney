@@ -7,11 +7,19 @@
 
 import UIKit
 
-//enum ImageAsset: String {
-//
-//    // tab bar image
-//
-//    case
-//
-//
-//}
+extension UIView {
+    
+    func takeScreenshot() -> UIImage {
+        
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
+        
+        drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        if let image = image { return image }
+        
+        return UIImage()
+    }
+}

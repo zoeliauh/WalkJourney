@@ -13,7 +13,7 @@ import CoreMotion
 import CoreLocation
 
 class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
-    
+        
     @IBOutlet weak var finishButton: UIButton!
     
     @IBOutlet weak var currentSteps: UILabel!
@@ -26,12 +26,14 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     
     var db: Firestore!
     
-    let manager = CLLocationManager()
+    let locationManager = CLLocationManager()
+    
+    var path = GMSMutablePath()
+    
+    var camera = GMSCameraPosition()
     
     var currentLocation = [Double]()
-    
-    let marker = GMSMarker()
-    
+        
     let activityManager = CMMotionActivityManager()
     
     let pedometer = CMPedometer()
@@ -43,7 +45,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     var timeString: String = ""
     
     var lastLocation: CLLocation?
-    
+        
     var distanceSum: Double = 0
     
     var newRecord: (() -> Void)?
@@ -57,9 +59,9 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         countSteps()
         
-        manager.startUpdatingLocation()
+        locationManager.startUpdatingLocation()
         
-        manager.delegate = self
+        locationManager.delegate = self
         
         currentRouteMap.layer.cornerRadius = 20
         
@@ -74,17 +76,11 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         self.timer.invalidate()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        //        defaultPosition()
-    }
-    
     @IBAction func finishButtonPressed(_ sender: UIButton!) {
         
         createNewRecord()
         
-        manager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
         
         self.dismiss(animated: true, completion: nil)
     }
@@ -102,23 +98,8 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     
     func defaultPosition() {
         
-        var camera = GMSCameraPosition()
-        
-        if currentLocation.count == 2 {
-            
-            camera = GMSCameraPosition.camera(withLatitude: currentLocation[0], longitude: currentLocation[1], zoom: 16)
-            
-            //            marker.position = CLLocationCoordinate2D(latitude: currentLocation[0], longitude: currentLocation[2])
-        }
-        
-        camera = GMSCameraPosition.camera(withLatitude: 23.5, longitude: 123.5, zoom: 16)
-        
         currentRouteMap.delegate = self
-        
-        currentRouteMap.camera = camera
-        
-        marker.map = currentRouteMap
-        
+                
         currentRouteMap.settings.myLocationButton = true
         
         currentRouteMap.isMyLocationEnabled = true
@@ -188,36 +169,31 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
 extension StartToWalkPageViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        DispatchQueue.main.async {
-
-        let path = GMSMutablePath()
-        
-        let location = locations.last
-        
-        let polyline = GMSPolyline(path: path)
-        
-        if let lastLocation = self.lastLocation,
-           
-            let location = location {
+        if let location = locations.last {
             
-            let distance = location.distance(from: lastLocation)
+            currentRouteMap.camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 16)
             
-            self.distanceSum += distance
-                            
-                path.add(CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.latitude))
+            path.addLatitude(location.coordinate.latitude, longitude: location.coordinate.longitude)
+            
+            let polyline = GMSPolyline(path: path)
+            
+            polyline.strokeWidth = 2
+            
+            polyline.strokeColor = .blue
+            
+            polyline.geodesic = true
+            
+            polyline.map = self.currentRouteMap
+            
+            if let lastLocation = lastLocation {
+                
+                let distance = location.distance(from: lastLocation)
+                
+                distanceSum += distance
                 
                 let formatDistanceSum = String(format: "%.2f", self.distanceSum / 1000)
                 
-                self.currentDistance.text = formatDistanceSum
-                
-                polyline.strokeWidth = 4
-                
-                polyline.strokeColor = .blue
-                
-                polyline.geodesic = true
-                
-                print(formatDistanceSum)
+                currentDistance.text = formatDistanceSum
             }
             self.lastLocation = location
         }

@@ -34,9 +34,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
-        print(GMSServices.openSourceLicenseInfo())
-        
+                
         GoogleMapsHelper.initLocationManager(locationManager, delegate: self)
         
         setupSearchVC()
@@ -69,9 +67,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     func defaultPosition() {
         
         camera = GMSCameraPosition.camera(withLatitude: 25.043, longitude: 121.565, zoom: 16.0)
-        
-//        marker.position = CLLocationCoordinate2D(latitude: 25.043, longitude: 121.565)
-        
+                
         googleMapView.delegate = self
         
         googleMapView.camera = camera
@@ -182,7 +178,7 @@ extension MapSearchingPageViewController: ResultsViewControllerDelegate {
         searchVC.dismiss(animated: true, completion: nil)
         
         camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude, longitude: coordinate.longitude, zoom: 16.0)
-        
+                
         marker.position = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         
         googleMapView.camera = camera
