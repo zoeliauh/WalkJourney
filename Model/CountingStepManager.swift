@@ -38,7 +38,9 @@ class CountingStepManager {
                 
                 var locations = [Location]()
                 
-                for document in querySnapshot!.documents {
+                guard let querySnapshot = querySnapshot else { return }
+                
+                for document in querySnapshot.documents {
                                         
                     do {
                         if let location = try document.data(as: Location.self, decoder: Firestore.Decoder()) {

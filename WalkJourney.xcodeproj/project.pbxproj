@@ -20,7 +20,7 @@
 		6B022170271EC4DF00C61593 /* MapChosenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B02216F271EC4DF00C61593 /* MapChosenViewController.swift */; };
 		6B022172271ED25100C61593 /* FunnyMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022171271ED25100C61593 /* FunnyMapViewController.swift */; };
 		6B022174271ED54B00C61593 /* FunnyMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022173271ED54B00C61593 /* FunnyMapTableViewCell.swift */; };
-		6B022176271F31FC00C61593 /* GoogleMapsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022175271F31FC00C61593 /* GoogleMapsHelper.swift */; };
+		6B022176271F31FC00C61593 /* GoogleMapsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022175271F31FC00C61593 /* GoogleMapsManager.swift */; };
 		6B02217A271FC47600C61593 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B022179271FC47500C61593 /* ResultsViewController.swift */; };
 		6B02217C271FC6DF00C61593 /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B02217B271FC6DF00C61593 /* GooglePlacesManager.swift */; };
 		6B0221802720122000C61593 /* FirebaseStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B02217F2720122000C61593 /* FirebaseStruct.swift */; };
@@ -57,7 +57,7 @@
 		6B02216F271EC4DF00C61593 /* MapChosenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapChosenViewController.swift; sourceTree = "<group>"; };
 		6B022171271ED25100C61593 /* FunnyMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunnyMapViewController.swift; sourceTree = "<group>"; };
 		6B022173271ED54B00C61593 /* FunnyMapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunnyMapTableViewCell.swift; sourceTree = "<group>"; };
-		6B022175271F31FC00C61593 /* GoogleMapsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsHelper.swift; sourceTree = "<group>"; };
+		6B022175271F31FC00C61593 /* GoogleMapsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsManager.swift; sourceTree = "<group>"; };
 		6B022179271FC47500C61593 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		6B02217B271FC6DF00C61593 /* GooglePlacesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
 		6B02217F2720122000C61593 /* FirebaseStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStruct.swift; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 		6B868A59271D148B00965075 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6B022175271F31FC00C61593 /* GoogleMapsHelper.swift */,
+				6B022175271F31FC00C61593 /* GoogleMapsManager.swift */,
 				6B02217B271FC6DF00C61593 /* GooglePlacesManager.swift */,
 				6B02218127201F6700C61593 /* DataHelper.swift */,
 				6B02217F2720122000C61593 /* FirebaseStruct.swift */,
@@ -371,7 +371,7 @@
 				6B022172271ED25100C61593 /* FunnyMapViewController.swift in Sources */,
 				6B022163271D7AFF00C61593 /* ShareViewController.swift in Sources */,
 				6B868A68271D42C400965075 /* MapSearchingPageViewController.swift in Sources */,
-				6B022176271F31FC00C61593 /* GoogleMapsHelper.swift in Sources */,
+				6B022176271F31FC00C61593 /* GoogleMapsManager.swift in Sources */,
 				6B02217A271FC47600C61593 /* ResultsViewController.swift in Sources */,
 				6B868A27271B18B400965075 /* TabBarController.swift in Sources */,
 				6B23FA012722A1740009DA6E /* RecordAfterWalking.swift in Sources */,
@@ -540,11 +540,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 9S6W953ZSY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WalkJourney/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to find out your current location in order to compute the route";
+				INFOPLIST_KEY_NSLocationUsageDescription = "we need to find out your current location in order to compute the route";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "we need to find out your current location in order to compute the route";
 				INFOPLIST_KEY_NSMotionUsageDescription = "We need to use sensor for pedometer in order to compute the steps";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -575,11 +576,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 9S6W953ZSY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WalkJourney/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to find out your current location in order to compute the route";
+				INFOPLIST_KEY_NSLocationUsageDescription = "we need to find out your current location in order to compute the route";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "we need to find out your current location in order to compute the route";
 				INFOPLIST_KEY_NSMotionUsageDescription = "We need to use sensor for pedometer in order to compute the steps";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

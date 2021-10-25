@@ -59,9 +59,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         countSteps()
         
-        locationManager.startUpdatingLocation()
-        
-        locationManager.delegate = self
+        GoogleMapsManager.initLocationManager(locationManager, delegate: self)
         
         currentRouteMap.layer.cornerRadius = 20
         
@@ -79,6 +77,10 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     @IBAction func finishButtonPressed(_ sender: UIButton!) {
         
         createNewRecord()
+        
+        let screenshot = self.view.takeScreenshot()
+        
+        print(screenshot)
         
         locationManager.stopUpdatingLocation()
         

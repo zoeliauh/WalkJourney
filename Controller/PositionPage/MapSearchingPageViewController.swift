@@ -35,7 +35,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
         
         view.backgroundColor = .white
                 
-        GoogleMapsHelper.initLocationManager(locationManager, delegate: self)
+        GoogleMapsManager.initLocationManager(locationManager, delegate: self)
         
         setupSearchVC()
         
@@ -114,7 +114,7 @@ extension MapSearchingPageViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        GoogleMapsHelper.didUpdateLocations(locations, locationManager: locationManager, mapView: googleMapView)
+        GoogleMapsManager.didUpdateLocations(locations, locationManager: locationManager, mapView: googleMapView)
         
         locationManager.stopUpdatingLocation()
         
@@ -131,7 +131,7 @@ extension MapSearchingPageViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
-        GoogleMapsHelper.handle(manager, didChangeAuthorization: status)
+        GoogleMapsManager.handle(manager, didChangeAuthorization: status)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

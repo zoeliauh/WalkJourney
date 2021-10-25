@@ -16,6 +16,7 @@ extension UIView {
         drawHierarchy(in: self.bounds, afterScreenUpdates: true)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
+        
         UIGraphicsEndImageContext()
         
         if let image = image { return image }

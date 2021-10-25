@@ -29,7 +29,9 @@ class RecordAfterWalking {
                 
                 var stepDatas = [StepData]()
                 
-                for document in querySnapshot!.documents {
+                guard let querySnapshot = querySnapshot else { return }
+                
+                for document in querySnapshot.documents {
 
                     do {
                         if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
@@ -53,7 +55,7 @@ class RecordAfterWalking {
         document.setData([
         
                 "id": document.documentID,
-                "distanceOfWalk": distanceOfWalk,
+                "distanceOfWalk": "\(distanceOfWalk) km",
                 "durationOfTime": durationOfTime,
             "date": Date().millisecondsSince1970,
                 "numberOfStep": numberOfStep,

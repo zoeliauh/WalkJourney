@@ -8,7 +8,7 @@
 import Foundation
 import GoogleMaps
 
-struct GoogleMapsHelper {
+struct GoogleMapsManager {
     
     static let AppWorks = CLLocation(latitude: 25.043, longitude: 121.565)
     
@@ -18,6 +18,10 @@ struct GoogleMapsHelper {
     
     static func initLocationManager(_ locationManager: CLLocationManager, delegate: UIViewController) {
         
+        locationManager.allowsBackgroundLocationUpdates = true
+
+        locationManager.pausesLocationUpdatesAutomatically = false
+
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         locationManager.requestWhenInUseAuthorization()
