@@ -7,6 +7,7 @@
 
 import Foundation
 import GoogleMaps
+import CoreLocation
 
 struct GoogleMapsManager {
     
@@ -34,17 +35,18 @@ struct GoogleMapsManager {
     }
     
     static func didUpdateLocations(_ locations: [CLLocation], locationManager: CLLocationManager, mapView: GMSMapView) {
-        let location: CLLocation = locations.last!
         
+        guard let lastLocation: CLLocation = locations.last else { return }
+                    
         let zoomLevel = locationManager.accuracyAuthorization == .fullAccuracy ? preciseLocationZoomLevel : approximateLocationZoomLevel
         
-        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
-                                              longitude: location.coordinate.longitude,
+        let camera = GMSCameraPosition.camera(withLatitude: lastLocation.coordinate.latitude,
+                                              longitude: lastLocation.coordinate.longitude,
                                               zoom: zoomLevel)
         
         let marker = GMSMarker()
         
-        marker.position = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        marker.position = CLLocationCoordinate2D(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude)
                 
         mapView.camera = camera
         

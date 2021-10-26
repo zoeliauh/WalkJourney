@@ -109,9 +109,9 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     
     func createNewRecord() {
         
-        guard let currentDistance = currentDistance.text, let currentduration = currentduration.text, let currentSteps = currentSteps.text else { return }
-        
-        RecordAfterWalking.shared.addNewRecord(distanceOfWalk: currentDistance, durationOfTime: currentduration, numberOfStep: Int(currentSteps)!, screenshot: "") { result in
+        guard let currentDistance = currentDistance.text, let currentduration = currentduration.text, let currentSteps = currentSteps.text, let numberOfStep = Int(currentSteps) else { return }
+                
+        RecordAfterWalking.shared.addNewRecord(distanceOfWalk: currentDistance, durationOfTime: currentduration, numberOfStep: numberOfStep, screenshot: "") { result in
             
             switch result {
                 
@@ -171,6 +171,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
 extension StartToWalkPageViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         if let location = locations.last {
             
             currentRouteMap.camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 16)
