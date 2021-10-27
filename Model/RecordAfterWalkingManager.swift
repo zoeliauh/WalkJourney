@@ -10,9 +10,9 @@ import Firebase
 import FirebaseFirestoreSwift
 import CoreLocation
 
-class RecordAfterWalking {
+class RecordAfterWalkingManager {
     
-    static let shared = RecordAfterWalking()
+    static let shared = RecordAfterWalkingManager()
     
     lazy var db = Firestore.firestore()
 

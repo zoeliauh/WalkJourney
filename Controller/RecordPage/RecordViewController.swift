@@ -30,12 +30,17 @@ class RecordViewController: UIViewController {
         let table = UITableView()
         table.dataSource = self
         table.delegate = self
-//        table.separatorStyle = .none
         table.bounces = false
         table.rowHeight = UITableView.automaticDimension
         table.register(RecordTableViewCell.self, forCellReuseIdentifier: RecordTableViewCell.identifier)
         return table
     }()
+    
+    var dateFormatter = DateFormatter()
+    
+    var stepData: [StepData] = []
+    
+    var creatTimeArr: [TimeInterval] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +49,8 @@ class RecordViewController: UIViewController {
         setupHeader()
         setupHeaderTitleLabel()
         setupRecordTableView()
+        
+        fetchRecordStepsData()
     }
     
     @objc func navDetailRecordVC(_ sender: UIButton) {
@@ -51,6 +58,25 @@ class RecordViewController: UIViewController {
         guard let detailRecordVC = UIStoryboard.record.instantiateViewController(withIdentifier: "DetailRecord") as? DetailRecordViewController else { return }
         
         navigationController?.pushViewController(detailRecordVC, animated: true)
+    }
+    
+    func fetchRecordStepsData() {
+
+        RecordAfterWalkingManager.shared.fetchRecord { [weak self] result in
+            switch result {
+
+            case .success(let stepData):
+
+                self?.stepData = stepData
+                self?.recordTableView.reloadData()
+                
+                print(stepData)
+
+            case .failure(let error):
+
+                print("fetchStepsData.failure: \(error)")
+            }
+        }
     }
     
     // MARK: - UI design
@@ -109,16 +135,20 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return stepData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        dateFormatter.dateFormat = "yyyy.MM.dd HH:mm"
+        
+//        let date = Date(timeIntervalSince1970: TimeInterval(creatTimeArr[indexPath.row]))
+                        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RecordTableViewCell.identifier, for: indexPath) as? RecordTableViewCell else { fatalError("can not dequeue") }
+                
+        cell.dateLabel.text = "dateFormatter.string(from: date)"
         
-        cell.dateLabel.text = "2020/10/22"
-        
-        cell.stepsLabel.text = "777 steps"
+        cell.stepsLabel.text = "\(stepData[indexPath.row].numberOfSteps.description) 步"
         
         cell.detailButton.tag = indexPath.item
         

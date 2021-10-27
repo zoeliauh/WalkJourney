@@ -21,6 +21,7 @@ class DetailRecordViewController: UIViewController {
         super.viewDidLoad()
         
         setupHeader()
+        setupBackIcon()
     }
     
     private func setupHeader() {
@@ -38,5 +39,12 @@ class DetailRecordViewController: UIViewController {
         ])
         
         headerView.backgroundColor = UIColor.Celadon
+    }
+    
+    private func setupBackIcon() {
+        let backButtonImage = UIImage(named: "Icons_24px_Back02")?.withRenderingMode(.alwaysOriginal)
+        self.navigationController?.navigationBar.backIndicatorImage = backButtonImage
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButtonImage
+        self.navigationController?.navigationBar.topItem?.title = ""
     }
 }
