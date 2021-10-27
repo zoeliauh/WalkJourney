@@ -9,6 +9,8 @@ import UIKit
 
 extension UIColor {
 
+    static let Celadon = UIColor(named: "Celadon")
+    
     static func hexStringToUIColor(hex: String) -> UIColor {
 
         var cString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()

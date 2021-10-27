@@ -15,7 +15,7 @@ struct Location: Codable {
     
     var id: String  // need to same as userID
     var location: Geopoint
-    var createdTime: String
+    var createdTime: Int64?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -39,7 +39,7 @@ struct StepData: Codable {
     var numberOfSteps: Int
     var durationOfTime: String
     var distanceOfWalk: String
-    var date: String
+    var createdTime: Int64?
     var screenshot: String
     var id: String
     
@@ -47,7 +47,7 @@ struct StepData: Codable {
         case numberOfSteps
         case durationOfTime
         case distanceOfWalk
-        case date
+        case createdTime
         case screenshot
         case id
     }

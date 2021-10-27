@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -304,11 +305,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="I7G-Co-wn4"/>
                     <connections>
-                        <outlet property="currentDistance" destination="mAF-oD-nqf" id="yaD-57-1Bg"/>
-                        <outlet property="currentRouteMap" destination="5Kd-Rj-Tqd" id="YB1-nX-aGW"/>
-                        <outlet property="currentSteps" destination="ogH-RS-Uap" id="AVg-kk-Bg6"/>
-                        <outlet property="currentduration" destination="mZT-6p-5f5" id="Ede-5K-JJm"/>
+                        <outlet property="currentDistanceLabel" destination="mAF-oD-nqf" id="yaD-57-1Bg"/>
+                        <outlet property="currentRouteMapView" destination="5Kd-Rj-Tqd" id="YB1-nX-aGW"/>
+                        <outlet property="currentStepsLabel" destination="ogH-RS-Uap" id="AVg-kk-Bg6"/>
+                        <outlet property="currentdurationLabel" destination="mZT-6p-5f5" id="Ede-5K-JJm"/>
                         <outlet property="finishButton" destination="GHm-ZZ-0gs" id="X6Y-fd-Iyf"/>
+                        <outlet property="stepTitleLabel" destination="ahh-vp-2MK" id="Wap-Ib-Ujt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgU-34-FiD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

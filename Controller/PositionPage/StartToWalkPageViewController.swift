@@ -16,13 +16,15 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
     @IBOutlet weak var finishButton: UIButton!
     
-    @IBOutlet weak var currentSteps: UILabel!
+    @IBOutlet weak var stepTitleLabel: UILabel!
     
-    @IBOutlet weak var currentduration: UILabel!
+    @IBOutlet weak var currentStepsLabel: UILabel!
     
-    @IBOutlet weak var currentDistance: UILabel!
+    @IBOutlet weak var currentdurationLabel: UILabel!
     
-    @IBOutlet weak var currentRouteMap: GMSMapView!
+    @IBOutlet weak var currentDistanceLabel: UILabel!
+    
+    @IBOutlet weak var currentRouteMapView: GMSMapView!
     
     var db: Firestore!
     
@@ -50,6 +52,8 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     
     var newRecord: (() -> Void)?
     
+    var screenshotImageView = UIImageView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,7 +65,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         GoogleMapsManager.initLocationManager(locationManager, delegate: self)
         
-        currentRouteMap.layer.cornerRadius = 20
+        currentRouteMapView.layer.cornerRadius = 20
         
         finishButton.layer.cornerRadius = 20
         
@@ -76,11 +80,15 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     
     @IBAction func finishButtonPressed(_ sender: UIButton!) {
         
+        finishButton.isHidden = true
+        
+        stepTitleLabel.text = "步數"
+        
+        let screenshotImage = self.view.takeScreenshot()
+        
+        screenshotImageView.image = screenshotImage
+                
         createNewRecord()
-        
-        let screenshot = self.view.takeScreenshot()
-        
-        print(screenshot)
         
         locationManager.stopUpdatingLocation()
         
@@ -95,23 +103,24 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         timeString = makeTimeString(hour: time.0, min: time.1, sec: time.2)
         
-        currentduration.text = timeString
+        currentdurationLabel.text = timeString
     }
     
     func defaultPosition() {
         
-        currentRouteMap.delegate = self
+        currentRouteMapView.delegate = self
                 
-        currentRouteMap.settings.myLocationButton = true
+        currentRouteMapView.settings.myLocationButton = true
         
-        currentRouteMap.isMyLocationEnabled = true
+        currentRouteMapView.isMyLocationEnabled = true
     }
     
     func createNewRecord() {
         
-        guard let currentDistance = currentDistance.text, let currentduration = currentduration.text, let currentSteps = currentSteps.text else { return }
-        
-        RecordAfterWalking.shared.addNewRecord(distanceOfWalk: currentDistance, durationOfTime: currentduration, numberOfStep: Int(currentSteps)!, screenshot: "") { result in
+        guard let currentDistance = currentDistanceLabel.text, let currentduration = currentdurationLabel.text, let currentSteps = currentStepsLabel.text else { return }
+        guard let numberOfStep = Int(currentSteps) else { return }
+                
+        RecordAfterWalkingManager.shared.addNewRecord(distanceOfWalk: currentDistance, durationOfTime: currentduration, numberOfStep: numberOfStep, screenshot: screenshotImageView) { result in
             
             switch result {
                 
@@ -140,8 +149,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
                 if error == nil {
                     if let response = data {
                         DispatchQueue.main.async {
-                            print("STEPS : \(response.numberOfSteps)")
-                            self.currentSteps.text = response.numberOfSteps.stringValue
+                            self.currentStepsLabel.text = response.numberOfSteps.stringValue
                         }
                     }
                 }
@@ -171,9 +179,10 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
 extension StartToWalkPageViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         if let location = locations.last {
             
-            currentRouteMap.camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 16)
+            currentRouteMapView.camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 16)
             
             path.addLatitude(location.coordinate.latitude, longitude: location.coordinate.longitude)
             
@@ -185,7 +194,7 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
             
             polyline.geodesic = true
             
-            polyline.map = self.currentRouteMap
+            polyline.map = self.currentRouteMapView
             
             if let lastLocation = lastLocation {
                 
@@ -195,7 +204,7 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
                 
                 let formatDistanceSum = String(format: "%.2f", self.distanceSum / 1000)
                 
-                currentDistance.text = formatDistanceSum
+                currentDistanceLabel.text = formatDistanceSum
             }
             self.lastLocation = location
         }

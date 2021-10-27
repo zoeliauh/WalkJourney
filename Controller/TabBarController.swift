@@ -11,7 +11,7 @@ class TabBarController: UITabBarController {
         
     let mapChosenvc = UIStoryboard.position.instantiateViewController(withIdentifier: "MapChosenViewController")
     
-    let recordvc = UIStoryboard.recode.instantiateViewController(withIdentifier: "Record")
+    let recordvc = UIStoryboard.record.instantiateViewController(withIdentifier: "Record")
 
     let barChartvc = UIStoryboard.barChart.instantiateViewController(withIdentifier: "BarChart")
 
@@ -28,11 +28,17 @@ class TabBarController: UITabBarController {
         
         let mapChosennav = UINavigationController(rootViewController: mapChosenvc)
         
+        let recordvc = UINavigationController(rootViewController: recordvc)
+        
+        let barChartvc = UINavigationController(rootViewController: barChartvc)
+        
+        let profilevc = UINavigationController(rootViewController: profilevc)
+        
         self.setViewControllers([mapChosennav, recordvc, barChartvc, profilevc], animated: false)
         
         self.tabBar.backgroundColor = .clear
         
-        self.tabBar.tintColor = UIColor.hexStringToUIColor(hex: "#00B110")
+        self.tabBar.tintColor = UIColor.hexStringToUIColor(hex: "#67A870")        
     }
     
     func setupvcTitle() {

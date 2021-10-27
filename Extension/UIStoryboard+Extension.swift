@@ -15,7 +15,7 @@ private struct StoryboardCategory {
 
     static let barChart = "BarChart"
 
-    static let recode = "Recode"
+    static let record = "Record"
 
     static let share = "Share"
 
@@ -30,7 +30,7 @@ extension UIStoryboard {
 
     static var barChart: UIStoryboard { return stStoryboard(name: StoryboardCategory.barChart) }
 
-    static var recode: UIStoryboard { return stStoryboard(name: StoryboardCategory.recode) }
+    static var record: UIStoryboard { return stStoryboard(name: StoryboardCategory.record) }
 
     static var share: UIStoryboard { return stStoryboard(name: StoryboardCategory.share) }
 
