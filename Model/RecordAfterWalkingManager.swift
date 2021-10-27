@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import FirebaseStorage
 import CoreLocation
 
 class RecordAfterWalkingManager {
@@ -15,8 +16,8 @@ class RecordAfterWalkingManager {
     static let shared = RecordAfterWalkingManager()
     
     lazy var db = Firestore.firestore()
-
-// read
+    
+    // read
     func fetchRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
         db.collection("stepData").order(by: "createdTime", descending: true).getDocuments()
@@ -32,7 +33,7 @@ class RecordAfterWalkingManager {
                 guard let querySnapshot = querySnapshot else { return }
                 
                 for document in querySnapshot.documents {
-
+                    
                     do {
                         if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
                             stepDatas.append(stepData)
@@ -48,26 +49,57 @@ class RecordAfterWalkingManager {
     }
     
     // create
-    func addNewRecord(distanceOfWalk: String, durationOfTime: String, numberOfStep: Int, screenshot: String, completion: @escaping(Result<String, Error>) -> Void) {
+    func addNewRecord(distanceOfWalk: String, durationOfTime: String, numberOfStep: Int, screenshot: UIImageView, completion: @escaping(Result<String, Error>) -> Void) {
         
         let document = db.collection("stepData").document()
         
-        document.setData([
-        
+        uploadScreenshot(imageView: screenshot, id: document.documentID) { url in
+            
+            document.setData([
+                
                 "id": document.documentID,
                 "distanceOfWalk": "\(distanceOfWalk) km",
                 "durationOfTime": durationOfTime,
-            "date": Date().millisecondsSince1970,
-                "numberOfStep": numberOfStep,
-                "screenshot": screenshot
-        ]) { error in
+                "createdTime": Date().millisecondsSince1970,
+                "numberOfSteps": numberOfStep,
+                "screenshot": url
+            ]) { error in
+                
+                if let error = error {
+                    
+                    completion(.failure(error))
+                } else {
+                    
+                    completion(.success("Success"))
+                }
+            }
+        }
+        
+        func uploadScreenshot (imageView: UIImageView, id: String, completion: @escaping (_ url: String) -> Void) {
             
-            if let error = error {
+            let storageRef = Storage.storage().reference().child("\(id).jpg")
+            
+            if let uploadData = imageView.image?.jpegData(compressionQuality: 0.5) {
                 
-                completion(.failure(error))
+                storageRef.putData(uploadData, metadata: nil) { (metadata, error) in
+                    
+                    guard let metadata = metadata else {
+                        completion("")
+                        return
+                    }
+                    
+                    storageRef.downloadURL(completion: { (url, error) in
+                        
+                        guard let downloadURL = url else {
+                            completion("")
+                            return
+                        }
+                        
+                        completion(downloadURL.absoluteString)
+                    })
+                }
             } else {
-                
-                completion(.success("Success"))
+                completion("")
             }
         }
     }

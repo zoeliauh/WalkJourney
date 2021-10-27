@@ -33,6 +33,7 @@ class RecordTableViewCell: UITableViewCell {
         label.textColor = .black
         label.font = UIFont(name: "System", size: 50)
         label.textAlignment = .left
+        label.numberOfLines = 0
         return label
     }()
     
@@ -89,7 +90,7 @@ class RecordTableViewCell: UITableViewCell {
             dateLabel.leadingAnchor.constraint(equalTo: logoImageView.leadingAnchor, constant: 70),
             dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-            dateLabel.widthAnchor.constraint(equalToConstant: 120)
+            dateLabel.widthAnchor.constraint(equalToConstant: 150)
         ])
     }
     
@@ -101,7 +102,7 @@ class RecordTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
         
-            stepsLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 50),
+            stepsLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 20),
             stepsLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16)
         ])
     }

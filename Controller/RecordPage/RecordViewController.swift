@@ -27,21 +27,28 @@ class RecordViewController: UIViewController {
     }()
     
     lazy var recordTableView: UITableView = {
+        
         let table = UITableView()
         table.dataSource = self
         table.delegate = self
-        table.bounces = false
         table.rowHeight = UITableView.automaticDimension
         table.register(RecordTableViewCell.self, forCellReuseIdentifier: RecordTableViewCell.identifier)
+        table.reloadData()
         return table
     }()
     
-    var dateFormatter = DateFormatter()
-    
+    lazy var refreshControl: UIRefreshControl! = {
+
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "更新中...")
+
+        return refreshControl
+    }()
+        
     var stepData: [StepData] = []
     
-    var creatTimeArr: [TimeInterval] = []
-    
+    var screenshotURL: [String] = []
+            
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -51,6 +58,14 @@ class RecordViewController: UIViewController {
         setupRecordTableView()
         
         fetchRecordStepsData()
+        refreshTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        fetchRecordStepsData()
+        recordTableView.reloadData()
     }
     
     @objc func navDetailRecordVC(_ sender: UIButton) {
@@ -70,14 +85,27 @@ class RecordViewController: UIViewController {
                 self?.stepData = stepData
                 self?.recordTableView.reloadData()
                 
-                print(stepData)
-
             case .failure(let error):
 
                 print("fetchStepsData.failure: \(error)")
             }
         }
     }
+        
+        func refreshTableView() {
+            
+            recordTableView.addSubview(refreshControl)
+            refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+            recordTableView.refreshControl = refreshControl
+        }
+        
+        @objc func refresh() {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                self?.recordTableView.reloadData()
+                self?.refreshControl.endRefreshing()
+            }
+        }
     
     // MARK: - UI design
     private func setupHeader() {
@@ -122,9 +150,8 @@ class RecordViewController: UIViewController {
             recordTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             recordTableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             recordTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
         ])
-        
     }
 }
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -140,13 +167,9 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        dateFormatter.dateFormat = "yyyy.MM.dd HH:mm"
-        
-//        let date = Date(timeIntervalSince1970: TimeInterval(creatTimeArr[indexPath.row]))
-                        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RecordTableViewCell.identifier, for: indexPath) as? RecordTableViewCell else { fatalError("can not dequeue") }
                 
-        cell.dateLabel.text = "dateFormatter.string(from: date)"
+        cell.dateLabel.text = Date.dateFormatter.string(from: Date.init(milliseconds: stepData[indexPath.row].createdTime ?? Int64(0.0)))
         
         cell.stepsLabel.text = "\(stepData[indexPath.row].numberOfSteps.description) 步"
         
@@ -162,7 +185,9 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let detailRecordVC = UIStoryboard.record.instantiateViewController(withIdentifier: "DetailRecord") as? DetailRecordViewController else { return }
-
+        
+        detailRecordVC.screenshotURL = stepData[indexPath.row].screenshot
+        
         self.navigationController?.pushViewController(detailRecordVC, animated: true)
     }
 }
