@@ -14,5 +14,7 @@ pod ‘GooglePlaces’
 pod 'Firebase/Storage'
 pod 'Kingfisher'
 pod 'IQKeyboardManagerSwift'
+pod 'Charts'
+pod 'lottie-ios'
 
 end
