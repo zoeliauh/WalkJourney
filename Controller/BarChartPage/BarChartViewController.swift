@@ -9,6 +9,35 @@ import UIKit
 
 class BarChartViewController: UIViewController {
     
+    private enum ChartType: Int {
+        
+        case dayChart = 0
+        
+        case weekChart = 1
+        
+        case monthChart = 2
+    }
+    
+    private struct Segue {
+        
+        static let day = "SegueDay"
+        
+        static let week = "SegueWeek"
+        
+        static let month = "SegueMonth"
+    }
+    
+    @IBOutlet weak var dayContainerView: UIView!
+    
+    @IBOutlet weak var weekContainerView: UIView!
+    
+    @IBOutlet weak var monthContainerView: UIView!
+    
+    var containerViews: [UIView] {
+
+        return [dayContainerView, weekContainerView, monthContainerView]
+    }
+    
     lazy var chartSegmentedControl: UISegmentedControl = {
         
         let items = ["天", "週", "月"]
@@ -30,15 +59,26 @@ class BarChartViewController: UIViewController {
     
     @objc func segmentAction(_ segmentedControl: UISegmentedControl) {
         
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-            view.backgroundColor = .blue
-        case 1:
-            view.backgroundColor = .white
-        case 2:
-            view.backgroundColor = .purple
-        default:
-            break
+        guard let type = ChartType(rawValue: segmentedControl.selectedSegmentIndex) else { return }
+
+        updateContainer(type: type)
+    }
+        
+    private func updateContainer(type: ChartType) {
+        
+        containerViews.forEach({ $0.isHidden = true })
+        
+        switch type {
+            
+        case .dayChart:
+            dayContainerView.isHidden = false
+            
+        case .weekChart:
+            weekContainerView.isHidden = false
+            
+        case .monthChart:
+            monthContainerView.isHidden = false
+            
         }
     }
     

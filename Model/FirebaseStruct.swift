@@ -42,6 +42,8 @@ struct StepData: Codable {
     var createdTime: Int64?
     var screenshot: String
     var id: String
+    var latitude: [CLLocationDegrees]
+    var longitude: [CLLocationDegrees]
     
     enum CodingKeys: String, CodingKey {
         case numberOfSteps
@@ -50,5 +52,7 @@ struct StepData: Codable {
         case createdTime
         case screenshot
         case id
+        case latitude
+        case longitude
     }
 }
