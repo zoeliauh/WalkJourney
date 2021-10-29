@@ -115,7 +115,7 @@ class RecordTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
         
-            detailButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
+            detailButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             detailButton.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor),
             detailButton.heightAnchor.constraint(equalToConstant: 30),
             detailButton.widthAnchor.constraint(equalToConstant: 30)

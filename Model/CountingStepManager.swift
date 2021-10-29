@@ -98,7 +98,7 @@ class CountingStepManager {
     func updateLocation(location: Location, completion: @escaping (Result<String, Error>) -> Void) {
         
         db.collection("locations").document(location.id).updateData([
-            "location": [11.23, 123.542],
+            "location": [11.23, 123.542]
         ])
     }
 }

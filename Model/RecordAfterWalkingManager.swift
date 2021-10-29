@@ -47,22 +47,20 @@ class RecordAfterWalkingManager {
             }
         }
     }
-    
     // create
-    func addNewRecord(distanceOfWalk: String, durationOfTime: String, numberOfStep: Int, screenshot: UIImageView, completion: @escaping(Result<String, Error>) -> Void) {
+    func addNewRecord(distanceWalk: String, durationTime: String, numStep: Int, latitude: [CLLocationDegrees], longitude: [CLLocationDegrees], completion: @escaping(Result<String, Error>) -> Void) {
         
         let document = db.collection("stepData").document()
-        
-        uploadScreenshot(imageView: screenshot, id: document.documentID) { url in
-            
+                    
             document.setData([
                 
                 "id": document.documentID,
-                "distanceOfWalk": "\(distanceOfWalk) km",
-                "durationOfTime": durationOfTime,
+                "distanceOfWalk": "\(distanceWalk) km",
+                "durationOfTime": durationTime,
                 "createdTime": Date().millisecondsSince1970,
-                "numberOfSteps": numberOfStep,
-                "screenshot": url
+                "numberOfSteps": numStep,
+                "latitude": latitude,
+                "longitude": longitude
             ]) { error in
                 
                 if let error = error {
@@ -103,4 +101,3 @@ class RecordAfterWalkingManager {
             }
         }
     }
-}

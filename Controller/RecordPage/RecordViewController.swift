@@ -69,7 +69,7 @@ class RecordViewController: UIViewController {
     }
     
     @objc func navDetailRecordVC(_ sender: UIButton) {
-        
+
         guard let detailRecordVC = UIStoryboard.record.instantiateViewController(withIdentifier: "DetailRecord") as? DetailRecordViewController else { return }
         
         navigationController?.pushViewController(detailRecordVC, animated: true)
@@ -186,7 +186,12 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
         
         guard let detailRecordVC = UIStoryboard.record.instantiateViewController(withIdentifier: "DetailRecord") as? DetailRecordViewController else { return }
         
-        detailRecordVC.screenshotURL = stepData[indexPath.row].screenshot
+        detailRecordVC.latitudeArr = stepData[indexPath.row].latitude
+        detailRecordVC.longitudeArr = stepData[indexPath.row].longitude
+        detailRecordVC.walkDate = Date.dateFormatter.string(from: Date.init(milliseconds: stepData[indexPath.row].createdTime ?? Int64(0.0)))
+        detailRecordVC.walkTime = stepData[indexPath.row].durationOfTime
+        detailRecordVC.walkStep = stepData[indexPath.row].numberOfSteps
+        detailRecordVC.walkDistance = stepData[indexPath.row].distanceOfWalk
         
         self.navigationController?.pushViewController(detailRecordVC, animated: true)
     }

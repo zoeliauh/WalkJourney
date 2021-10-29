@@ -40,7 +40,6 @@ struct StepData: Codable {
     var durationOfTime: String
     var distanceOfWalk: String
     var createdTime: Int64?
-    var screenshot: String
     var id: String
     var latitude: [CLLocationDegrees]
     var longitude: [CLLocationDegrees]
@@ -50,7 +49,6 @@ struct StepData: Codable {
         case durationOfTime
         case distanceOfWalk
         case createdTime
-        case screenshot
         case id
         case latitude
         case longitude
