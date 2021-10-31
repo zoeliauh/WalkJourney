@@ -23,7 +23,7 @@ class DayChartViewController: UIViewController {
     lazy var stepsNumLabel: UILabel = {
         
         let label = UILabel()
-        label.text = "2968"
+        label.text = "0"
         label.font = UIFont.systemFont(ofSize: 40)
         label.textColor = .black
         label.textAlignment = .left
@@ -40,13 +40,36 @@ class DayChartViewController: UIViewController {
         return label
     }()
     
+    lazy var calendarDatePicker: UIDatePicker = {
+        
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.locale = Locale(identifier: "zh_Hant_TW")
+    
+        datePicker.addTarget(self, action: #selector(dateChecked(_:)), for: .valueChanged)
+        return datePicker
+    }()
+    
     lazy var dayChartView: BarChartView = {
         
         let dayChartView = BarChartView()
         return dayChartView
     }()
     
-    var stepData: [StepData] = []
+    let dateFormat = DateFormatter()
+    
+    let dateFormatHour = DateFormatter()
+    
+    var selectedDay = Date()
+    
+    var stepDataArr: [StepData] = []
+    
+    var stepSum = 0 {
+        didSet {
+            stepsNumLabel.text = stepSum.description
+            dayChartView.reloadInputViews()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,132 +77,100 @@ class DayChartViewController: UIViewController {
         setupTotalLabel()
         setupStepsNumLabel()
         setupStepLabel()
+        setupcalendarDatePicker()
         setupDayChartView()
         dayChartView.noDataText = "暫時沒有步行紀錄"
         fetchRecordStepsData()
-        setupDayChartDate(stepsData: stepData)
     }
     // MARK: - fetch record steps data
     func fetchRecordStepsData() {
+        
+        dateFormat.dateFormat = "yyyy.MM.dd"
 
-        RecordAfterWalkingManager.shared.fetchRecord { [weak self] result in
+        RecordAfterWalkingManager.shared.fetchDateRecord(calenderDay: dateFormat.string(from: selectedDay)) { [weak self] result in
             switch result {
-
-            case .success(let stepData):
-
-                self?.stepData = stepData
                 
+            case .success(let stepData):
+                
+                self?.stepDataArr = stepData
+                self?.setupDayChartDate(stepDataArr: stepData)
+                
+                for items in stepData {
+                    
+                    self?.stepSum += items.numberOfSteps
+                }
+                                
             case .failure(let error):
-
+                
                 print("fetchStepsData.failure: \(error)")
             }
         }
     }
     
-    // MARK: - UI design
-    func setupTotalLabel() {
+    // MARK: - datePicker action
+    @objc func dateChecked(_ sender: UIDatePicker) {
+                                        
+        dateFormat.dateFormat = "yyyy.MM.dd"
+
+        selectedDay = calendarDatePicker.date
         
-        view.addSubview(totalLabel)
+        self.stepSum = 0
         
-        totalLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            totalLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            totalLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-            totalLabel.widthAnchor.constraint(equalToConstant: 150)
-        ])
-    }
+        fetchRecordStepsData()
     
-    func setupStepsNumLabel() {
-        
-        view.addSubview(stepsNumLabel)
-        
-        stepsNumLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            stepsNumLabel.centerXAnchor.constraint(equalTo: totalLabel.centerXAnchor),
-            stepsNumLabel.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: 10),
-//            stepsNumLabel.widthAnchor.constraint(equalToConstant: 100),
-            stepsNumLabel.heightAnchor.constraint(equalToConstant: 50)
-        ])
+        setupDayChartDate(stepDataArr: stepDataArr)
     }
-    
-    func setupStepLabel() {
+    // MARK: - setup Bar Chart
+    private func setupDayChartDate(stepDataArr: [StepData]) {
         
-        view.addSubview(stepLabel)
+        chartAsixSetup()
         
-        stepLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            stepLabel.centerYAnchor.constraint(equalTo: stepsNumLabel.centerYAnchor),
-            stepLabel.leadingAnchor.constraint(equalTo: stepsNumLabel.trailingAnchor, constant: 10)
-        ])
-    }
-    
-    func setupDayChartView() {
-        
-        view.addSubview(dayChartView)
-        
-        dayChartView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            
-            dayChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            dayChartView.topAnchor.constraint(equalTo: stepsNumLabel.bottomAnchor, constant: 50),
-            dayChartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            dayChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25)
-        ])
-    }
-    
-    func setupDayChartDate(stepsData: [StepData]) {
-        
-        var stepsDataDict: [String: Int] = {
+        dateFormatHour.dateFormat = "HH"
+                
+        var stepsDic: [String: Int] = {
             
             var dict: [String: Int] = [:]
             
-            for index in 1...24 {
-                dict["\(index)月"] = 0
+            for index in 0...23 {
+                dict["\(index)"] = 0
             }
             
             return dict
         }()
         
-        var dataEntries: [BarChartDataEntry] = []
+        var dataEntries = [BarChartDataEntry]()
         
-        stepsData.forEach { steps in
+        for items in stepDataArr {
             
-            let stepsDate = Date.dateFormatter.string(from: Date.init(milliseconds: steps.createdTime ?? Int64(0.0)))
-        
-            let formatter = DateFormatter()
-
-            formatter.dateFormat = "M月"
-//            let month = formatter.string(from: stepsDate)
+            let walkHour = dateFormatHour.string(from: Date.init(milliseconds: items.createdTime ?? Int64(0.0)))
             
-            let month = "10月"
+            print("\(items.date) walk \(items.numberOfSteps) at \(walkHour)" )
             
-            stepsDataDict[month, default: 0] += 1
+            stepsDic[walkHour, default: 0] += items.numberOfSteps
         }
         
-        let values = Array(stepsDataDict)
+        let values = Array(stepsDic)
         
-        for index in 0..<values.count {
+        let hours = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
+        
+        for index in hours {
             
-            let dataEntry = BarChartDataEntry(x: Double(index),
-                                              y: Double(stepsDataDict["\(index + 1)月"] ?? 0))
+            guard let doubleIndex = Double(index) else { return }
+            
+            let dataEntry = BarChartDataEntry(x: Double(doubleIndex),
+                                              y: Double(stepsDic["\(index)"] ?? 0))
             
             dataEntries.append(dataEntry)
         }
         
-        let chartDataSet = BarChartDataSet(entries: dataEntries, label: nil)
+        let set = BarChartDataSet(entries: dataEntries, label: nil)
+        set.colors = ChartColorTemplates.celadon()
+        let data = BarChartData(dataSet: set)
         
-        let chartData = BarChartData(dataSet: chartDataSet)
-        
-        chartData.barWidth = Double(0.5)
-        
-        dayChartView.data = chartData
+        dayChartView.data = data
+    }
+
+    func chartAsixSetup() {
         
         var xValues: [String] = []
         
@@ -192,7 +183,6 @@ class DayChartViewController: UIViewController {
         dayChartView.xAxis.labelPosition = .bottom
         dayChartView.xAxis.granularity = 1
         dayChartView.xAxis.labelRotationAngle = 0
-        dayChartView.xAxis.setLabelCount(12, force: false)
         
         dayChartView.leftAxis.drawGridLinesEnabled = false
         dayChartView.leftAxis.granularity = 1.0
@@ -201,8 +191,78 @@ class DayChartViewController: UIViewController {
         dayChartView.legend.enabled = false
         dayChartView.extraBottomOffset = 20
         
-        dayChartView.animate(xAxisDuration: 0, yAxisDuration: 2)
+        dayChartView.animate(xAxisDuration: 0, yAxisDuration: 1)
         
         dayChartView.rightAxis.enabled = false
+    }
+}
+
+extension DayChartViewController {
+    // MARK: - UI design
+    private func setupTotalLabel() {
+        
+        view.addSubview(totalLabel)
+        
+        totalLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            totalLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            totalLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 50)
+        ])
+    }
+    
+    private func setupStepsNumLabel() {
+        
+        view.addSubview(stepsNumLabel)
+        
+        stepsNumLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            stepsNumLabel.centerYAnchor.constraint(equalTo: totalLabel.centerYAnchor),
+            stepsNumLabel.leadingAnchor.constraint(equalTo: totalLabel.trailingAnchor, constant: 10)
+        ])
+    }
+    
+    private func setupStepLabel() {
+        
+        view.addSubview(stepLabel)
+        
+        stepLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            stepLabel.centerYAnchor.constraint(equalTo: stepsNumLabel.centerYAnchor),
+            stepLabel.leadingAnchor.constraint(equalTo: stepsNumLabel.trailingAnchor, constant: 10)
+        ])
+    }
+    
+    private func setupcalendarDatePicker() {
+        
+        view.addSubview(calendarDatePicker)
+        
+        calendarDatePicker.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            calendarDatePicker.leadingAnchor.constraint(equalTo: totalLabel.leadingAnchor),
+            calendarDatePicker.topAnchor.constraint(equalTo: stepsNumLabel.bottomAnchor, constant: 20)
+        ])
+    }
+    
+    private func setupDayChartView() {
+        
+        view.addSubview(dayChartView)
+        
+        dayChartView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            dayChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            dayChartView.topAnchor.constraint(equalTo: calendarDatePicker.bottomAnchor, constant: 50),
+            dayChartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            dayChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25)
+        ])
     }
 }
