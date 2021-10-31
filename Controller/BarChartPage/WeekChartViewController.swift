@@ -40,13 +40,23 @@ class WeekChartViewController: UIViewController {
         return label
     }()
     
+    lazy var calendarDatePicker: UIDatePicker = {
+        
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.locale = Locale(identifier: "zh_Hant_TW")
+    
+        datePicker.addTarget(self, action: #selector(dateChecked(_:)), for: .valueChanged)
+        return datePicker
+    }()
+    
     lazy var weekChartView: BarChartView = {
         
         let weekChartView = BarChartView()
         return weekChartView
     }()
     
-    var stepData: [StepData] = []
+    var stepDataArr: [StepData] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,10 +64,10 @@ class WeekChartViewController: UIViewController {
         setupTotalLabel()
         setupStepsNumLabel()
         setupStepLabel()
+        setupcalendarDatePicker()
         setupWeekChartView()
         weekChartView.noDataText = "暫時沒有步行紀錄"
         fetchRecordStepsData()
-        setupWeekChartDate(stepsData: stepData)
     }
     
     // MARK: - fetch record steps data
@@ -68,7 +78,8 @@ class WeekChartViewController: UIViewController {
 
             case .success(let stepData):
 
-                self?.stepData = stepData
+                self?.stepDataArr = stepData
+                self?.setupWeekChartDate(stepDataArr: stepData)
                 
             case .failure(let error):
 
@@ -76,64 +87,19 @@ class WeekChartViewController: UIViewController {
             }
         }
     }
-    // MARK: - UI design
-    func setupTotalLabel() {
-        
-        view.addSubview(totalLabel)
-        
-        totalLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            totalLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            totalLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-            totalLabel.widthAnchor.constraint(equalToConstant: 150)
-        ])
-    }
-    
-    func setupStepsNumLabel() {
-        
-        view.addSubview(stepsNumLabel)
-        
-        stepsNumLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            stepsNumLabel.centerXAnchor.constraint(equalTo: totalLabel.centerXAnchor),
-            stepsNumLabel.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: 10),
-            stepsNumLabel.heightAnchor.constraint(equalToConstant: 50)
-        ])
-    }
-    
-    func setupStepLabel() {
-        
-        view.addSubview(stepLabel)
-        
-        stepLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            stepLabel.centerYAnchor.constraint(equalTo: stepsNumLabel.centerYAnchor),
-            stepLabel.leadingAnchor.constraint(equalTo: stepsNumLabel.trailingAnchor, constant: 10)
-        ])
-    }
-    
-    func setupWeekChartView() {
-        
-        view.addSubview(weekChartView)
-        
-        weekChartView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
+        // MARK: - datePicker action
+        @objc func dateChecked(_ sender: UIDatePicker) {
             
-            weekChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            weekChartView.topAnchor.constraint(equalTo: stepsNumLabel.bottomAnchor, constant: 50),
-            weekChartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            weekChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25)
-        ])
-    }
+            setupWeekChartDate(stepDataArr: stepDataArr)
+            
+            let dateFormat = DateFormatter()
+            dateFormat.dateFormat = "yyyy.MM.dd HH:mm"
+            dateFormat.dateStyle = .long
+            dateFormat.timeStyle = .none
+            dateFormat.timeZone = TimeZone(secondsFromGMT: +8)
+        }
     
-    func setupWeekChartDate(stepsData: [StepData]) {
+    func setupWeekChartDate(stepDataArr: [StepData]) {
         
         var stepsDataDict: [String: Int] = {
             
@@ -148,20 +114,6 @@ class WeekChartViewController: UIViewController {
         
         var dataEntries: [BarChartDataEntry] = []
         
-        stepsData.forEach { steps in
-            
-            let stepsDate = Date.dateFormatter.string(from: Date.init(milliseconds: steps.createdTime ?? Int64(0.0)))
-        
-            let formatter = DateFormatter()
-
-            formatter.dateFormat = "M月"
-//            let month = formatter.string(from: stepsDate)
-            
-            let month = "12月"
-            
-            stepsDataDict[month, default: 0] += 1
-        }
-        
         let values = Array(stepsDataDict)
         
         for index in 0..<values.count {
@@ -175,12 +127,10 @@ class WeekChartViewController: UIViewController {
         let chartDataSet = BarChartDataSet(entries: dataEntries, label: nil)
         
         let chartData = BarChartData(dataSet: chartDataSet)
-        
-        chartData.barWidth = Double(0.5)
-        
+                
         weekChartView.data = chartData
         
-        let xValues = ["一", "二", "三", "四", "五", "六", "日"]
+        let xValues = ["日", "一", "二", "三", "四", "五", "六"]
         
         weekChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: xValues)
         weekChartView.xAxis.drawGridLinesEnabled = false
@@ -199,5 +149,75 @@ class WeekChartViewController: UIViewController {
         weekChartView.animate(xAxisDuration: 0, yAxisDuration: 2)
         
         weekChartView.rightAxis.enabled = false
+    }
+}
+
+extension WeekChartViewController {
+    // MARK: - UI design
+    private func setupTotalLabel() {
+        
+        view.addSubview(totalLabel)
+        
+        totalLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            totalLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            totalLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 50)
+        ])
+    }
+    
+    private func setupStepsNumLabel() {
+        
+        view.addSubview(stepsNumLabel)
+        
+        stepsNumLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            stepsNumLabel.centerYAnchor.constraint(equalTo: totalLabel.centerYAnchor),
+            stepsNumLabel.leadingAnchor.constraint(equalTo: totalLabel.trailingAnchor, constant: 10)
+        ])
+    }
+    
+    private func setupStepLabel() {
+        
+        view.addSubview(stepLabel)
+        
+        stepLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            stepLabel.centerYAnchor.constraint(equalTo: stepsNumLabel.centerYAnchor),
+            stepLabel.leadingAnchor.constraint(equalTo: stepsNumLabel.trailingAnchor, constant: 10)
+        ])
+    }
+    
+    private func setupcalendarDatePicker() {
+        
+        view.addSubview(calendarDatePicker)
+        
+        calendarDatePicker.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            calendarDatePicker.leadingAnchor.constraint(equalTo: totalLabel.leadingAnchor),
+            calendarDatePicker.topAnchor.constraint(equalTo: stepsNumLabel.bottomAnchor, constant: 20)
+        ])
+    }
+    
+    private func setupWeekChartView() {
+        
+        view.addSubview(weekChartView)
+        
+        weekChartView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            weekChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            weekChartView.topAnchor.constraint(equalTo: calendarDatePicker.bottomAnchor, constant: 50),
+            weekChartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            weekChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25)
+        ])
     }
 }
