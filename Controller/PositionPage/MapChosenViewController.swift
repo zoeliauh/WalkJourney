@@ -21,6 +21,20 @@ class MapChosenViewController: UIViewController {
         walkYourselfButton.layer.cornerRadius = 20
         
         walkFunButton.layer.cornerRadius = 20
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
  
     @IBAction func walkYourselfButtonPressed(_ sender: UIButton) {

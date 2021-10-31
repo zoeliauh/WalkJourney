@@ -7,7 +7,6 @@
 
 import UIKit
 import GoogleMaps
-import CoreMedia
 
 class DetailRecordViewController: UIViewController {
     
@@ -58,13 +57,12 @@ class DetailRecordViewController: UIViewController {
     lazy var trackingMapView: GMSMapView = {
         
         let GMSMapView = GMSMapView()
+        GMSMapView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
         return GMSMapView
     }()
         
     let locationManager = CLLocationManager()
-    
-    var screenshotURL: String?
-    
+        
     var latitudeArr: [CLLocationDegrees] = []
     
     var longitudeArr: [CLLocationDegrees] = []
@@ -80,7 +78,7 @@ class DetailRecordViewController: UIViewController {
     var walkStep: Int?
     
     var walkDistance: String?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -179,7 +177,7 @@ class DetailRecordViewController: UIViewController {
             trackingMapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trackingMapView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 100),
             trackingMapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            trackingMapView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60)
+            trackingMapView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80)
         ])
     }
     
@@ -195,24 +193,22 @@ extension DetailRecordViewController: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, latitude: [CLLocationDegrees], longitude: [CLLocationDegrees]) {
         
-        trackingMapView.camera = GMSCameraPosition.camera(withLatitude: latitude[0], longitude: longitude[0], zoom: 15)
-                
+        trackingMapView.camera = GMSCameraPosition.camera(withLatitude: latitude[0], longitude: longitude[0], zoom: 16)
+                        
         for index in 0..<latitude.count {
             
             path.addLatitude(latitudeArr[index], longitude: longitudeArr[index])
-                        
-                print("start do draw a line")
         
         let polyline = GMSPolyline(path: path)
         
                 polyline.strokeWidth = 2
                 
-                polyline.strokeColor = .blue
+            polyline.strokeColor = UIColor.hexStringToUIColor(hex: "#43b4f6")
                 
                 polyline.geodesic = true
                 
                 polyline.map = self.trackingMapView
-            }
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

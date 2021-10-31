@@ -150,7 +150,7 @@ class RecordViewController: UIViewController {
             recordTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             recordTableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             recordTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80)
         ])
     }
 }

@@ -19,9 +19,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     let searchVC = UISearchController(searchResultsController: ResultsViewController())
     
     var locationManager = CLLocationManager()
-    
-    var placesClient = GMSPlacesClient()
-    
+        
     let marker = GMSMarker()
     
     var camera = GMSCameraPosition()
