@@ -94,7 +94,7 @@ class DayChartViewController: UIViewController {
                 
                 self?.stepDataArr = stepData
                 self?.setupDayChartDate(stepDataArr: stepData)
-                
+
                 for items in stepData {
                     
                     self?.stepSum += items.numberOfSteps
@@ -113,7 +113,7 @@ class DayChartViewController: UIViewController {
         dateFormat.dateFormat = "yyyy.MM.dd"
 
         selectedDay = calendarDatePicker.date
-        
+                
         self.stepSum = 0
         
         fetchRecordStepsData()
@@ -164,7 +164,9 @@ class DayChartViewController: UIViewController {
         }
         
         let set = BarChartDataSet(entries: dataEntries, label: nil)
+        
         set.colors = ChartColorTemplates.celadon()
+        
         let data = BarChartData(dataSet: set)
         
         dayChartView.data = data
