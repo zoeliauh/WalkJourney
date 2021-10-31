@@ -19,8 +19,6 @@ class StartPageViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
         
         logoImageView.layer.cornerRadius = logoImageView.frame.size.width / 2
-        
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

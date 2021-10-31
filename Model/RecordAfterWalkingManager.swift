@@ -54,7 +54,7 @@ class RecordAfterWalkingManager {
     func fetchDateRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
         db.collection("stepData").whereField("date", isEqualTo: calenderDay).getDocuments() { (querySnapshot, error) in
-
+            
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -84,7 +84,7 @@ class RecordAfterWalkingManager {
         
         db.collection("stepData").whereField("month", isEqualTo: calenderDay).getDocuments()
         { (querySnapshot, error) in
-
+            
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -113,7 +113,7 @@ class RecordAfterWalkingManager {
         
         db.collection("stepData").whereField("Year", isEqualTo: calenderDay).getDocuments()
         { (querySnapshot, error) in
-
+            
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -149,56 +149,61 @@ class RecordAfterWalkingManager {
         formatterMonth.dateFormat = "yyyy.MM"
         
         let document = db.collection("stepData").document()
-                    
-            document.setData([
+        
+        document.setData([
+            
+            "id": document.documentID,
+            "distanceOfWalk": "\(distanceWalk) km",
+            "durationOfTime": durationTime,
+            "createdTime": Date().millisecondsSince1970,
+            "numberOfSteps": numStep,
+            "latitude": latitude,
+            "longitude": longitude,
+            "date": formatterDate.string(from: today),
+            "year": formatterYear.string(from: today),
+            "month": formatterMonth.string(from: today)
+        ]) { error in
+            
+            if let error = error {
                 
-                "id": document.documentID,
-                "distanceOfWalk": "\(distanceWalk) km",
-                "durationOfTime": durationTime,
-                "createdTime": Date().millisecondsSince1970,
-                "numberOfSteps": numStep,
-                "latitude": latitude,
-                "longitude": longitude,
-                "date": formatterDate.string(from: today),
-                "year": formatterYear.string(from: today),
-                "month": formatterMonth.string(from: today)
-            ]) { error in
+                completion(.failure(error))
+            } else {
                 
-                if let error = error {
-                    
-                    completion(.failure(error))
-                } else {
-                    
-                    completion(.success("Success"))
-                }
+                completion(.success("Success"))
             }
         }
+    }
+    
+    func uploadScreenshot (imageView: UIImageView, id: String, completion: @escaping (_ url: String) -> Void) {
         
-        func uploadScreenshot (imageView: UIImageView, id: String, completion: @escaping (_ url: String) -> Void) {
+        let storageRef = Storage.storage().reference().child("\(id).jpg")
+        
+        if let uploadData = imageView.image?.jpegData(compressionQuality: 0.5) {
             
-            let storageRef = Storage.storage().reference().child("\(id).jpg")
-            
-            if let uploadData = imageView.image?.jpegData(compressionQuality: 0.5) {
+            storageRef.putData(uploadData, metadata: nil) { (metadata, error) in
                 
-                storageRef.putData(uploadData, metadata: nil) { (metadata, error) in
+                guard let metadata = metadata else {
+                    completion("")
+                    return
+                }
+                
+                storageRef.downloadURL(completion: { (url, error) in
                     
-                    guard let metadata = metadata else {
+                    guard let downloadURL = url else {
                         completion("")
                         return
                     }
                     
-                    storageRef.downloadURL(completion: { (url, error) in
-                        
-                        guard let downloadURL = url else {
-                            completion("")
-                            return
-                        }
-                        
-                        completion(downloadURL.absoluteString)
-                    })
-                }
-            } else {
-                completion("")
+                    completion(downloadURL.absoluteString)
+                })
             }
+        } else {
+            completion("")
         }
     }
+    // delete
+    func deleteRecord(stepData: StepData) {
+        
+        db.collection("stepData").document(stepData.id).delete()
+    }
+}

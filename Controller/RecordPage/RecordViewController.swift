@@ -44,8 +44,13 @@ class RecordViewController: UIViewController {
 
         return refreshControl
     }()
+                
+    var stepData: [StepData] = [] {
         
-    var stepData: [StepData] = []
+        didSet {
+            recordTableView.reloadData()
+        }
+    }
     
     var screenshotURL: [String] = []
             
@@ -65,7 +70,6 @@ class RecordViewController: UIViewController {
         super.viewWillAppear(animated)
 
         fetchRecordStepsData()
-        recordTableView.reloadData()
     }
     
     @objc func navDetailRecordVC(_ sender: UIButton) {
@@ -83,13 +87,19 @@ class RecordViewController: UIViewController {
             case .success(let stepData):
 
                 self?.stepData = stepData
-                self?.recordTableView.reloadData()
                 
             case .failure(let error):
 
                 print("fetchStepsData.failure: \(error)")
             }
         }
+    }
+    
+    func deleteRecordStepsData(indexPath: IndexPath) {
+                
+        RecordAfterWalkingManager.shared.deleteRecord(stepData: stepData[indexPath.row])
+        stepData.remove(at: indexPath.row)
+        recordTableView.deleteRows(at: [indexPath], with: .fade)
     }
         
         func refreshTableView() {
@@ -194,5 +204,22 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
         detailRecordVC.walkDistance = stepData[indexPath.row].distanceOfWalk
         
         self.navigationController?.pushViewController(detailRecordVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            tableView.beginUpdates()
+                        
+            deleteRecordStepsData(indexPath: indexPath)
+                                    
+            tableView.endUpdates()
+        }
     }
 }
