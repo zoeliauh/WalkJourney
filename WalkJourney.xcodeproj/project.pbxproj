@@ -205,6 +205,14 @@
 			path = storyboard;
 			sourceTree = "<group>";
 		};
+		6B1269AD272EFD1300833A81 /* ProfilePage */ = {
+			isa = PBXGroup;
+			children = (
+				6B022164271D7B1000C61593 /* ProfileViewController.swift */,
+			);
+			path = ProfilePage;
+			sourceTree = "<group>";
+		};
 		6B868A16271B18B400965075 = {
 			isa = PBXGroup;
 			children = (
@@ -273,8 +281,8 @@
 				6B02216C271E718C00C61593 /* PositionPage */,
 				6B0F388627287F7700F00448 /* RecordPage */,
 				6B0F388C2729526C00F00448 /* BarChartPage */,
+				6B1269AD272EFD1300833A81 /* ProfilePage */,
 				6B022162271D7AFF00C61593 /* ShareViewController.swift */,
-				6B022164271D7B1000C61593 /* ProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

@@ -13,7 +13,7 @@ class MonthChartViewController: UIViewController {
     lazy var monthLabel: UILabel = {
         
         let label = UILabel()
-        label.text = "10 月"
+        label.text = "?? 月"
         label.font = UIFont.systemFont(ofSize: 20)
         label.textColor = .gray
         label.textAlignment = .left
@@ -66,6 +66,9 @@ class MonthChartViewController: UIViewController {
         return monthChartView
     }()
     
+    let comp = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
+//    guard let compMonth = comp.month else { return }
+    
     let dateFormat = DateFormatter()
     
     let dateFormatDay = DateFormatter()
@@ -114,7 +117,7 @@ class MonthChartViewController: UIViewController {
 
                 self?.stepDataArr = stepData
                 self?.setupMonthChartDate(stepDataArr: stepData)
-              
+
                 for items in stepData {
                     
                     self?.stepSum += items.numberOfSteps
@@ -156,7 +159,7 @@ class MonthChartViewController: UIViewController {
             
             var dict: [String: Int] = [:]
             
-            for index in 0...31 {
+            for index in 1...31 {
                 dict["\(index)"] = 0
             }
             
@@ -173,14 +176,20 @@ class MonthChartViewController: UIViewController {
             
             stepsDic[walkDay, default: 0] += items.numberOfSteps
         }
+                
+        let daysone = ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
         
-        let values = Array(stepsDic)
+        let daystwo = ["10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"]
+        
+        let days = daysone + daystwo
 
-        for index in 1...31 {
+        for index in days {
             
-            let dataEntry = BarChartDataEntry(x: Double(index),
+            guard let doubleIndex = Double(index) else { return }
+            
+            let dataEntry = BarChartDataEntry(x: Double(doubleIndex),
                                               y: Double(stepsDic["\(index)"] ?? 0))
-            
+            print(stepsDic)
             dataEntries.append(dataEntry)
         }
         
@@ -224,7 +233,7 @@ class MonthChartViewController: UIViewController {
 extension MonthChartViewController {
     // MARK: - UI design
     private func setupMonthLabel() {
-        
+     
         view.addSubview(monthLabel)
         
         monthLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -234,6 +243,9 @@ extension MonthChartViewController {
             monthLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             monthLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 50)
         ])
+        
+        guard let compMonth = comp.month else { return }
+        monthLabel.text = "\(compMonth.description) 月"
     }
     
     private func setupTotalLabel() {
