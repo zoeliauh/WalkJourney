@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Bar Chart View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="BarChart" id="Y6W-OH-hqX" customClass="BarChartViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DAU-OE-c80">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <connections>
+                                    <segue destination="9wH-UU-8cC" kind="embed" identifier="SegueWeek" id="SoZ-lM-tsl"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x74-2v-TpD">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <connections>
+                                    <segue destination="cnm-L6-gn4" kind="embed" identifier="SegueMonth" id="Vtf-dx-zf4"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x4s-7H-08y">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <connections>
+                                    <segue destination="rWn-dl-qsA" kind="embed" identifier="SegueDay" id="MYV-IM-mbB"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="x4s-7H-08y" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="Mka-wk-D3q"/>
+                            <constraint firstItem="x4s-7H-08y" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="Qnv-0f-1io"/>
+                            <constraint firstItem="x4s-7H-08y" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="SLO-6g-Q5F"/>
+                            <constraint firstItem="DAU-OE-c80" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Vro-KP-RRG"/>
+                            <constraint firstItem="x4s-7H-08y" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="WRx-Mn-iBW"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="x74-2v-TpD" secondAttribute="bottom" id="bek-vQ-DgY"/>
+                            <constraint firstItem="x74-2v-TpD" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="cup-MQ-o7R"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="DAU-OE-c80" secondAttribute="trailing" id="foe-JH-D5g"/>
+                            <constraint firstItem="DAU-OE-c80" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="hQS-WH-Ulj"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="DAU-OE-c80" secondAttribute="bottom" id="kjq-QX-Si2"/>
+                            <constraint firstItem="x74-2v-TpD" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="o62-IX-dDe"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="x74-2v-TpD" secondAttribute="trailing" id="ypi-4k-J05"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="dayContainerView" destination="x4s-7H-08y" id="0Io-SR-8BY"/>
+                        <outlet property="monthContainerView" destination="x74-2v-TpD" id="EdT-bP-IgQ"/>
+                        <outlet property="weekContainerView" destination="DAU-OE-c80" id="OcC-w3-Kpj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="89.855072463768124" y="69.642857142857139"/>
+        </scene>
+        <!--Day Chart View Controller-->
+        <scene sceneID="wTe-Hv-LOg">
+            <objects>
+                <viewController id="rWn-dl-qsA" customClass="DayChartViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5Cp-Bx-SHP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="UWJ-Xn-B0j"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IwC-Kp-3tT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-791.304347826087" y="729.57589285714278"/>
+        </scene>
+        <!--Week Chart View Controller-->
+        <scene sceneID="Tpz-yN-ogi">
+            <objects>
+                <viewController id="9wH-UU-8cC" customClass="WeekChartViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5Dk-ct-CVL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Xk1-u4-UHe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6X9-5t-rLh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="196" y="730"/>
+        </scene>
+        <!--Month Chart View Controller-->
+        <scene sceneID="3qs-98-oUR">
+            <objects>
+                <viewController id="cnm-L6-gn4" customClass="MonthChartViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rGN-aw-QGG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="wUn-D3-STz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MFS-uJ-REd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1178" y="730"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
