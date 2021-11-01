@@ -73,7 +73,7 @@ class WeekChartViewController: UIViewController {
     // MARK: - fetch record steps data
     func fetchRecordStepsData() {
 
-        RecordAfterWalkingManager.shared.fetchRecord { [weak self] result in
+        RecordManager.shared.fetchRecord { [weak self] result in
             switch result {
 
             case .success(let stepData):

@@ -154,36 +154,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="253"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fon-nF-eVb">
-                                                    <rect key="frame" x="40" y="31" width="239" height="191"/>
-                                                    <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="200" id="VI7-oJ-MIY"/>
-                                                    </constraints>
-                                                </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CRx-Ys-K7j">
-                                                    <rect key="frame" x="299" y="104.5" width="75" height="44"/>
+                                                    <rect key="frame" x="254" y="104.5" width="120" height="44"/>
                                                     <color key="backgroundColor" name="DarkCeladon"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="120" id="RvF-BO-wnf"/>
+                                                    </constraints>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" title="走囉">
+                                                    <buttonConfiguration key="configuration" style="plain" title="開始吧">
                                                         <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle1"/>
                                                         <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </buttonConfiguration>
                                                 </button>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FjA-XR-PqR">
+                                                    <rect key="frame" x="20" y="21" width="214" height="211"/>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="FjA-XR-PqR" firstAttribute="top" secondItem="YTQ-cx-CZ5" secondAttribute="topMargin" constant="10" id="6tW-YW-fMZ"/>
+                                                <constraint firstItem="CRx-Ys-K7j" firstAttribute="leading" secondItem="FjA-XR-PqR" secondAttribute="trailing" constant="20" id="9n4-Ub-feG"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="FjA-XR-PqR" secondAttribute="bottom" constant="10" id="BDq-Im-43K"/>
                                                 <constraint firstItem="CRx-Ys-K7j" firstAttribute="centerY" secondItem="YTQ-cx-CZ5" secondAttribute="centerY" id="Fx4-V0-fG8"/>
-                                                <constraint firstItem="fon-nF-eVb" firstAttribute="top" secondItem="YTQ-cx-CZ5" secondAttribute="topMargin" constant="20" id="TQr-B0-GXc"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="fon-nF-eVb" secondAttribute="bottom" constant="20" id="YTH-39-E9A"/>
+                                                <constraint firstItem="FjA-XR-PqR" firstAttribute="leading" secondItem="YTQ-cx-CZ5" secondAttribute="leadingMargin" id="a1R-Xi-gOS"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="CRx-Ys-K7j" secondAttribute="trailing" constant="20" id="geR-vS-2ku"/>
-                                                <constraint firstItem="fon-nF-eVb" firstAttribute="leading" secondItem="YTQ-cx-CZ5" secondAttribute="leadingMargin" constant="20" id="v6w-Ov-fRS"/>
-                                                <constraint firstItem="CRx-Ys-K7j" firstAttribute="leading" secondItem="fon-nF-eVb" secondAttribute="trailing" constant="20" id="wBv-0e-jHL"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="goButton" destination="CRx-Ys-K7j" id="s89-XA-3ln"/>
-                                            <outlet property="mapView" destination="fon-nF-eVb" id="KNm-tQ-9hp"/>
+                                            <outlet property="shapeImageView" destination="FjA-XR-PqR" id="lhk-cI-v3V"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -306,12 +305,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="I7G-Co-wn4"/>
                     <connections>
-                        <outlet property="currentDistanceLabel" destination="mAF-oD-nqf" id="yaD-57-1Bg"/>
                         <outlet property="currentRouteMapView" destination="5Kd-Rj-Tqd" id="YB1-nX-aGW"/>
-                        <outlet property="currentStepsLabel" destination="ogH-RS-Uap" id="AVg-kk-Bg6"/>
-                        <outlet property="currentdurationLabel" destination="mZT-6p-5f5" id="Ede-5K-JJm"/>
+                        <outlet property="distanceLabel" destination="mAF-oD-nqf" id="yaD-57-1Bg"/>
+                        <outlet property="durationLabel" destination="mZT-6p-5f5" id="Ede-5K-JJm"/>
                         <outlet property="finishButton" destination="GHm-ZZ-0gs" id="X6Y-fd-Iyf"/>
                         <outlet property="stepTitleLabel" destination="ahh-vp-2MK" id="Wap-Ib-Ujt"/>
+                        <outlet property="stepsLabel" destination="ogH-RS-Uap" id="AVg-kk-Bg6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgU-34-FiD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -481,9 +480,6 @@
         </systemColor>
         <systemColor name="systemGray4Color">
             <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

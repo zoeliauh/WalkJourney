@@ -70,7 +70,7 @@ class DetailRecordViewController: UIViewController {
     var indexPath: IndexPath?
     
     var path = GMSMutablePath()
-    
+        
     var walkDate: String?
     
     var walkTime: String?
@@ -200,13 +200,13 @@ extension DetailRecordViewController: CLLocationManagerDelegate {
             path.addLatitude(latitudeArr[index], longitude: longitudeArr[index])
         
         let polyline = GMSPolyline(path: path)
-        
+
                 polyline.strokeWidth = 2
-                
+
             polyline.strokeColor = UIColor.hexStringToUIColor(hex: "#43b4f6")
-                
+
                 polyline.geodesic = true
-                
+
                 polyline.map = self.trackingMapView
         }
     }

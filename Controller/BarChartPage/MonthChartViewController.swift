@@ -110,7 +110,7 @@ class MonthChartViewController: UIViewController {
         
         dateFormat.dateFormat = "yyyy.MM"
         
-        RecordAfterWalkingManager.shared.fetchMonthRecord(calenderDay: dateFormat.string(from: selectedDay)) { [weak self] result in
+        RecordManager.shared.fetchMonthRecord(calenderDay: dateFormat.string(from: selectedDay)) { [weak self] result in
             switch result {
                 
             case .success(let stepData):
@@ -189,7 +189,7 @@ class MonthChartViewController: UIViewController {
             
             let dataEntry = BarChartDataEntry(x: Double(doubleIndex),
                                               y: Double(stepsDic["\(index)"] ?? 0))
-            print(stepsDic)
+
             dataEntries.append(dataEntry)
         }
         

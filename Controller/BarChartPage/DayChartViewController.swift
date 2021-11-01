@@ -87,7 +87,7 @@ class DayChartViewController: UIViewController {
         
         dateFormat.dateFormat = "yyyy.MM.dd"
 
-        RecordAfterWalkingManager.shared.fetchDateRecord(calenderDay: dateFormat.string(from: selectedDay)) { [weak self] result in
+        RecordManager.shared.fetchDateRecord(calenderDay: dateFormat.string(from: selectedDay)) { [weak self] result in
             switch result {
                 
             case .success(let stepData):
