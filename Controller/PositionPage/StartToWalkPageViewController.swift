@@ -51,9 +51,21 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     var distanceSum: Double = 0
     
     var newRecord: (() -> Void)?
+        
+    var eachLatitude: [CLLocationDegrees] = []
     
-    var screenshotImageView = UIImageView()
+    var eachLongitude: [CLLocationDegrees] = []
     
+    var certainLat: [CLLocationDegrees] = []
+    
+    var certainLong: [CLLocationDegrees] = []
+    
+    var date: String = ""
+    
+    var year: String = ""
+    
+    var month: String = ""
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,20 +91,12 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     }
     
     @IBAction func finishButtonPressed(_ sender: UIButton!) {
-        
-        finishButton.isHidden = true
-        
-        stepTitleLabel.text = "步數"
-        
-        let screenshotImage = self.view.takeScreenshot()
-        
-        screenshotImageView.image = screenshotImage
-                
+                                        
         createNewRecord()
         
         locationManager.stopUpdatingLocation()
         
-        self.dismiss(animated: true, completion: nil)
+        successMessage()
     }
     
     @objc func timerCounter() {
@@ -114,13 +118,13 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         currentRouteMapView.isMyLocationEnabled = true
     }
-    
+    // swiftlint:disable line_length
     func createNewRecord() {
-        
-        guard let currentDistance = currentDistanceLabel.text, let currentduration = currentdurationLabel.text, let currentSteps = currentStepsLabel.text else { return }
+
+            guard let currentDistance = currentDistanceLabel.text, let currentduration = currentdurationLabel.text, let currentSteps = currentStepsLabel.text else { return }
         guard let numberOfStep = Int(currentSteps) else { return }
-                
-        RecordAfterWalkingManager.shared.addNewRecord(distanceOfWalk: currentDistance, durationOfTime: currentduration, numberOfStep: numberOfStep, screenshot: screenshotImageView) { result in
+
+        RecordAfterWalkingManager.shared.addNewRecord(distanceWalk: currentDistance, durationTime: currentduration, numStep: numberOfStep, latitude: certainLat, longitude: certainLong, date: date, year: year, month: month) { result in
             
             switch result {
                 
@@ -174,18 +178,48 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         return timeString
     }
+    
+    func finishedMessage() {
+        
+        let controller = UIAlertController(title: nil,
+                                           message: "已成功儲存至足跡",
+                                           preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "確定", style: .default, handler: nil)
+        controller.addAction(okAction)
+        present(controller, animated: true, completion: nil)
+    }
 }
 
 extension StartToWalkPageViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+                
         if let location = locations.last {
             
             currentRouteMapView.camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 16)
             
             path.addLatitude(location.coordinate.latitude, longitude: location.coordinate.longitude)
             
+            eachLatitude.append(location.coordinate.latitude)
+            
+            eachLongitude.append(location.coordinate.longitude)
+            
+            print(eachLongitude.count)
+            
+            if eachLatitude.count == 1 {
+                
+                certainLat.append(location.coordinate.latitude)
+                
+                certainLong.append(location.coordinate.longitude)
+            }
+                        
+            if eachLatitude.count % 8 == 0 {
+                
+                certainLat.append(location.coordinate.latitude)
+                
+                certainLong.append(location.coordinate.longitude)
+            }
+                                    
             let polyline = GMSPolyline(path: path)
             
             polyline.strokeWidth = 2
@@ -215,5 +249,16 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
         manager.stopUpdatingLocation()
         
         print("Error: \(error)")
+    }
+    
+    func successMessage() {
+        
+        let controller = UIAlertController(title: nil,
+                                           message: "已成功儲存至足跡裡",
+                                           preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "確定", style: .default) { (action: UIAlertAction) in self.dismiss(animated: true, completion: nil)
+        }
+        controller.addAction(okAction)
+        present(controller, animated: true, completion: nil)
     }
 }

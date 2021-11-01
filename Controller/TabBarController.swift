@@ -9,7 +9,9 @@ import UIKit
 
 class TabBarController: UITabBarController {
         
-    let mapChosenvc = UIStoryboard.position.instantiateViewController(withIdentifier: "MapChosenViewController")
+//    let mapChosenvc = UIStoryboard.position.instantiateViewController(withIdentifier: "MapChosenViewController")
+    
+    let startPagevc = UIStoryboard.position.instantiateViewController(withIdentifier: "StartPageViewController")
     
     let recordvc = UIStoryboard.record.instantiateViewController(withIdentifier: "Record")
 
@@ -26,7 +28,9 @@ class TabBarController: UITabBarController {
 
     func setupTabBar() {
         
-        let mapChosennav = UINavigationController(rootViewController: mapChosenvc)
+//        let mapChosennav = UINavigationController(rootViewController: mapChosenvc)
+        
+        let startPagevc = UINavigationController(rootViewController: startPagevc)
         
         let recordvc = UINavigationController(rootViewController: recordvc)
         
@@ -34,7 +38,7 @@ class TabBarController: UITabBarController {
         
         let profilevc = UINavigationController(rootViewController: profilevc)
         
-        self.setViewControllers([mapChosennav, recordvc, barChartvc, profilevc], animated: false)
+        self.setViewControllers([startPagevc, recordvc, barChartvc, profilevc], animated: false)
         
         self.tabBar.backgroundColor = .clear
         
@@ -43,20 +47,28 @@ class TabBarController: UITabBarController {
     
     func setupvcTitle() {
         
-        mapChosenvc.tabBarItem.image = UIImage(systemName: "house")
+        startPagevc.tabBarItem.image = UIImage(systemName: "house")
         
-        mapChosenvc.tabBarItem.selectedImage = UIImage(systemName: "house.fill")
+        startPagevc.tabBarItem.selectedImage = UIImage(systemName: "house.fill")
+        
+        startPagevc.tabBarItem.title = "首頁"
         
         recordvc.tabBarItem.image = UIImage(systemName: "doc.on.doc")
         
         recordvc.tabBarItem.selectedImage = UIImage(systemName: "doc.on.doc.fill")
         
+        recordvc.tabBarItem.title = "足跡"
+        
         barChartvc.tabBarItem.image = UIImage(systemName: "chart.bar")
         
         barChartvc.tabBarItem.selectedImage = UIImage(systemName: "chart.bar.fill")
         
+        barChartvc.tabBarItem.title = "紀錄"
+        
         profilevc.tabBarItem.image = UIImage(systemName: "person.circle")
         
         profilevc.tabBarItem.selectedImage = UIImage(systemName: "person.circle.fill")
+         
+        profilevc.tabBarItem.title = "會員"
     }
 }

@@ -44,8 +44,13 @@ class RecordViewController: UIViewController {
 
         return refreshControl
     }()
+                
+    var stepData: [StepData] = [] {
         
-    var stepData: [StepData] = []
+        didSet {
+            recordTableView.reloadData()
+        }
+    }
     
     var screenshotURL: [String] = []
             
@@ -65,11 +70,10 @@ class RecordViewController: UIViewController {
         super.viewWillAppear(animated)
 
         fetchRecordStepsData()
-        recordTableView.reloadData()
     }
     
     @objc func navDetailRecordVC(_ sender: UIButton) {
-        
+
         guard let detailRecordVC = UIStoryboard.record.instantiateViewController(withIdentifier: "DetailRecord") as? DetailRecordViewController else { return }
         
         navigationController?.pushViewController(detailRecordVC, animated: true)
@@ -83,13 +87,19 @@ class RecordViewController: UIViewController {
             case .success(let stepData):
 
                 self?.stepData = stepData
-                self?.recordTableView.reloadData()
                 
             case .failure(let error):
 
                 print("fetchStepsData.failure: \(error)")
             }
         }
+    }
+    
+    func deleteRecordStepsData(indexPath: IndexPath) {
+                
+        RecordAfterWalkingManager.shared.deleteRecord(stepData: stepData[indexPath.row])
+        stepData.remove(at: indexPath.row)
+        recordTableView.deleteRows(at: [indexPath], with: .fade)
     }
         
         func refreshTableView() {
@@ -150,7 +160,7 @@ class RecordViewController: UIViewController {
             recordTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             recordTableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             recordTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80)
         ])
     }
 }
@@ -186,8 +196,30 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
         
         guard let detailRecordVC = UIStoryboard.record.instantiateViewController(withIdentifier: "DetailRecord") as? DetailRecordViewController else { return }
         
-        detailRecordVC.screenshotURL = stepData[indexPath.row].screenshot
+        detailRecordVC.latitudeArr = stepData[indexPath.row].latitude
+        detailRecordVC.longitudeArr = stepData[indexPath.row].longitude
+        detailRecordVC.walkDate = Date.dateFormatter.string(from: Date.init(milliseconds: stepData[indexPath.row].createdTime ?? Int64(0.0)))
+        detailRecordVC.walkTime = stepData[indexPath.row].durationOfTime
+        detailRecordVC.walkStep = stepData[indexPath.row].numberOfSteps
+        detailRecordVC.walkDistance = stepData[indexPath.row].distanceOfWalk
         
         self.navigationController?.pushViewController(detailRecordVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            tableView.beginUpdates()
+                        
+            deleteRecordStepsData(indexPath: indexPath)
+                                    
+            tableView.endUpdates()
+        }
     }
 }
