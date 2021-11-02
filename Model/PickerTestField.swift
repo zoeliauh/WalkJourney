@@ -7,15 +7,17 @@
 
 import UIKit
 
-typealias PickerTestFieldDisplayNameHandler = ((Any) -> String)
-typealias PickerTestFidleItemSelectionHandler = ((Int, Any) -> Void)
+typealias PickerTestFieldDisplayNameHandler = ((String) -> String)
+typealias PickerTestFidleItemSelectionHandler = ((Int, String) -> Void)
 
 final class PickerTestField: UITextField {
     
     private let pickerView = UIPickerView(frame: .zero)
-    private var lastSelectedRow: Int?
+    private var lastYearSelectedRow: Int = 0
+    private var lastMonthSelectedRow: Int = 0
     
-    public var pickerDates: [Any] = []
+    public var pickerYear: [String] = []
+    public var pickerMonth: [String] = []
     public var displayNameHandle: PickerTestFieldDisplayNameHandler?
     public var itemSelectionHandler: PickerTestFidleItemSelectionHandler?
     
@@ -37,45 +39,53 @@ final class PickerTestField: UITextField {
     
     private func updateTest() {
         
-        if self.lastSelectedRow == nil {
-            
-            self.lastSelectedRow = 0
-        }
-        
-        guard let lastSelectedRow = lastSelectedRow else { return }
-        
-        if lastSelectedRow > self.pickerDates.count {
-            
-            return
-        }
-        
-        let data = self.pickerDates[lastSelectedRow]
-        self.text = self.displayNameHandle?(data)
+        let yearData = self.pickerYear[lastYearSelectedRow]
+        let monthData = self.pickerMonth[lastMonthSelectedRow]
+        self.text = self.displayNameHandle?("\(yearData) \(monthData)")
     }
 }
 
 extension PickerTestField: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    
-        let data = self.pickerDates[row]
+        if component == 0 {
+        let data = self.pickerYear[row]
         return self.displayNameHandle?(data)
+        } else {
+        let data = self.pickerMonth[row]
+        return self.displayNameHandle?(data)
+        }
     }
 }
 
 extension PickerTestField: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        return 2
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.pickerDates.count
+        if component == 0 {
+            return self.pickerYear.count
+        }
+        
+        return self.pickerMonth.count
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.lastSelectedRow = row
-        self.updateTest()
-        let data = self.pickerDates[row]
-        self.itemSelectionHandler?(row, data)
+        
+        if component == 0 {
+            
+            self.lastYearSelectedRow = row
+            self.updateTest()
+            let data = self.pickerYear[row]
+            self.itemSelectionHandler?(row, data)
+            
+        } else if component == 1 {
+            
+            self.lastMonthSelectedRow = row
+            self.updateTest()
+            let data = self.pickerMonth[row]
+            self.itemSelectionHandler?(row, data)
+        }
     }
 }

@@ -30,14 +30,6 @@ class LoginViewController: UIViewController {
     var location: CLLocation?
     var isUpdatingLocation = false
     var lastLocationError: Error?
-    func updateUI() {
-        
-        if let location = location {
-            // TODO: populate the location labels wiht coordinate info
-        } else {
-//            myLabel.text = "check location"
-        }
-    }
     
         // MARK: - Target / Action
     
@@ -59,7 +51,9 @@ class LoginViewController: UIViewController {
     }
     
     func reportLocationServicesDeniedError() {
-        let alert = UIAlertController(title: "Oops! Location Services Disabled.", message: "Please go to Settings > Provacy to enable location services for this app.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Oops! Location Services Disabled.",
+                                      message: "Please go to Settings to enable location services for this app.",
+                                      preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         

@@ -46,7 +46,9 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     
     @IBAction func startButtonPressed(_ sender: UIButton) {
         
-        guard let startToWalkPagevc = UIStoryboard.position.instantiateViewController(withIdentifier: "StartToWalkPage") as? StartToWalkPageViewController else { return }
+        guard let startToWalkPagevc = UIStoryboard.position.instantiateViewController(
+            withIdentifier: "StartToWalkPage"
+        ) as? StartToWalkPageViewController else { return }
         
         startToWalkPagevc.currentLocation = currentLocation
     }
@@ -79,7 +81,8 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     
     func createLocation() {
         
-        CountingStepManager.shared.addNewLocation(latitude: currentLocation[0], longitude: currentLocation[1]) { result in
+        CountingStepManager.shared.addNewLocation(latitude: currentLocation[0],
+                                                  longitude: currentLocation[1]) { result in
             
             switch result {
                 
@@ -98,7 +101,9 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     
     func reportLocationServicesDeniedError() {
         
-        let alert = UIAlertController(title: "Oops! Location Services Disabled.", message: "Please go to Settings to enable location services for this app.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Oops! Location Services Disabled.",
+                                      message: "Please go to Settings to enable location services for this app.",
+                                      preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         
@@ -175,7 +180,9 @@ extension MapSearchingPageViewController: ResultsViewControllerDelegate {
         
         searchVC.dismiss(animated: true, completion: nil)
         
-        camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude, longitude: coordinate.longitude, zoom: 16.0)
+        camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude,
+                                          longitude: coordinate.longitude,
+                                          zoom: 16.0)
                 
         marker.position = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         

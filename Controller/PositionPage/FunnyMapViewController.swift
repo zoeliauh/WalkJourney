@@ -33,25 +33,34 @@ class FunnyMapViewController: UIViewController {
 
 extension FunnyMapViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return shapeMapExample.shapeArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = funnyMapTableView.dequeueReusableCell(withIdentifier: "FunnyMapTableViewCell", for: indexPath) as? FunnyMapTableViewCell else { fatalError("can not dequeue cell") }
+        guard let cell = funnyMapTableView.dequeueReusableCell(
+            withIdentifier: "FunnyMapTableViewCell", for: indexPath
+        ) as? FunnyMapTableViewCell else { fatalError("can not dequeue cell") }
         
         cell.shapeImageView.image = shapeMapExample.shapeArr[indexPath.row]
+        
         cell.goButton.tag = indexPath.row
+        
         cell.goButton.addTarget(self, action: #selector(goButtonPressed), for: .touchUpInside)
 
         let selectedBackGroundView = UIView()
+        
         cell.selectedBackgroundView = selectedBackGroundView
+        
         cell.selectedBackgroundView?.backgroundColor = .clear
         
         return cell
     }
     
     @objc func goButtonPressed() {
-        guard let mapSearchingPagevc = UIStoryboard.position.instantiateViewController(withIdentifier: "MapSearchingPage") as? MapSearchingPageViewController else { return }
+        guard let mapSearchingPagevc = UIStoryboard.position.instantiateViewController(
+            withIdentifier: "MapSearchingPage"
+        ) as? MapSearchingPageViewController else { return }
         
         self.navigationController?.pushViewController(mapSearchingPagevc, animated: true)
     }

@@ -20,7 +20,7 @@ class RecordViewController: UIViewController {
     lazy var headerTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 30)
+        label.font = UIFont.kleeOneSemiBold(ofSize: 30)
         label.text = "歷史紀錄"
         label.textAlignment = .center
         return label
@@ -74,7 +74,9 @@ class RecordViewController: UIViewController {
     
     @objc func navDetailRecordVC(_ sender: UIButton) {
 
-        guard let detailRecordVC = UIStoryboard.record.instantiateViewController(withIdentifier: "DetailRecord") as? DetailRecordViewController else { return }
+        guard let detailRecordVC = UIStoryboard.record.instantiateViewController(
+            withIdentifier: "DetailRecord"
+        ) as? DetailRecordViewController else { return }
         
         navigationController?.pushViewController(detailRecordVC, animated: true)
     }
@@ -168,10 +170,12 @@ class RecordViewController: UIViewController {
 extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
         UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return stepData.count
     }
     
@@ -204,12 +208,17 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
         ) as? DetailRecordViewController else { return }
         
         detailRecordVC.latitudeArr = stepData[indexPath.row].latitude
+        
         detailRecordVC.longitudeArr = stepData[indexPath.row].longitude
+        
         detailRecordVC.walkDate = Date.dateFormatter.string(
             from: Date.init(milliseconds: stepData[indexPath.row].createdTime ?? Int64(0.0)
                            ))
+        
         detailRecordVC.walkTime = stepData[indexPath.row].durationOfTime
+        
         detailRecordVC.walkStep = stepData[indexPath.row].numberOfSteps
+        
         detailRecordVC.walkDistance = stepData[indexPath.row].distanceOfWalk
         
         self.navigationController?.pushViewController(detailRecordVC, animated: true)
@@ -221,7 +230,9 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
         return .delete
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
             

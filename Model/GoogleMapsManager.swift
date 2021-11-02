@@ -46,7 +46,10 @@ struct GoogleMapsManager {
         
         let marker = GMSMarker()
         
-        marker.position = CLLocationCoordinate2D(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude)
+        marker.position = CLLocationCoordinate2D(
+            latitude: lastLocation.coordinate.latitude,
+            longitude: lastLocation.coordinate.longitude
+        )
                 
         mapView.camera = camera
         

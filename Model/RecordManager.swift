@@ -22,8 +22,9 @@ class RecordManager {
     // read
     func fetchRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection("stepData").order(by: "createdTime", descending: true).getDocuments()
-        { (querySnapshot, error) in
+        db.collection("stepData").order(
+            by: "createdTime",
+            descending: true).getDocuments { (querySnapshot, error) in
             
             if let error = error {
                 
@@ -53,7 +54,8 @@ class RecordManager {
     // read certain day data
     func fetchDateRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection("stepData").whereField("date", isEqualTo: calenderDay).getDocuments() { (querySnapshot, error) in
+        db.collection("stepData").whereField("date", isEqualTo: calenderDay
+        ).getDocuments { (querySnapshot, error) in
             
             if let error = error {
                 completion(.failure(error))
@@ -82,8 +84,8 @@ class RecordManager {
     // read certain month data
     func fetchMonthRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection("stepData").whereField("month", isEqualTo: calenderDay).getDocuments()
-        { (querySnapshot, error) in
+        db.collection("stepData").whereField("month", isEqualTo: calenderDay
+        ).getDocuments { (querySnapshot, error) in
             
             if let error = error {
                 completion(.failure(error))
@@ -111,8 +113,8 @@ class RecordManager {
     // read certain year data
     func fetchYearRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection("stepData").whereField("Year", isEqualTo: calenderDay).getDocuments()
-        { (querySnapshot, error) in
+        db.collection("stepData").whereField("Year", isEqualTo: calenderDay
+        ).getDocuments { (querySnapshot, error) in
             
             if let error = error {
                 completion(.failure(error))

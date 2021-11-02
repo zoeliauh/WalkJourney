@@ -38,13 +38,17 @@ class MapChosenViewController: UIViewController {
     }
  
     @IBAction func walkYourselfButtonPressed(_ sender: UIButton) {
-        guard let mapSearchingPagevc = UIStoryboard.position.instantiateViewController(withIdentifier: "MapSearchingPage") as? MapSearchingPageViewController else { return }
+        guard let mapSearchingPagevc = UIStoryboard.position.instantiateViewController(
+            withIdentifier: "MapSearchingPage"
+        ) as? MapSearchingPageViewController else { return }
         
         self.navigationController?.pushViewController(mapSearchingPagevc, animated: true)
     }
     
     @IBAction func walkFunButtonPressed(_ sender: UIButton) {
-        guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(withIdentifier: "FunnyMapPage") as? FunnyMapViewController else { return }
+        guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
+            withIdentifier: "FunnyMapPage"
+        ) as? FunnyMapViewController else { return }
         
         self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
     }

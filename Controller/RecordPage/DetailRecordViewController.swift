@@ -21,7 +21,7 @@ class DetailRecordViewController: UIViewController {
     lazy var headerTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 25)
+        label.font = UIFont.kleeOneRegular(ofSize: 25)
         label.text = walkDate
         label.textAlignment = .center
         return label
@@ -30,7 +30,7 @@ class DetailRecordViewController: UIViewController {
     lazy var walkTimeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.kleeOneRegular(ofSize: 20)
         label.text = walkTime
         label.textAlignment = .center
         return label
@@ -39,7 +39,7 @@ class DetailRecordViewController: UIViewController {
     lazy var walkStepLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.kleeOneRegular(ofSize: 20)
         label.text = "走了 \(walkStep ?? 0) 步"
         label.textAlignment = .center
         return label
@@ -48,7 +48,7 @@ class DetailRecordViewController: UIViewController {
     lazy var walkDistanceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.kleeOneRegular(ofSize: 20)
         label.text = walkDistance
         label.textAlignment = .center
         return label
@@ -91,7 +91,46 @@ class DetailRecordViewController: UIViewController {
         setupBackIcon()
         locationManager(locationManager, latitude: latitudeArr, longitude: longitudeArr)
     }
+    
+    private func setupBackIcon() {
+        let backButtonImage = UIImage(named: "Icons_24px_Back02")?.withRenderingMode(.alwaysOriginal)
+        self.navigationController?.navigationBar.backIndicatorImage = backButtonImage
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButtonImage
+        self.navigationController?.navigationBar.topItem?.title = ""
+    }
+}
 
+extension DetailRecordViewController: CLLocationManagerDelegate {
+
+    func locationManager(_ manager: CLLocationManager, latitude: [CLLocationDegrees], longitude: [CLLocationDegrees]) {
+        
+        trackingMapView.camera = GMSCameraPosition.camera(withLatitude: latitude[0], longitude: longitude[0], zoom: 16)
+                        
+        for index in 0..<latitude.count {
+            
+            path.addLatitude(latitudeArr[index], longitude: longitudeArr[index])
+        
+        let polyline = GMSPolyline(path: path)
+
+                polyline.strokeWidth = 2
+
+            polyline.strokeColor = UIColor.hexStringToUIColor(hex: "#43b4f6")
+
+                polyline.geodesic = true
+
+                polyline.map = self.trackingMapView
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        
+        manager.stopUpdatingLocation()
+        
+        print("Error: \(error)")
+    }
+}
+
+extension DetailRecordViewController {
     // MARK: - UI design
     private func setupHeader() {
         
@@ -179,42 +218,5 @@ class DetailRecordViewController: UIViewController {
             trackingMapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             trackingMapView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80)
         ])
-    }
-    
-    private func setupBackIcon() {
-        let backButtonImage = UIImage(named: "Icons_24px_Back02")?.withRenderingMode(.alwaysOriginal)
-        self.navigationController?.navigationBar.backIndicatorImage = backButtonImage
-        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButtonImage
-        self.navigationController?.navigationBar.topItem?.title = ""
-    }
-}
-
-extension DetailRecordViewController: CLLocationManagerDelegate {
-
-    func locationManager(_ manager: CLLocationManager, latitude: [CLLocationDegrees], longitude: [CLLocationDegrees]) {
-        
-        trackingMapView.camera = GMSCameraPosition.camera(withLatitude: latitude[0], longitude: longitude[0], zoom: 16)
-                        
-        for index in 0..<latitude.count {
-            
-            path.addLatitude(latitudeArr[index], longitude: longitudeArr[index])
-        
-        let polyline = GMSPolyline(path: path)
-
-                polyline.strokeWidth = 2
-
-            polyline.strokeColor = UIColor.hexStringToUIColor(hex: "#43b4f6")
-
-                polyline.geodesic = true
-
-                polyline.map = self.trackingMapView
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
-        manager.stopUpdatingLocation()
-        
-        print("Error: \(error)")
     }
 }

@@ -24,7 +24,7 @@ class ProfileViewController: UIViewController {
         
         let label = UILabel()
         label.text = "Zoe"
-        label.font = UIFont.systemFont(ofSize: 30)
+        label.font = UIFont.kleeOneRegular(ofSize: 30)
         label.tintColor = .black
        return label
     }()
@@ -65,7 +65,6 @@ class ProfileViewController: UIViewController {
     }
     
     // MARK: UI design
-    
     private func setupProfileImageView() {
         
         view.addSubview(profileImageView)
@@ -139,7 +138,9 @@ class ProfileViewController: UIViewController {
         }
     
     @objc func funnyMapGame(_ sender: UIButton!) {
-        guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(withIdentifier: "FunnyMapPage") as? FunnyMapViewController else { return }
+        guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
+            withIdentifier: "FunnyMapPage"
+        ) as? FunnyMapViewController else { return }
         
         self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
     }
