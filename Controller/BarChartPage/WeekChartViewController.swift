@@ -14,7 +14,7 @@ class WeekChartViewController: UIViewController {
         
         let label = UILabel()
         label.text = "平均步數 (天)"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.kleeOneRegular(ofSize: 20)
         label.textColor = .gray
         label.textAlignment = .left
         return label
@@ -24,7 +24,7 @@ class WeekChartViewController: UIViewController {
         
         let label = UILabel()
         label.text = "5968"
-        label.font = UIFont.systemFont(ofSize: 40)
+        label.font = UIFont.kleeOneRegular(ofSize: 40)
         label.textColor = .black
         label.textAlignment = .left
         return label
@@ -34,7 +34,7 @@ class WeekChartViewController: UIViewController {
         
         let label = UILabel()
         label.text = "步"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.kleeOneRegular(ofSize: 20)
         label.textColor = .gray
         label.textAlignment = .left
         return label
