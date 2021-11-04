@@ -30,9 +30,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .white
-                
+                        
         GoogleMapsManager.initLocationManager(locationManager, delegate: self)
         
         setupSearchVC()

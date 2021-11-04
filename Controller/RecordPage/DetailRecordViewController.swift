@@ -79,6 +79,8 @@ class DetailRecordViewController: UIViewController {
     
     var walkDistance: String?
     
+    var tabbarHeight: CGFloat? = 0.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -87,9 +89,13 @@ class DetailRecordViewController: UIViewController {
         setupWalkTimeLabel()
         setupWalkStepLabel()
         setupWalkDistanceLabel()
-        setuptrackingMapView()
         setupBackIcon()
         locationManager(locationManager, latitude: latitudeArr, longitude: longitudeArr)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        tabbarHeight = self.tabBarController?.tabBar.frame.height
+        setuptrackingMapView()
     }
     
     private func setupBackIcon() {
@@ -216,7 +222,7 @@ extension DetailRecordViewController {
             trackingMapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trackingMapView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 100),
             trackingMapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            trackingMapView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80)
+            trackingMapView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabbarHeight ?? 49.0))
         ])
     }
 }

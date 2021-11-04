@@ -34,6 +34,8 @@ class RecordViewController: UIViewController {
         table.rowHeight = UITableView.automaticDimension
         table.register(RecordTableViewCell.self, forCellReuseIdentifier: RecordTableViewCell.identifier)
         table.reloadData()
+        table.layoutIfNeeded()
+
         return table
     }()
     
@@ -53,15 +55,15 @@ class RecordViewController: UIViewController {
     }
     
     var screenshotURL: [String] = []
+    
+    var tabbarHeight: CGFloat? = 0.0
             
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
 
         setupHeader()
-        setupHeaderTitleLabel()
-        setupRecordTableView()
-        
+        setupHeaderTitleLabel()        
         fetchRecordStepsData()
         refreshTableView()
     }
@@ -72,11 +74,30 @@ class RecordViewController: UIViewController {
         fetchRecordStepsData()
     }
     
+    override func viewDidLayoutSubviews() {
+        tabbarHeight = self.tabBarController?.tabBar.frame.height
+        setupRecordTableView()
+    }
+
     @objc func navDetailRecordVC(_ sender: UIButton) {
 
         guard let detailRecordVC = UIStoryboard.record.instantiateViewController(
             withIdentifier: "DetailRecord"
         ) as? DetailRecordViewController else { return }
+        
+        detailRecordVC.latitudeArr = stepData[sender.tag].latitude
+        
+        detailRecordVC.longitudeArr = stepData[sender.tag].longitude
+        
+        detailRecordVC.walkDate = Date.dateFormatter.string(
+            from: Date.init(milliseconds: stepData[sender.tag].createdTime ?? Int64(0.0)
+                           ))
+        
+        detailRecordVC.walkTime = stepData[sender.tag].durationOfTime
+        
+        detailRecordVC.walkStep = stepData[sender.tag].numberOfSteps
+        
+        detailRecordVC.walkDistance = stepData[sender.tag].distanceOfWalk
         
         navigationController?.pushViewController(detailRecordVC, animated: true)
     }
@@ -162,7 +183,7 @@ class RecordViewController: UIViewController {
             recordTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             recordTableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             recordTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80)
+            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabbarHeight ?? 49.0))
         ])
     }
 }
