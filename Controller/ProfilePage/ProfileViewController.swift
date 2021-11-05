@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 import Lottie
 
 class ProfileViewController: UIViewController {
@@ -46,6 +47,24 @@ class ProfileViewController: UIViewController {
         return button
     }()
     
+    lazy var logoutButton: UIButton = {
+        
+        let button = UIButton()
+        let myAttribute: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.font: UIFont.kleeOneRegular(ofSize: 24),
+        ]
+        let myAttributeString = NSAttributedString(string: "登出", attributes: myAttribute)
+        
+        button.backgroundColor = UIColor.DarkCeladon
+        button.tintColor = UIColor.white
+        button.layer.cornerRadius = 10
+        button.setTitle("登出", for: .normal)
+        button.titleLabel?.attributedText = myAttributeString
+        button.layoutIfNeeded()
+        button.addTarget(self, action: #selector(logOutAction(_:)), for: .touchUpInside)
+        return button
+    }()
+    
     lazy var animationView: AnimationView = {
             
             var animationView = AnimationView()
@@ -54,6 +73,8 @@ class ProfileViewController: UIViewController {
             return animationView
     }()
     
+    var tabbarHeight: CGFloat? = 0.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,7 +82,49 @@ class ProfileViewController: UIViewController {
         setupNameLabel()
         setupRankImageView()
         setupChallengeButton()
-        setupLottie()
+//        setupLogoutButton()
+//        setupLottie()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        tabbarHeight = self.tabBarController?.tabBar.frame.height
+        setupLogoutButton()
+    }
+    
+    @objc func logOutAction(_ sender: UIButton) {
+                
+        let controller = UIAlertController(title: nil, message: "確定要登出嗎?", preferredStyle: .alert)
+
+        let okAction = UIAlertAction(title: "確定", style: .default) { _ in
+            
+            do {
+                
+                try Auth.auth().signOut()
+                
+                guard let loginVC = UIStoryboard.position.instantiateViewController(
+                    withIdentifier: "LoginViewController"
+                ) as? LoginViewController else { return }
+                                
+                loginVC.modalPresentationStyle = .fullScreen
+
+                self.present(loginVC, animated: true, completion: nil)
+                
+                print("logout")
+                
+            } catch let signOutError as NSError {
+                
+               print("Error signing out: \(signOutError)")
+                
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        
+        controller.addAction(okAction)
+        
+        controller.addAction(cancelAction)
+        
+        present(controller, animated: true, completion: nil)
     }
     
     // MARK: UI design
@@ -122,6 +185,21 @@ class ProfileViewController: UIViewController {
         ])
     }
     
+    private func setupLogoutButton() {
+        
+        view.addSubview(logoutButton)
+        
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            logoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            logoutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabbarHeight ?? 49.0) - 10),
+            logoutButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
     private func setupLottie() {
             
             view.addSubview(animationView)
@@ -141,7 +219,7 @@ class ProfileViewController: UIViewController {
         guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
             withIdentifier: "FunnyMapPage"
         ) as? FunnyMapViewController else { return }
-        
+
         self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
     }
 }

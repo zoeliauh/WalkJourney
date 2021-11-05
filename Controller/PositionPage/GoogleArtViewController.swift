@@ -37,9 +37,7 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     @IBOutlet weak var timeLabel: UILabel!
     
     @IBOutlet weak var distanceLabel: UILabel!
-    
-//    @IBOutlet weak var routeSampleImageView: UIImageView!
-    
+        
     @IBOutlet weak var googleArtMapView: GMSMapView!
     
     var locationManager = CLLocationManager()
@@ -91,7 +89,7 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
         
         countSteps()
         
-        setupTestImageView()
+        setupRouteSampleImageView()
                 
         self.tabBarController?.tabBar.isHidden = true
         
@@ -143,7 +141,7 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
         googleArtMapView.isMyLocationEnabled = true
     }
     
-    private func setupTestImageView() {
+    private func setupRouteSampleImageView() {
         
         view.addSubview(routeSampleImageView)
         
@@ -151,10 +149,10 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
         
         NSLayoutConstraint.activate([
         
-            routeSampleImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            routeSampleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            routeSampleImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20),
             routeSampleImageView.widthAnchor.constraint(equalToConstant: 150),
-            routeSampleImageView.heightAnchor.constraint(equalToConstant: 150),
-            routeSampleImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -79)
+            routeSampleImageView.heightAnchor.constraint(equalToConstant: 150)
         ])
     }
     
@@ -199,7 +197,7 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
 extension GoogleArtViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-                
+        
         if let location = locations.last {
             
             googleArtMapView.camera = GMSCameraPosition.camera(

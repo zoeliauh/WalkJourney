@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,7 +26,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="Celadon"/>
                         <constraints>
                             <constraint firstItem="Lpd-BV-qjq" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="J0R-7r-Dqe"/>
                             <constraint firstItem="Lpd-BV-qjq" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="NW1-hr-0UZ"/>
@@ -39,5 +40,8 @@
     </scenes>
     <resources>
         <image name="WJLogo_circle" width="83" height="85"/>
+        <namedColor name="Celadon">
+            <color red="0.63137254901960782" green="0.8901960784313725" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

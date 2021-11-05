@@ -101,7 +101,7 @@ class WeekChartViewController: UIViewController {
     
     func setupWeekChartDate(stepDataArr: [StepData]) {
         
-        var stepsDataDict: [String: Int] = {
+        let stepsDataDict: [String: Int] = {
             
             var dict: [String: Int] = [:]
             

@@ -8,9 +8,7 @@
 import UIKit
 
 class FunnyMapTableViewCell: UITableViewCell {
-    
-//    @IBOutlet weak var mapView: UIView!
-    
+        
     @IBOutlet weak var goButton: UIButton!
     
     @IBOutlet weak var shapeImageView: UIImageView!
