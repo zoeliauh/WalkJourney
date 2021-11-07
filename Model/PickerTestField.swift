@@ -49,11 +49,11 @@ extension PickerTestField: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if component == 0 {
-        let data = self.pickerYear[row]
-        return self.displayNameHandle?(data)
+            let data = self.pickerYear[row]
+            return self.displayNameHandle?(data)
         } else {
-        let data = self.pickerMonth[row]
-        return self.displayNameHandle?(data)
+            let data = self.pickerMonth[row]
+            return self.displayNameHandle?(data)
         }
     }
 }
@@ -65,6 +65,7 @@ extension PickerTestField: UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if component == 0 {
+            
             return self.pickerYear.count
         }
         

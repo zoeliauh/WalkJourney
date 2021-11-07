@@ -11,6 +11,33 @@ import Lottie
 
 class ProfileViewController: UIViewController {
     
+    lazy var nameLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Zoe"
+        label.font = UIFont.kleeOneRegular(ofSize: 30)
+        label.tintColor = .black
+        label.textAlignment = .left
+       return label
+    }()
+    
+    lazy var searchButton: UIButton = {
+        
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        return button
+    }()
+    
+    lazy var profileBackGroundImageView: UIImageView = {
+        
+        let imageView = UIImageView()
+        imageView.backgroundColor = .systemGray6
+        imageView.layer.cornerRadius = 35
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+       return imageView
+    }()
+    
     lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
@@ -18,17 +45,10 @@ class ProfileViewController: UIViewController {
         imageView.layer.cornerRadius = 35
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+        imageView.layer.borderColor = UIColor.white.cgColor
        return imageView
     }()
-
-    lazy var nameLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = "Zoe"
-        label.font = UIFont.kleeOneRegular(ofSize: 30)
-        label.tintColor = .black
-       return label
-    }()
+    
     // need to be stack view??
     lazy var rankImageView: UIImageView = {
         
@@ -51,11 +71,11 @@ class ProfileViewController: UIViewController {
         
         let button = UIButton()
         let myAttribute: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.kleeOneRegular(ofSize: 24),
+            NSAttributedString.Key.font: UIFont.kleeOneRegular(ofSize: 24)
         ]
         let myAttributeString = NSAttributedString(string: "登出", attributes: myAttribute)
         
-        button.backgroundColor = UIColor.DarkCeladon
+        button.backgroundColor = UIColor.C4
         button.tintColor = UIColor.white
         button.layer.cornerRadius = 10
         button.setTitle("登出", for: .normal)
@@ -75,20 +95,49 @@ class ProfileViewController: UIViewController {
     
     var tabbarHeight: CGFloat? = 0.0
     
+    var userInfo: User?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupProfileImageView()
+        self.tabBarController?.tabBar.backgroundImage =  UIImage()
+        
         setupNameLabel()
+        setupSearchButton()
+        setupProfileBackGroundImageView()
+        setupProfileImageView()
         setupRankImageView()
         setupChallengeButton()
-//        setupLogoutButton()
-//        setupLottie()
+        
+        fetchUserInfo()
     }
     
     override func viewDidLayoutSubviews() {
         tabbarHeight = self.tabBarController?.tabBar.frame.height
         setupLogoutButton()
+    }
+    
+    func fetchUserInfo() {
+        
+//        guard let userInfo = userInfo else { return }
+        
+        UserManager.shared.fetchUserInfo(uesrID: "tB90KGSNRFc9YWwqyAKFbar6QW32") { [weak self] result in
+            
+            switch result {
+                
+            case .success(let userInfo):
+                
+                self?.userInfo = userInfo
+                print(userInfo)
+                
+                self?.nameLabel.text = userInfo.username
+                
+            case .failure(let error):
+                
+                print("fetchStepsData.failure: \(error)")
+            }
+        }
+        
     }
     
     @objc func logOutAction(_ sender: UIButton) {
@@ -128,21 +177,7 @@ class ProfileViewController: UIViewController {
     }
     
     // MARK: UI design
-    private func setupProfileImageView() {
-        
-        view.addSubview(profileImageView)
-        
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35),
-            profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 35),
-            profileImageView.widthAnchor.constraint(equalToConstant: 70),
-            profileImageView.heightAnchor.constraint(equalToConstant: 70)
-        ])
-    }
-    
-    func setupNameLabel() {
+    private func setupNameLabel() {
         
         view.addSubview(nameLabel)
         
@@ -150,8 +185,53 @@ class ProfileViewController: UIViewController {
         
         NSLayoutConstraint.activate([
         
-            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 20),
-            nameLabel.topAnchor.constraint(equalTo: profileImageView.topAnchor)
+            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            nameLabel.widthAnchor.constraint(equalToConstant: view.frame.width)
+        ])
+    }
+    
+    private func setupSearchButton() {
+        
+        view.addSubview(searchButton)
+        
+        searchButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            searchButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            searchButton.widthAnchor.constraint(equalToConstant: 30),
+            searchButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+    
+    private func setupProfileBackGroundImageView() {
+        
+        view.addSubview(profileBackGroundImageView)
+        
+        profileBackGroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            profileBackGroundImageView.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            profileBackGroundImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 30),
+            profileBackGroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            profileBackGroundImageView.heightAnchor.constraint(equalToConstant: 150)
+        ])
+    }
+    
+    private func setupProfileImageView() {
+        
+        view.addSubview(profileImageView)
+        
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            profileImageView.centerYAnchor.constraint(equalTo: profileBackGroundImageView.bottomAnchor),
+            profileImageView.widthAnchor.constraint(equalToConstant: 70),
+            profileImageView.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
     

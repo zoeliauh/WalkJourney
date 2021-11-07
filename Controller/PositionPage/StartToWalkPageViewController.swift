@@ -65,9 +65,13 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     var year: String = ""
     
     var month: String = ""
-        
+    
+    var screenshotImageView = UIImageView()
+            
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupFinishButton()
         
         db = Firestore.firestore()
         
@@ -78,9 +82,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         GoogleMapsManager.initLocationManager(locationManager, delegate: self)
         
         currentRouteMapView.layer.cornerRadius = 20
-        
-        finishButton.layer.cornerRadius = 20
-        
+                
         defaultPosition()
     }
     
@@ -118,6 +120,15 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         currentRouteMapView.isMyLocationEnabled = true
     }
+    
+    private func setupFinishButton() {
+        
+        finishButton.layer.cornerRadius = 20
+        finishButton.layer.shadowOpacity = 0.3
+        finishButton.layer.shadowRadius = 2.0
+        finishButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        finishButton.layer.shadowColor = UIColor.black.cgColor
+    }
 
     func createNewRecord() {
 
@@ -132,7 +143,8 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
                                           numStep: numStep,
                                           latitude: certainLat,
                                           longitude: certainLong,
-                                          date: date, year: year, month: month) { result in
+                                          date: date, year: year, month: month,
+                                          screenshot: screenshotImageView) { result in
             
             switch result {
                 
