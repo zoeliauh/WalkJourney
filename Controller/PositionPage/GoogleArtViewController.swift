@@ -40,6 +40,8 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
         
     @IBOutlet weak var googleArtMapView: GMSMapView!
     
+    var newRecord: (() -> Void)?
+    
     var locationManager = CLLocationManager()
     
     var camera = GMSCameraPosition()
@@ -74,21 +76,21 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     
     var certainLong: [CLLocationDegrees] = []
     
+    var screenshotImageView = UIImageView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        doneButton.layer.cornerRadius = 20
+        setupDoneButton()
         
         GoogleMapsManager.initLocationManager(locationManager, delegate: self)
         
         defaultPosition()
         
         countDownStart()
-        
-        countTimer()
-        
+
         countSteps()
-        
+                
         setupRouteSampleImageView()
                 
         self.tabBarController?.tabBar.isHidden = true
@@ -103,6 +105,17 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     }
     
     @IBAction func doneButtonPressed(_ sender: UIButton!) {
+        
+        doneButton.isHidden = true
+        
+        let screenshotImage = self.view.takeScreenshot()
+        
+        screenshotImageView.image = screenshotImage
+        
+        createNewRecord()
+        
+        locationManager.stopUpdatingLocation()
+        
         successMessage()
     }
     
@@ -128,6 +141,7 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
                 timerlabel.isHidden = true
                 fadeOut()
                 routeSampleImageView.isHidden = false
+                countTimer()
             }
         }
     }
@@ -139,6 +153,36 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
         googleArtMapView.settings.myLocationButton = true
         
         googleArtMapView.isMyLocationEnabled = true
+    }
+    
+    func createNewRecord() {
+
+            guard let curDist = distanceLabel.text,
+                    let curdur = timeLabel.text,
+                    let currentSteps = paceLabel.text else { return }
+        
+        guard let numStep = Int(currentSteps) else { return }
+
+        RecordManager.shared.addNewRecord(distanceWalk: curDist,
+                                          durationTime: curdur,
+                                          numStep: numStep,
+                                          latitude: certainLat,
+                                          longitude: certainLong,
+                                          date: "", year: "", month: "",
+                                          screenshot: screenshotImageView) { result in
+            
+            switch result {
+                
+            case .success:
+                
+                print("successful to upload the new record")
+                self.newRecord?()
+                
+            case .failure(let error):
+                
+                print("add new record failure \(error)")
+            }
+        }
     }
     
     private func setupRouteSampleImageView() {
@@ -156,25 +200,39 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
         ])
     }
     
-    func createLocation() {
+    private func setupDoneButton() {
         
-        CountingStepManager.shared.addNewLocation(latitude: currentLocation[0],
-                                                  longitude: currentLocation[1]) { result in
-            
-            switch result {
-                
-            case .success:
-                
-                print("success to create new location")
-                
-                self.newLocation?()
-                
-            case .failure(let error):
-                
-                print("create location.failure: \(error)")
-            }
-        }
+        doneButton.layer.cornerRadius = 20
+        doneButton.layer.shadowOpacity = 0.3
+        doneButton.layer.shadowRadius = 2.0
+        doneButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        doneButton.layer.shadowColor = UIColor.black.cgColor
     }
+    
+//    func createLocation() {
+//
+//        CountingStepManager.shared.addNewLocation(latitude: currentLocation[0],
+//                                                  longitude: currentLocation[1]) { result in
+//
+//            switch result {
+//
+//            case .success:
+//
+//                print("success to create new location")
+//
+//                self.newLocation?()
+//
+//                self.googleArtMapView.camera = GMSCameraPosition.camera(
+//                    withLatitude: self.currentLocation[0],
+//                    longitude: self.currentLocation[1],
+//                    zoom: 15)
+//
+//            case .failure(let error):
+//
+//                print("create location.failure: \(error)")
+//            }
+//        }
+//    }
     
     func timerLabelAnimation() {
         
@@ -204,7 +262,7 @@ extension GoogleArtViewController: CLLocationManagerDelegate {
                 withLatitude: location.coordinate.latitude,
                 longitude: location.coordinate.longitude,
                 zoom: 15)
-                    
+                            
             path.addLatitude(location.coordinate.latitude, longitude: location.coordinate.longitude)
             
             eachLatitude.append(location.coordinate.latitude)
@@ -231,7 +289,7 @@ extension GoogleArtViewController: CLLocationManagerDelegate {
             
             polyline.strokeWidth = 2
             
-            polyline.strokeColor = (.DarkCeladon ?? .brown)
+            polyline.strokeColor = (UIColor.C6 ?? .brown)
                         
             polyline.geodesic = true
             
@@ -325,12 +383,19 @@ extension GoogleArtViewController {
         
         var timeString: String = ""
         
-        timeString += String(format: "%02d", hour)
-        timeString += " : "
-        timeString += String(format: "%02d", min)
-        timeString += " : "
-        timeString += String(format: "%02d", sec)
-        
+        if hour == 0 {
+            
+            timeString += String(format: "%02d", min)
+            timeString += " : "
+            timeString += String(format: "%02d", sec)
+        } else {
+            
+            timeString += String(format: "%02d", hour)
+            timeString += " : "
+            timeString += String(format: "%02d", min)
+            timeString += " : "
+            timeString += String(format: "%02d", sec)
+        }
         return timeString
     }
 }

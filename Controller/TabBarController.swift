@@ -12,6 +12,9 @@ class TabBarController: UITabBarController {
         
     let mapChosenvc = UIStoryboard.position.instantiateViewController(withIdentifier: "MapChosenViewController")
     
+    let recordCatagoryvc =
+    UIStoryboard.record.instantiateViewController(withIdentifier: "RecordCatagoryvc")
+    
     let recordvc = UIStoryboard.record.instantiateViewController(withIdentifier: "Record")
 
     let barChartvc = UIStoryboard.barChart.instantiateViewController(withIdentifier: "BarChart")
@@ -35,7 +38,9 @@ class TabBarController: UITabBarController {
         
         let mapChosenvc = UINavigationController(rootViewController: mapChosenvc)
         
-        let recordvc = UINavigationController(rootViewController: recordvc)
+//        let recordvc = UINavigationController(rootViewController: recordvc)
+        
+        let recordvc = UINavigationController(rootViewController: recordCatagoryvc)
         
         let barChartvc = UINavigationController(rootViewController: barChartvc)
         
@@ -43,9 +48,9 @@ class TabBarController: UITabBarController {
         
         self.setViewControllers([mapChosenvc, recordvc, barChartvc, profilevc], animated: false)
         
-        self.tabBar.backgroundColor = .clear
+        self.tabBar.backgroundColor = .C3
         
-        self.tabBar.tintColor = UIColor.hexStringToUIColor(hex: "#67A870")
+        self.tabBar.tintColor = UIColor.C6
     }
     
     func setupvcTitle() {
@@ -56,11 +61,11 @@ class TabBarController: UITabBarController {
         
         mapChosenvc.tabBarItem.title = "首頁"
         
-        recordvc.tabBarItem.image = UIImage(systemName: "pawprint")
+        recordCatagoryvc.tabBarItem.image = UIImage(systemName: "pawprint")
         
-        recordvc.tabBarItem.selectedImage = UIImage(systemName: "pawprint.fill")
+        recordCatagoryvc.tabBarItem.selectedImage = UIImage(systemName: "pawprint.fill")
         
-        recordvc.tabBarItem.title = "足跡"
+        recordCatagoryvc.tabBarItem.title = "足跡"
         
         barChartvc.tabBarItem.image = UIImage(systemName: "chart.bar")
         

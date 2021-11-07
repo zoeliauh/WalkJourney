@@ -28,7 +28,7 @@ class CountingStepManager {
     // read
     func fetchSteps(completion: @escaping (Result<[Location], Error>) -> Void) {
         
-        db.collection("locations").order(
+        db.collection(Collections.location.rawValue).order(
             by: "createdTime",
             descending: true
         ).getDocuments { (querySnapshot, error) in
@@ -65,7 +65,7 @@ class CountingStepManager {
                         longitude: CLLocationDegrees,
                         completion: @escaping (Result<String, Error>) -> Void) {
         
-        let document = db.collection("locations").document()
+        let document = db.collection(Collections.location.rawValue).document()
 
         document.setData([
             "createdTime": Date().millisecondsSince1970,
@@ -86,7 +86,7 @@ class CountingStepManager {
     // delete
     func deleteLocation(location: Location, completion: @escaping (Result<String, Error>) -> Void) {
         
-        db.collection("locations").document(location.id).delete { error in
+        db.collection(Collections.location.rawValue).document(location.id).delete { error in
             
             if let error = error {
                 
@@ -101,7 +101,7 @@ class CountingStepManager {
     // update
     func updateLocation(location: Location, completion: @escaping (Result<String, Error>) -> Void) {
         
-        db.collection("locations").document(location.id).updateData([
+        db.collection(Collections.location.rawValue).document(location.id).updateData([
             "location": [11.23, 123.542]
         ])
     }

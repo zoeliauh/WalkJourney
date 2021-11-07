@@ -19,6 +19,8 @@ class FunnyMapViewController: UIViewController {
         funnyMapTableView.delegate = self
         
         funnyMapTableView.dataSource = self
+        
+        self.tabBarController?.tabBar.backgroundImage =  UIImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
