@@ -43,10 +43,10 @@ class MonthChartViewController: UIViewController {
     lazy var monthPickerTextField: PickerTestField = {
         
         let pickerTextField = PickerTestField()
-        pickerTextField.backgroundColor = .lightGray
+        pickerTextField.backgroundColor = .systemGray6
         pickerTextField.layer.cornerRadius = 10
         pickerTextField.textAlignment = .left
-        pickerTextField.font = UIFont.systemFont(ofSize: 25)
+        pickerTextField.font = UIFont.systemFont(ofSize: 18)
         pickerTextField.pickerYear = ["2019年", "2020年", "2021年", "2022年", "2023年"]
         pickerTextField.pickerMonth = ["1月", "2月", "3月", "4月",
                                        "5月", "6月", "7月", "8月",
@@ -246,7 +246,7 @@ extension MonthChartViewController {
         
         NSLayoutConstraint.activate([
             
-            monthPickerTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            monthPickerTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             monthPickerTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             monthPickerTextField.heightAnchor.constraint(equalToConstant: 30)
         ])
