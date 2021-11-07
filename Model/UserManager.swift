@@ -12,14 +12,15 @@ import FirebaseStorage
 
 class UserManager {
     
-    static let shartd = UserManager()
+    static let shared = UserManager()
     
     lazy var db = Firestore.firestore()
     
+    let user = Auth.auth().currentUser
+    
     private init() {}
     
-    let userID: String = {
-        
+    let userid: String = {
         if let user = Auth.auth().currentUser {
             return user.uid
         } else {
@@ -31,65 +32,47 @@ class UserManager {
         
         if let user = Auth.auth().currentUser,
            let userName = user.displayName {
+            print(userName)
             return userName
         } else {
             return "使用者"
         }
     }()
     
+    let userEmail: String = {
+        
+        if let user = Auth.auth().currentUser,
+           let userEmail = user.email {
+            return userEmail
+        } else {
+            return "使用者信箱"
+        }
+    }()
+    
     // create
     func createUserInfo() {
-        let user = User(userID: userID,
+        let user = User(userID: userid,
                         username: userDisplayName,
-                        email: nil, userImageURL: nil,
-                        providerID: nil, blockLists: nil,
+                        email: userEmail, userImageURL: nil,
+                        providerID: "Apple", blockLists: nil,
                         friendLists: nil)
         
-        let userRef = db.collection("User")
+        let userRef = db.collection(Collections.user.rawValue)
         
-        searchUserisExist(userID: userID) { isExists in
-            if !isExists {
-                do {
-                    
-                    try userRef.document(user.userID).setData(from: user)
-                    
-                } catch {
-                    
-                    print("Fail to create user")
-                }
-            }
-        }
-    }
-    
-    func searchUserisExist(userID: String, isExists: @escaping (Bool) -> Void) {
-        
-        let userRef = db.collection("User")
-        
-        userRef.document(userID).getDocument { document, _ in
-            if let document = document {
-                
-                if document.exists {
-                    
-                    isExists(true)
-                    
-                } else {
-                    
-                    isExists(false)
-                }
-                
-            } else {
-                
-                isExists(false)
-            }
+        do {
+            try userRef.document(user.userID).setData(from: user)
+        } catch {
+            
+            print("Fail to create user")
         }
     }
     
     // read
     func fetchUserInfo(uesrID: String, completion: @escaping (Result<User, Error>) -> Void) {
         
-        let userRef = db.collection("User")
+        let userRef = db.collection(Collections.user.rawValue)
         
-        userRef.document(userID).getDocument { document, error in
+        userRef.document(userid).getDocument { document, error in
             if let error = error {
                 completion(Result.failure(error))
             }
@@ -101,5 +84,5 @@ class UserManager {
             completion(Result.success(user))
         }
     }
-
+    
 }

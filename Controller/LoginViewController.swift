@@ -14,11 +14,15 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var logoImageView: UIImageView!
     
+    @IBOutlet weak var appMandarinNameLabel: UILabel!
+    
+    @IBOutlet weak var appEnglishNameLabel: UILabel!
+    
     fileprivate var currentNonce: String?
     
     var handle: AuthStateDidChangeListenerHandle?
     
-    let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+    weak var sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +62,7 @@ class LoginViewController: UIViewController {
             
             button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -75),
+            button.bottomAnchor.constraint(equalTo: appEnglishNameLabel.bottomAnchor, constant: 100),
             button.heightAnchor.constraint(equalToConstant: 45)
         ])
         
@@ -147,9 +151,31 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             // sign in with Firebase
             Auth.auth().signIn(with: credential) { (authResult, error) in
                 
+                if let error = error {
+                    // Error. If error.code == .MissingOrInvalidNonce, make sure
+                    // you're sending the SHA256-hashed nonce as a hex string with
+                    // your request to Apple.
+                    print("登入失敗")
+                    print(error.localizedDescription)
+                    return
+                }
+                
                 if let user = authResult?.user {
                     print("Nice! You are now signed in as \(user.uid), email: \(user.email)")
                     
+                    if let fullName = appleIDCredential.fullName,
+                       let userName = fullName.givenName {
+                    
+                    let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                   
+                    changeRequest?.displayName = userName
+                    changeRequest?.commitChanges { error in
+                      print("can not change userName")
+                    }
+                    }
+                    
+                    UserManager.shared.createUserInfo()
+                        
                     guard let window = self.sceneDelegate?.window else {
                         fatalError("Cannot get window")
                     }

@@ -7,16 +7,11 @@
 
 import Foundation
 
-private enum Collection: String {
+enum Collections: String {
 
-    case  = "#673ab7"
+    case user = "user"
 
-    case indigo = "#3f51b5"
+    case location = "locations"
 
-    case orange = "#ff9800"
-
-    case red = "#f44336"
-
-    case green = "#4caf50"
-    
+    case stepData = "stepData"
 }
