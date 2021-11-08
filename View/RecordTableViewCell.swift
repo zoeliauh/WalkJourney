@@ -13,7 +13,7 @@ class RecordTableViewCell: UITableViewCell {
     lazy var logoImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "WJLogo_suqare")
+        imageView.image = UIImage(named: "loginIcon")
         imageView.layer.cornerRadius = 30
         return imageView
     }()
@@ -22,7 +22,7 @@ class RecordTableViewCell: UITableViewCell {
         
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "System", size: 50)
+        label.font = UIFont.kleeOneRegular(ofSize: 16)
         label.textAlignment = .left
         return label
     }()
@@ -31,7 +31,7 @@ class RecordTableViewCell: UITableViewCell {
         
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "System", size: 50)
+        label.font = UIFont.kleeOneRegular(ofSize: 16)
         label.textAlignment = .left
         label.numberOfLines = 0
         return label

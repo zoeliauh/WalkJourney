@@ -26,16 +26,3 @@ extension Date {
         
     }
 }
-
-struct DateModel {
-    
-    let year: Int
-    
-    let month: Int
-    
-    let weekday: Int
-    
-    let day: Int
-    
-    let hour: Int
-}

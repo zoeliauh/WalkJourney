@@ -9,11 +9,17 @@ import UIKit
 
 extension UIColor {
 
-    static let Celadon = UIColor(named: "Celadon")
+    static let C1 = UIColor(named: "C1")
     
-    static let DarkCeladon = UIColor(named: "DarkCeladon")
+    static let C2 = UIColor(named: "C2")
     
-    static let Sky = UIColor(named: "Sky")
+    static let C3 = UIColor(named: "C3")
+    
+    static let C4 = UIColor(named: "C4")
+    
+    static let C5 = UIColor(named: "C5")
+    
+    static let C6 = UIColor(named: "C6")
     
     static func hexStringToUIColor(hex: String) -> UIColor {
 

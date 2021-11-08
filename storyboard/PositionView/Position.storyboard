@@ -9,6 +9,14 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="KleeOne-Regular.ttf">
+            <string>KleeOne-Regular</string>
+        </array>
+        <array key="KleeOne-SemiBold.ttf">
+            <string>KleeOne-SemiBold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Map Chosen View Controller-->
         <scene sceneID="Qe6-Sf-DrI">
@@ -18,71 +26,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ymo-w0-QZh">
-                                <rect key="frame" x="30" y="247" width="354" height="55"/>
-                                <color key="backgroundColor" name="DarkCeladon"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WWD-Va-x7a" customClass="AnimationView" customModule="Lottie">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="請問..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2eX-Pz-bcY">
+                                        <rect key="frame" x="20" y="50" width="138" height="66"/>
+                                        <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="45"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="tl9-DD-h5H"/>
+                                    <constraint firstItem="2eX-Pz-bcY" firstAttribute="top" secondItem="WWD-Va-x7a" secondAttribute="top" constant="50" id="3Re-t8-GEv"/>
+                                    <constraint firstItem="2eX-Pz-bcY" firstAttribute="leading" secondItem="WWD-Va-x7a" secondAttribute="leading" constant="20" id="9Bl-vB-RtC"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="自己的路，自己走">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle2"/>
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="startButtonPressed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="OQc-Dg-N4Y"/>
-                                    <action selector="walkYourselfButtonPressed:" destination="gG4-k7-8wQ" eventType="touchUpInside" id="AX8-IZ-RE6"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="該散步囉..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWB-xH-mJm">
-                                <rect key="frame" x="104" y="94" width="206.5" height="53"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="starry_background"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="想怎麼走？？？" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWB-xH-mJm">
+                                <rect key="frame" x="163" y="116" width="231" height="48"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="44"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="33"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UGj-dj-2xR">
-                                <rect key="frame" x="30" y="402" width="354" height="55"/>
-                                <color key="backgroundColor" name="DarkCeladon"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="clX-Ul-RoM"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="趣味地圖，趣味走">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle2"/>
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="startButtonPressed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="EOm-oa-2H6"/>
-                                    <action selector="walkFunButtonPressed:" destination="gG4-k7-8wQ" eventType="touchUpInside" id="VOK-EN-rd6"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="a7e-hP-ydA"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="UGj-dj-2xR" firstAttribute="trailing" secondItem="Ymo-w0-QZh" secondAttribute="trailing" id="1Og-gj-Dje"/>
-                            <constraint firstItem="Ymo-w0-QZh" firstAttribute="leading" secondItem="a7e-hP-ydA" secondAttribute="leading" priority="997" constant="30" id="Asj-7Q-jMB"/>
-                            <constraint firstItem="UGj-dj-2xR" firstAttribute="top" secondItem="Ymo-w0-QZh" secondAttribute="bottom" constant="100" id="MF8-Ez-nQl"/>
-                            <constraint firstItem="a7e-hP-ydA" firstAttribute="trailing" secondItem="Ymo-w0-QZh" secondAttribute="trailing" priority="997" constant="30" id="TPE-1d-REW"/>
-                            <constraint firstItem="Ymo-w0-QZh" firstAttribute="top" secondItem="JWB-xH-mJm" secondAttribute="bottom" constant="100" id="Tjm-6p-dnN"/>
-                            <constraint firstItem="JWB-xH-mJm" firstAttribute="centerX" secondItem="ZTA-ch-8Or" secondAttribute="centerX" id="Xcw-sN-uga"/>
-                            <constraint firstItem="UGj-dj-2xR" firstAttribute="leading" secondItem="Ymo-w0-QZh" secondAttribute="leading" id="d1g-xA-d4g"/>
-                            <constraint firstItem="UGj-dj-2xR" firstAttribute="centerX" secondItem="Ymo-w0-QZh" secondAttribute="centerX" id="oGu-kh-Ls1"/>
-                            <constraint firstItem="JWB-xH-mJm" firstAttribute="top" secondItem="a7e-hP-ydA" secondAttribute="top" priority="997" constant="50" id="sJZ-5V-ofh"/>
+                            <constraint firstItem="a7e-hP-ydA" firstAttribute="trailing" secondItem="JWB-xH-mJm" secondAttribute="trailing" constant="20" id="4hW-in-N8d"/>
+                            <constraint firstItem="JWB-xH-mJm" firstAttribute="top" secondItem="2eX-Pz-bcY" secondAttribute="bottom" id="Cro-b7-Jyd"/>
+                            <constraint firstItem="WWD-Va-x7a" firstAttribute="top" secondItem="ZTA-ch-8Or" secondAttribute="top" id="K6j-nO-8Td"/>
+                            <constraint firstItem="WWD-Va-x7a" firstAttribute="leading" secondItem="a7e-hP-ydA" secondAttribute="leading" id="gXu-Ma-eTg"/>
+                            <constraint firstItem="a7e-hP-ydA" firstAttribute="bottom" secondItem="WWD-Va-x7a" secondAttribute="bottom" id="rQO-Lj-Gv1"/>
+                            <constraint firstItem="a7e-hP-ydA" firstAttribute="trailing" secondItem="WWD-Va-x7a" secondAttribute="trailing" id="wwi-Qh-LyX"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6em-sJ-1zg"/>
                     <connections>
-                        <outlet property="walkFunButton" destination="UGj-dj-2xR" id="tBT-12-NwY"/>
+                        <outlet property="askLabel" destination="2eX-Pz-bcY" id="bVD-Uv-DgI"/>
+                        <outlet property="backgroundAnimationView" destination="WWD-Va-x7a" id="hbk-86-tId"/>
                         <outlet property="walkLabel" destination="JWB-xH-mJm" id="T0M-Iw-FQa"/>
-                        <outlet property="walkYourselfButton" destination="Ymo-w0-QZh" id="mY5-8s-Iv2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vlA-Ck-pWm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1960.8695652173915" y="54.910714285714285"/>
+            <point key="canvasLocation" x="2871.0144927536235" y="54.910714285714285"/>
         </scene>
         <!--Map Searching Page View Controller-->
         <scene sceneID="s0d-6b-0kx">
@@ -98,13 +90,13 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kiq-0D-SFQ">
                                 <rect key="frame" x="70" y="782" width="274" height="40"/>
-                                <color key="backgroundColor" name="DarkCeladon"/>
+                                <color key="backgroundColor" name="C4"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="XjH-9m-c4O"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="開始囉">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle3"/>
+                                    <fontDescription key="titleFontDescription" name="KleeOne-Regular" family="Klee One" pointSize="22"/>
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -133,7 +125,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2765.217391304348" y="54.910714285714285"/>
+            <point key="canvasLocation" x="3675.36231884058" y="54.910714285714285"/>
         </scene>
         <!--Funny Map View Controller-->
         <scene sceneID="7FC-bM-xcy">
@@ -143,7 +135,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wpt-jy-Yby">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wpt-jy-Yby">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -154,36 +146,38 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="253"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fon-nF-eVb">
-                                                    <rect key="frame" x="40" y="31" width="239" height="191"/>
-                                                    <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="200" id="VI7-oJ-MIY"/>
-                                                    </constraints>
-                                                </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CRx-Ys-K7j">
-                                                    <rect key="frame" x="299" y="104.5" width="75" height="44"/>
-                                                    <color key="backgroundColor" name="DarkCeladon"/>
+                                                    <rect key="frame" x="280.5" y="103.5" width="113.5" height="46"/>
+                                                    <color key="backgroundColor" name="C4"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="113.5" id="ZVv-Ub-5UV"/>
+                                                    </constraints>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" title="走囉">
-                                                        <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle1"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="挑戰開始">
+                                                        <fontDescription key="titleFontDescription" name="KleeOne-Regular" family="Klee One" pointSize="22"/>
                                                         <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </buttonConfiguration>
                                                 </button>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FjA-XR-PqR">
+                                                    <rect key="frame" x="50" y="21" width="100" height="211"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="100" id="oYS-Z6-0Xn"/>
+                                                        <constraint firstAttribute="width" constant="100" id="tG5-rC-WEv"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="FjA-XR-PqR" firstAttribute="top" secondItem="YTQ-cx-CZ5" secondAttribute="topMargin" constant="10" id="6tW-YW-fMZ"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="FjA-XR-PqR" secondAttribute="bottom" constant="10" id="BDq-Im-43K"/>
                                                 <constraint firstItem="CRx-Ys-K7j" firstAttribute="centerY" secondItem="YTQ-cx-CZ5" secondAttribute="centerY" id="Fx4-V0-fG8"/>
-                                                <constraint firstItem="fon-nF-eVb" firstAttribute="top" secondItem="YTQ-cx-CZ5" secondAttribute="topMargin" constant="20" id="TQr-B0-GXc"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="fon-nF-eVb" secondAttribute="bottom" constant="20" id="YTH-39-E9A"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="CRx-Ys-K7j" secondAttribute="trailing" constant="20" id="geR-vS-2ku"/>
-                                                <constraint firstItem="fon-nF-eVb" firstAttribute="leading" secondItem="YTQ-cx-CZ5" secondAttribute="leadingMargin" constant="20" id="v6w-Ov-fRS"/>
-                                                <constraint firstItem="CRx-Ys-K7j" firstAttribute="leading" secondItem="fon-nF-eVb" secondAttribute="trailing" constant="20" id="wBv-0e-jHL"/>
+                                                <constraint firstItem="FjA-XR-PqR" firstAttribute="leading" secondItem="YTQ-cx-CZ5" secondAttribute="leadingMargin" constant="30" id="a1R-Xi-gOS"/>
+                                                <constraint firstAttribute="trailing" secondItem="CRx-Ys-K7j" secondAttribute="trailing" constant="20" id="geR-vS-2ku"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="goButton" destination="CRx-Ys-K7j" id="s89-XA-3ln"/>
-                                            <outlet property="mapView" destination="fon-nF-eVb" id="KNm-tQ-9hp"/>
+                                            <outlet property="shapeImageView" destination="FjA-XR-PqR" id="lhk-cI-v3V"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -206,6 +200,113 @@
             </objects>
             <point key="canvasLocation" x="2762.3188405797105" y="792.85714285714278"/>
         </scene>
+        <!--Google Art View Controller-->
+        <scene sceneID="umQ-tf-Lxg">
+            <objects>
+                <viewController storyboardIdentifier="GoogleArtPage" id="DSy-jc-EUC" customClass="GoogleArtViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nhh-WS-C7L">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSY-4i-Xl3" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KR2-Lz-mI5">
+                                <rect key="frame" x="70" y="776" width="274" height="46"/>
+                                <color key="backgroundColor" name="C4"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="挑戰完成">
+                                    <fontDescription key="titleFontDescription" name="KleeOne-Regular" family="Klee One" pointSize="22"/>
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="DSy-jc-EUC" eventType="touchUpInside" id="IdV-1m-A3Q"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sAk-Js-gY5">
+                                <rect key="frame" x="30" y="576.5" width="69" height="36.5"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="步" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SbB-gW-4rs">
+                                <rect key="frame" x="65" y="662" width="15" height="22"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iAQ-Nh-dv2">
+                                <rect key="frame" x="30" y="689.5" width="15" height="36.5"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m93-hV-5xM">
+                                <rect key="frame" x="30" y="633" width="15" height="36.5"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="公里" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ie-nt-ygH">
+                                <rect key="frame" x="65" y="704" width="30" height="22"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zpI-D1-XXh">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" name="C6"/>
+                            </imageView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6mt-Vn-yB9">
+                                <rect key="frame" x="177" y="375.5" width="60" height="145"/>
+                                <fontDescription key="fontDescription" name="KleeOne-SemiBold" family="Klee One" pointSize="100"/>
+                                <color key="textColor" name="C1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Pxf-7m-zSi"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="iAQ-Nh-dv2" firstAttribute="leading" secondItem="Pxf-7m-zSi" secondAttribute="leading" constant="30" id="85D-iM-yzm"/>
+                            <constraint firstItem="6mt-Vn-yB9" firstAttribute="centerX" secondItem="nhh-WS-C7L" secondAttribute="centerX" id="8x9-QG-5oZ"/>
+                            <constraint firstItem="KR2-Lz-mI5" firstAttribute="top" secondItem="2ie-nt-ygH" secondAttribute="bottom" constant="50" id="FQP-uH-LpU"/>
+                            <constraint firstItem="2ie-nt-ygH" firstAttribute="top" secondItem="SbB-gW-4rs" secondAttribute="bottom" constant="20" id="FqG-iZ-TOX"/>
+                            <constraint firstItem="sAk-Js-gY5" firstAttribute="leading" secondItem="Pxf-7m-zSi" secondAttribute="leading" constant="30" id="KAD-YU-sfo"/>
+                            <constraint firstItem="Pxf-7m-zSi" firstAttribute="bottom" secondItem="nSY-4i-Xl3" secondAttribute="bottom" id="Mv5-ab-D0e"/>
+                            <constraint firstItem="Pxf-7m-zSi" firstAttribute="bottom" secondItem="KR2-Lz-mI5" secondAttribute="bottom" constant="40" id="PVr-oF-LYk"/>
+                            <constraint firstItem="6mt-Vn-yB9" firstAttribute="centerY" secondItem="nhh-WS-C7L" secondAttribute="centerY" id="Qsb-UJ-cQi"/>
+                            <constraint firstAttribute="bottom" secondItem="zpI-D1-XXh" secondAttribute="bottom" id="RH1-Oj-rkH"/>
+                            <constraint firstItem="m93-hV-5xM" firstAttribute="top" secondItem="sAk-Js-gY5" secondAttribute="bottom" constant="20" id="RSt-Kh-yfF"/>
+                            <constraint firstItem="KR2-Lz-mI5" firstAttribute="top" secondItem="iAQ-Nh-dv2" secondAttribute="bottom" constant="50" id="UAH-ZV-r3M"/>
+                            <constraint firstItem="m93-hV-5xM" firstAttribute="leading" secondItem="nhh-WS-C7L" secondAttribute="leading" constant="30" id="UMr-C9-eDl"/>
+                            <constraint firstItem="zpI-D1-XXh" firstAttribute="top" secondItem="nhh-WS-C7L" secondAttribute="top" id="XPC-Tm-1U9"/>
+                            <constraint firstItem="KR2-Lz-mI5" firstAttribute="leading" secondItem="Pxf-7m-zSi" secondAttribute="leading" constant="70" id="Y2l-Aw-uAA"/>
+                            <constraint firstItem="nSY-4i-Xl3" firstAttribute="leading" secondItem="Pxf-7m-zSi" secondAttribute="leading" id="ZqN-m1-fR1"/>
+                            <constraint firstItem="2ie-nt-ygH" firstAttribute="leading" secondItem="iAQ-Nh-dv2" secondAttribute="trailing" constant="20" id="ejB-Xu-Dum"/>
+                            <constraint firstItem="iAQ-Nh-dv2" firstAttribute="top" secondItem="m93-hV-5xM" secondAttribute="bottom" constant="20" id="f81-hF-QrO"/>
+                            <constraint firstItem="zpI-D1-XXh" firstAttribute="leading" secondItem="Pxf-7m-zSi" secondAttribute="leading" id="ic6-Dq-Soe"/>
+                            <constraint firstItem="SbB-gW-4rs" firstAttribute="leading" secondItem="m93-hV-5xM" secondAttribute="trailing" constant="20" id="nA2-9F-YC0"/>
+                            <constraint firstItem="nSY-4i-Xl3" firstAttribute="top" secondItem="nhh-WS-C7L" secondAttribute="top" id="pdf-zD-dRY"/>
+                            <constraint firstItem="Pxf-7m-zSi" firstAttribute="trailing" secondItem="KR2-Lz-mI5" secondAttribute="trailing" constant="70" id="qlD-gn-jY8"/>
+                            <constraint firstItem="zpI-D1-XXh" firstAttribute="trailing" secondItem="Pxf-7m-zSi" secondAttribute="trailing" id="waP-Eb-jSS"/>
+                            <constraint firstItem="Pxf-7m-zSi" firstAttribute="trailing" secondItem="nSY-4i-Xl3" secondAttribute="trailing" id="zBN-WS-l9h"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="coverImageView" destination="zpI-D1-XXh" id="V1n-CF-9Ka"/>
+                        <outlet property="distanceLabel" destination="iAQ-Nh-dv2" id="7wb-eF-lwU"/>
+                        <outlet property="doneButton" destination="KR2-Lz-mI5" id="CjH-td-m23"/>
+                        <outlet property="googleArtMapView" destination="nSY-4i-Xl3" id="vNN-3C-Q2l"/>
+                        <outlet property="paceLabel" destination="m93-hV-5xM" id="Vi8-SZ-uqb"/>
+                        <outlet property="timeLabel" destination="sAk-Js-gY5" id="Cno-rk-qdL"/>
+                        <outlet property="timerlabel" destination="6mt-Vn-yB9" id="Lg2-ck-eCA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ond-1H-SA9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3568" y="850"/>
+        </scene>
         <!--Start To Walk Page View Controller-->
         <scene sceneID="IEr-bq-59k">
             <objects>
@@ -216,7 +317,7 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GHm-ZZ-0gs">
                                 <rect key="frame" x="70" y="785" width="274" height="37"/>
-                                <color key="backgroundColor" name="DarkCeladon"/>
+                                <color key="backgroundColor" name="C4"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="完成囉">
@@ -227,35 +328,35 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Kd-Rj-Tqd" customClass="GMSMapView">
-                                <rect key="frame" x="20" y="180" width="374" height="461.5"/>
+                                <rect key="frame" x="20" y="189.5" width="374" height="446.5"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目前步數" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ahh-vp-2MK">
-                                <rect key="frame" x="132.5" y="64" width="149.5" height="44.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="37"/>
+                                <rect key="frame" x="133" y="64" width="148" height="54"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="37"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ogH-RS-Uap">
-                                <rect key="frame" x="199" y="128.5" width="16.5" height="31.5"/>
+                                <rect key="frame" x="199" y="138" width="16.5" height="31.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="步行時間" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ek-2A-NOc">
-                                <rect key="frame" x="70" y="666.5" width="89.5" height="26.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <rect key="frame" x="70" y="661" width="88" height="32"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="22"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="步行距離" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpo-EO-DWa">
-                                <rect key="frame" x="255" y="666.5" width="89.5" height="26.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <rect key="frame" x="256.5" y="661" width="88" height="32"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="22"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00 : 00 : 00" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZT-6p-5f5">
-                                <rect key="frame" x="49" y="713" width="131.5" height="32"/>
+                                <rect key="frame" x="48.5" y="713" width="131.5" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="PJe-Oc-f6o"/>
                                 </constraints>
@@ -264,7 +365,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAF-oD-nqf">
-                                <rect key="frame" x="281" y="713" width="37.5" height="32"/>
+                                <rect key="frame" x="282" y="713" width="37.5" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -306,184 +407,103 @@
                     </view>
                     <navigationItem key="navigationItem" id="I7G-Co-wn4"/>
                     <connections>
-                        <outlet property="currentDistanceLabel" destination="mAF-oD-nqf" id="yaD-57-1Bg"/>
                         <outlet property="currentRouteMapView" destination="5Kd-Rj-Tqd" id="YB1-nX-aGW"/>
-                        <outlet property="currentStepsLabel" destination="ogH-RS-Uap" id="AVg-kk-Bg6"/>
-                        <outlet property="currentdurationLabel" destination="mZT-6p-5f5" id="Ede-5K-JJm"/>
+                        <outlet property="distanceLabel" destination="mAF-oD-nqf" id="yaD-57-1Bg"/>
+                        <outlet property="durationLabel" destination="mZT-6p-5f5" id="Ede-5K-JJm"/>
                         <outlet property="finishButton" destination="GHm-ZZ-0gs" id="X6Y-fd-Iyf"/>
                         <outlet property="stepTitleLabel" destination="ahh-vp-2MK" id="Wap-Ib-Ujt"/>
+                        <outlet property="stepsLabel" destination="ogH-RS-Uap" id="AVg-kk-Bg6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgU-34-FiD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3600.0000000000005" y="54.910714285714285"/>
+            <point key="canvasLocation" x="4510.144927536232" y="54.910714285714285"/>
         </scene>
-        <!--Start Page View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="rYF-b8-AcV">
             <objects>
-                <viewController storyboardIdentifier="StartPageViewController" id="T3y-cx-uwI" customClass="StartPageViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="T3y-cx-uwI" customClass="LoginViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LL6-Yd-cQZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="UserName" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pdS-VJ-8GH">
-                                <rect key="frame" x="40" y="415" width="334" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="kP1-UL-Y4g"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="PassWord" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="x2A-zq-if9">
-                                <rect key="frame" x="40" y="360" width="334" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="nYR-Lr-VIW"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sf8-Et-bmT">
-                                <rect key="frame" x="20" y="522" width="374" height="1"/>
-                                <color key="backgroundColor" systemColor="systemGray4Color"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="1" id="QYF-Kr-164"/>
-                                </constraints>
-                            </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Kg-jO-83P">
-                                <rect key="frame" x="40" y="304" width="334" height="35"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B5Y-O9-JGm">
-                                        <rect key="frame" x="0.0" y="0.0" width="167" height="35"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="登入">
-                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </buttonConfiguration>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PmI-q0-3pc">
-                                        <rect key="frame" x="167" y="0.0" width="167" height="35"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="註冊">
-                                            <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </buttonConfiguration>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="XkM-uu-tYd"/>
-                                </constraints>
-                            </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfB-Yt-x4O">
-                                <rect key="frame" x="40" y="482" width="334" height="30"/>
-                                <color key="backgroundColor" red="0.40392156862745099" green="0.6588235294117647" blue="0.4392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="mhU-XS-TH6"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="登入">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle2"/>
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="goButtonPressed:" destination="T3y-cx-uwI" eventType="touchUpInside" id="Qxb-4W-ZOl"/>
-                                    <action selector="startButtonPressed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="1mI-I9-rhx"/>
-                                    <action selector="walkFunButtonPressed:" destination="gG4-k7-8wQ" eventType="touchUpInside" id="ZzL-cx-EEA"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uZN-RK-oFL">
-                                <rect key="frame" x="40" y="533" width="334" height="30"/>
-                                <color key="backgroundColor" red="0.25882352941176467" green="0.40392156862745099" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="Wz2-uk-fTM"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="使用 Facebook 帳號登入">
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1O5-xQ-aKC">
-                                <rect key="frame" x="40" y="573" width="334" height="30"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="Ivf-cN-tma"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="使用 Apple 帳號登入">
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                            </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="enjoy" translatesAutoresizingMaskIntoConstraints="NO" id="1Kq-0z-cKU">
-                                <rect key="frame" x="105" y="182" width="95" height="102"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="WJLogo_suqare" translatesAutoresizingMaskIntoConstraints="NO" id="WQk-AR-hIh">
-                                <rect key="frame" x="147" y="64" width="120" height="120"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="loginIcon" translatesAutoresizingMaskIntoConstraints="NO" id="WQk-AR-hIh">
+                                <rect key="frame" x="147" y="108" width="120" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="J9b-f0-BJd"/>
                                     <constraint firstAttribute="width" constant="120" id="iPX-se-Y8H"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="walking" translatesAutoresizingMaskIntoConstraints="NO" id="hlk-V8-qas">
-                                <rect key="frame" x="180" y="205" width="126" height="79"/>
-                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="享走路" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hw3-4I-adr">
+                                <rect key="frame" x="117" y="243" width="180" height="87"/>
+                                <fontDescription key="fontDescription" name="KleeOne-SemiBold" family="Klee One" pointSize="60"/>
+                                <color key="textColor" name="C1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WalkJourney" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bCy-yd-9FZ">
+                                <rect key="frame" x="82" y="335" width="250.5" height="78.5"/>
+                                <fontDescription key="fontDescription" name="PartyLetPlain" family="Party LET" pointSize="67"/>
+                                <color key="textColor" name="C1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="atN-ru-RRJ"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="C6"/>
                         <constraints>
-                            <constraint firstItem="atN-ru-RRJ" firstAttribute="trailing" secondItem="pdS-VJ-8GH" secondAttribute="trailing" constant="40" id="0cN-TL-6Zt"/>
-                            <constraint firstItem="1O5-xQ-aKC" firstAttribute="leading" secondItem="atN-ru-RRJ" secondAttribute="leading" constant="40" id="4wz-Hq-aiS"/>
-                            <constraint firstItem="x2A-zq-if9" firstAttribute="leading" secondItem="atN-ru-RRJ" secondAttribute="leading" constant="40" id="CIZ-x5-ylm"/>
-                            <constraint firstItem="1O5-xQ-aKC" firstAttribute="top" secondItem="uZN-RK-oFL" secondAttribute="bottom" constant="10" id="Ej4-yZ-CpW"/>
-                            <constraint firstItem="pdS-VJ-8GH" firstAttribute="top" secondItem="x2A-zq-if9" secondAttribute="bottom" constant="20" id="LLC-Ao-utU"/>
-                            <constraint firstItem="atN-ru-RRJ" firstAttribute="trailing" secondItem="1Kg-jO-83P" secondAttribute="trailing" constant="40" id="NMz-mt-wtG"/>
-                            <constraint firstItem="gfB-Yt-x4O" firstAttribute="leading" secondItem="atN-ru-RRJ" secondAttribute="leading" constant="40" id="P3R-hG-PDB"/>
-                            <constraint firstItem="1Kg-jO-83P" firstAttribute="leading" secondItem="atN-ru-RRJ" secondAttribute="leading" constant="40" id="PHj-hF-2Q3"/>
-                            <constraint firstItem="uZN-RK-oFL" firstAttribute="top" secondItem="sf8-Et-bmT" secondAttribute="bottom" constant="10" id="SyT-Ax-DOu"/>
-                            <constraint firstItem="x2A-zq-if9" firstAttribute="top" secondItem="1Kg-jO-83P" secondAttribute="bottom" constant="21" id="U8O-Ve-SEv"/>
+                            <constraint firstItem="hw3-4I-adr" firstAttribute="centerX" secondItem="LL6-Yd-cQZ" secondAttribute="centerX" id="0Uh-wu-vIo"/>
+                            <constraint firstItem="hw3-4I-adr" firstAttribute="top" secondItem="WQk-AR-hIh" secondAttribute="bottom" constant="15" id="IHT-8W-bed"/>
+                            <constraint firstItem="bCy-yd-9FZ" firstAttribute="top" secondItem="hw3-4I-adr" secondAttribute="bottom" constant="5" id="K6x-mn-UJS"/>
                             <constraint firstItem="WQk-AR-hIh" firstAttribute="centerX" secondItem="LL6-Yd-cQZ" secondAttribute="centerX" id="aIb-aN-aHd"/>
-                            <constraint firstAttribute="trailing" secondItem="sf8-Et-bmT" secondAttribute="trailing" constant="20" id="baR-RF-nNl"/>
-                            <constraint firstItem="1Kq-0z-cKU" firstAttribute="leading" secondItem="atN-ru-RRJ" secondAttribute="leading" constant="105" id="baf-rZ-kjt"/>
-                            <constraint firstItem="uZN-RK-oFL" firstAttribute="leading" secondItem="atN-ru-RRJ" secondAttribute="leading" constant="40" id="c6X-Fr-chQ"/>
-                            <constraint firstItem="atN-ru-RRJ" firstAttribute="trailing" secondItem="hlk-V8-qas" secondAttribute="trailing" constant="108" id="cgJ-Al-lck"/>
-                            <constraint firstItem="atN-ru-RRJ" firstAttribute="trailing" secondItem="1O5-xQ-aKC" secondAttribute="trailing" constant="40" id="dpT-oV-ELz"/>
-                            <constraint firstItem="atN-ru-RRJ" firstAttribute="trailing" secondItem="gfB-Yt-x4O" secondAttribute="trailing" constant="40" id="gYA-Vd-YFh"/>
-                            <constraint firstItem="sf8-Et-bmT" firstAttribute="leading" secondItem="LL6-Yd-cQZ" secondAttribute="leading" constant="20" id="hDI-ZB-IUs"/>
-                            <constraint firstItem="sf8-Et-bmT" firstAttribute="top" secondItem="gfB-Yt-x4O" secondAttribute="bottom" constant="10" id="imN-RT-Xv4"/>
-                            <constraint firstItem="hlk-V8-qas" firstAttribute="bottom" secondItem="1Kq-0z-cKU" secondAttribute="bottom" id="jrZ-ZR-Mk6"/>
-                            <constraint firstItem="atN-ru-RRJ" firstAttribute="trailing" secondItem="x2A-zq-if9" secondAttribute="trailing" constant="40" id="mEN-JV-CR5"/>
-                            <constraint firstItem="hlk-V8-qas" firstAttribute="leading" secondItem="atN-ru-RRJ" secondAttribute="leading" constant="180" id="p6C-20-mm1"/>
+                            <constraint firstItem="bCy-yd-9FZ" firstAttribute="centerX" secondItem="LL6-Yd-cQZ" secondAttribute="centerX" id="bRL-QZ-72E"/>
                             <constraint firstItem="WQk-AR-hIh" firstAttribute="top" secondItem="atN-ru-RRJ" secondAttribute="top" constant="20" id="pQx-cr-tTL"/>
-                            <constraint firstItem="hlk-V8-qas" firstAttribute="top" secondItem="WQk-AR-hIh" secondAttribute="bottom" constant="21" id="qDe-67-9P4"/>
-                            <constraint firstItem="pdS-VJ-8GH" firstAttribute="leading" secondItem="atN-ru-RRJ" secondAttribute="leading" constant="40" id="tbM-Ma-WPF"/>
-                            <constraint firstItem="gfB-Yt-x4O" firstAttribute="top" secondItem="pdS-VJ-8GH" secondAttribute="bottom" constant="32" id="uVe-ME-sEu"/>
-                            <constraint firstItem="1Kg-jO-83P" firstAttribute="top" secondItem="1Kq-0z-cKU" secondAttribute="bottom" constant="20" id="yOy-p0-Qwt"/>
-                            <constraint firstItem="atN-ru-RRJ" firstAttribute="trailing" secondItem="uZN-RK-oFL" secondAttribute="trailing" constant="40" id="z3g-eO-dKy"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9bN-Bj-TJM"/>
                     <connections>
-                        <outlet property="goButton" destination="gfB-Yt-x4O" id="ay5-9E-5VA"/>
+                        <outlet property="appEnglishNameLabel" destination="bCy-yd-9FZ" id="PV9-Tt-nCJ"/>
+                        <outlet property="appMandarinNameLabel" destination="hw3-4I-adr" id="rIi-ho-cWI"/>
                         <outlet property="logoImageView" destination="WQk-AR-hIh" id="Qpl-Oc-oFD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6If-iv-nYv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="2084.057971014493" y="54.910714285714285"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Jqq-Th-JKp">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8TT-SO-JXO" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iKh-R3-ErZ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="T3y-cx-uwI" kind="relationship" relationship="rootViewController" id="NbK-tv-e1W"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kDH-ay-oUy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
             <point key="canvasLocation" x="1173.913043478261" y="54.910714285714285"/>
         </scene>
     </scenes>
     <resources>
-        <image name="WJLogo_suqare" width="83" height="85"/>
-        <image name="enjoy" width="95" height="102"/>
-        <image name="walking" width="168" height="79"/>
-        <namedColor name="DarkCeladon">
-            <color red="0.40392156862745099" green="0.6588235294117647" blue="0.4392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <image name="loginIcon" width="220.5" height="221.5"/>
+        <namedColor name="C1">
+            <color red="0.63099998235702515" green="0.88999998569488525" blue="0.66699999570846558" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="C4">
+            <color red="0.34099999070167542" green="0.6940000057220459" blue="0.57300001382827759" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="C6">
+            <color red="0.097999997437000275" green="0.53700000047683716" blue="0.3919999897480011" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
-        <systemColor name="systemGray4Color">
-            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

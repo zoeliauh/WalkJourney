@@ -9,12 +9,15 @@ target 'WalkJourney' do
 pod 'SwiftLint'
 pod 'Firebase/Firestore'
 pod 'FirebaseFirestoreSwift'
-pod ‘GoogleMaps’
-pod ‘GooglePlaces’
+pod 'GoogleMaps'
+pod 'GooglePlaces'
 pod 'Firebase/Storage'
 pod 'Kingfisher'
 pod 'IQKeyboardManagerSwift'
 pod 'Charts'
 pod 'lottie-ios'
+pod 'Firebase/Auth'
+pod 'JGProgressHUD'
+pod 'Firebase/Database'
 
 end

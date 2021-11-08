@@ -14,7 +14,7 @@ class DayChartViewController: UIViewController {
         
         let label = UILabel()
         label.text = "總步數"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.kleeOneRegular(ofSize: 20)
         label.textColor = .gray
         label.textAlignment = .left
         return label
@@ -24,7 +24,7 @@ class DayChartViewController: UIViewController {
         
         let label = UILabel()
         label.text = "0"
-        label.font = UIFont.systemFont(ofSize: 40)
+        label.font = UIFont.kleeOneRegular(ofSize: 40)
         label.textColor = .black
         label.textAlignment = .left
         return label
@@ -34,7 +34,7 @@ class DayChartViewController: UIViewController {
         
         let label = UILabel()
         label.text = "步"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.kleeOneRegular(ofSize: 20)
         label.textColor = .gray
         label.textAlignment = .left
         return label
@@ -45,6 +45,8 @@ class DayChartViewController: UIViewController {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "zh_Hant_TW")
+        datePicker.tintColor = UIColor.C2
+//        datePicker.accentColor = UIColor.C2
     
         datePicker.addTarget(self, action: #selector(dateChecked(_:)), for: .valueChanged)
         return datePicker
@@ -87,7 +89,7 @@ class DayChartViewController: UIViewController {
         
         dateFormat.dateFormat = "yyyy.MM.dd"
 
-        RecordAfterWalkingManager.shared.fetchDateRecord(calenderDay: dateFormat.string(from: selectedDay)) { [weak self] result in
+        RecordManager.shared.fetchDateRecord(calenderDay: dateFormat.string(from: selectedDay)) { [weak self] result in
             switch result {
                 
             case .success(let stepData):
@@ -144,14 +146,18 @@ class DayChartViewController: UIViewController {
             
             let walkHour = dateFormatHour.string(from: Date.init(milliseconds: items.createdTime ?? Int64(0.0)))
             
-            print("\(items.date) walk \(items.numberOfSteps) at \(walkHour)" )
+//            print("\(items.date) walk \(items.numberOfSteps) at \(walkHour)" )
             
             stepsDic[walkHour, default: 0] += items.numberOfSteps
         }
         
-        let values = Array(stepsDic)
+        var xValues: [String] = []
         
-        let hours = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
+        for index in 0...23 {
+            xValues.append(String(format: "%02d", index))
+        }
+        
+        let hours = xValues
         
         for index in hours {
             
@@ -173,14 +179,7 @@ class DayChartViewController: UIViewController {
     }
 
     func chartAsixSetup() {
-        
-        var xValues: [String] = []
-        
-        for index in 0...23 {
-            xValues.append("\(index)")
-        }
-        
-        dayChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: xValues)
+
         dayChartView.xAxis.drawGridLinesEnabled = false
         dayChartView.xAxis.labelPosition = .bottom
         dayChartView.xAxis.granularity = 1
@@ -201,6 +200,19 @@ class DayChartViewController: UIViewController {
 
 extension DayChartViewController {
     // MARK: - UI design
+    private func setupcalendarDatePicker() {
+        
+        view.addSubview(calendarDatePicker)
+        
+        calendarDatePicker.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            calendarDatePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            calendarDatePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 50)
+        ])
+    }
+    
     private func setupTotalLabel() {
         
         view.addSubview(totalLabel)
@@ -210,7 +222,7 @@ extension DayChartViewController {
         NSLayoutConstraint.activate([
         
             totalLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            totalLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 50)
+            totalLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100)
         ])
     }
     
@@ -237,19 +249,6 @@ extension DayChartViewController {
         
             stepLabel.centerYAnchor.constraint(equalTo: stepsNumLabel.centerYAnchor),
             stepLabel.leadingAnchor.constraint(equalTo: stepsNumLabel.trailingAnchor, constant: 10)
-        ])
-    }
-    
-    private func setupcalendarDatePicker() {
-        
-        view.addSubview(calendarDatePicker)
-        
-        calendarDatePicker.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            calendarDatePicker.leadingAnchor.constraint(equalTo: totalLabel.leadingAnchor),
-            calendarDatePicker.topAnchor.constraint(equalTo: stepsNumLabel.bottomAnchor, constant: 20)
         ])
     }
     
