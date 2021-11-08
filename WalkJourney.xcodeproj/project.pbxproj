@@ -57,13 +57,13 @@
 		6B5C09F1273845AF00E10EF5 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09F0273845AF00E10EF5 /* SettingTableViewCell.swift */; };
 		6B5C09F3273849CB00E10EF5 /* SettingStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09F2273849CB00E10EF5 /* SettingStruct.swift */; };
 		6B5C09F52738B3B400E10EF5 /* ChallengeInvitationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09F42738B3B400E10EF5 /* ChallengeInvitationTableViewCell.swift */; };
+		6B5C09FF273968D100E10EF5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B5C09FE273968D100E10EF5 /* GoogleService-Info.plist */; };
 		6B868A23271B18B400965075 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B868A22271B18B400965075 /* AppDelegate.swift */; };
 		6B868A25271B18B400965075 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B868A24271B18B400965075 /* SceneDelegate.swift */; };
 		6B868A27271B18B400965075 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B868A26271B18B400965075 /* TabBarController.swift */; };
 		6B868A2A271B18B400965075 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A28271B18B400965075 /* Main.storyboard */; };
 		6B868A2C271B18B700965075 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A2B271B18B700965075 /* Assets.xcassets */; };
 		6B868A2F271B18B700965075 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A2D271B18B700965075 /* LaunchScreen.storyboard */; };
-		6B868A58271D0C8100965075 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A57271D0C8100965075 /* GoogleService-Info.plist */; };
 		6B868A60271D418300965075 /* BarChart.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A5F271D418300965075 /* BarChart.storyboard */; };
 		6B868A62271D41AD00965075 /* Record.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A61271D41AD00965075 /* Record.storyboard */; };
 		6B868A64271D41BA00965075 /* Share.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A63271D41BA00965075 /* Share.storyboard */; };
@@ -125,6 +125,7 @@
 		6B5C09F0273845AF00E10EF5 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		6B5C09F2273849CB00E10EF5 /* SettingStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingStruct.swift; sourceTree = "<group>"; };
 		6B5C09F42738B3B400E10EF5 /* ChallengeInvitationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeInvitationTableViewCell.swift; sourceTree = "<group>"; };
+		6B5C09FE273968D100E10EF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6B868A1F271B18B400965075 /* WalkJourney.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalkJourney.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B868A22271B18B400965075 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B868A24271B18B400965075 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -133,7 +134,6 @@
 		6B868A2B271B18B700965075 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B868A2E271B18B700965075 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B868A30271B18B700965075 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6B868A57271D0C8100965075 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6B868A5D271D413F00965075 /* Position.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Position.storyboard; sourceTree = "<group>"; };
 		6B868A5F271D418300965075 /* BarChart.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = BarChart.storyboard; sourceTree = "<group>"; };
 		6B868A61271D41AD00965075 /* Record.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Record.storyboard; sourceTree = "<group>"; };
@@ -306,9 +306,9 @@
 				6B227DCF2733AA700067E51C /* WalkJourney.entitlements */,
 				6B868A22271B18B400965075 /* AppDelegate.swift */,
 				6B868A24271B18B400965075 /* SceneDelegate.swift */,
+				6B5C09FE273968D100E10EF5 /* GoogleService-Info.plist */,
 				6B868A2B271B18B700965075 /* Assets.xcassets */,
 				6B868A30271B18B700965075 /* Info.plist */,
-				6B868A57271D0C8100965075 /* GoogleService-Info.plist */,
 			);
 			path = WalkJourney;
 			sourceTree = "<group>";
@@ -436,8 +436,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B868A2F271B18B700965075 /* LaunchScreen.storyboard in Resources */,
-				6B868A58271D0C8100965075 /* GoogleService-Info.plist in Resources */,
 				6B0F3897272AF67A00F00448 /* profile_lottie.json in Resources */,
+				6B5C09FF273968D100E10EF5 /* GoogleService-Info.plist in Resources */,
 				6B02216E271E74C400C61593 /* Position.storyboard in Resources */,
 				6B868A64271D41BA00965075 /* Share.storyboard in Resources */,
 				6B227DD727367E140067E51C /* walking_outside.json in Resources */,
@@ -736,7 +736,7 @@
 				CODE_SIGN_ENTITLEMENTS = WalkJourney/WalkJourney.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9S6W953ZSY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WalkJourney/Info.plist;
@@ -755,7 +755,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.0;
+				MARKETING_VERSION = 0.1.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ibm801227.WalkJourney;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -776,7 +776,7 @@
 				CODE_SIGN_ENTITLEMENTS = WalkJourney/WalkJourney.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9S6W953ZSY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WalkJourney/Info.plist;
@@ -795,7 +795,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ibm801227.WalkJourney;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
