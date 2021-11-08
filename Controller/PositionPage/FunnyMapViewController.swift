@@ -12,15 +12,15 @@ class FunnyMapViewController: UIViewController {
     @IBOutlet weak var funnyMapTableView: UITableView!
     
     var shapeMapExample = ShapeMapExample()
-    
-    var tag: Int? = 0
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         funnyMapTableView.delegate = self
         
         funnyMapTableView.dataSource = self
+        
+        self.tabBarController?.tabBar.backgroundImage =  UIImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,6 +42,8 @@ extension FunnyMapViewController: UITableViewDelegate, UITableViewDataSource {
         ) as? FunnyMapTableViewCell else { fatalError("can not dequeue cell") }
         
         cell.shapeImageView.image = shapeMapExample.shapeArr[indexPath.row]
+        
+        cell.goButton.tag = indexPath.row
         
         cell.goButton.addTarget(self, action: #selector(goButtonPressed(_:)), for: .touchUpInside)
                 

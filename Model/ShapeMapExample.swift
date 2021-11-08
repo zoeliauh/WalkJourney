@@ -24,6 +24,6 @@ struct ShapeMapExample {
         UIImage(named: "taiwan_line"),
         UIImage(named: "taipei_101_line"),
         UIImage(named: "bubble_tea_line"),
-        UIImage(named: "peace_line")
+        UIImage(named: "peace_fine_line")
     ]
 }

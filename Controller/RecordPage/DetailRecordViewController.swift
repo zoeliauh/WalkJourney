@@ -10,47 +10,47 @@ import GoogleMaps
 
 class DetailRecordViewController: UIViewController {
     
-    lazy var headerView: UIView = {
+    lazy var popButton: UIButton = {
         
-        let view = UIView()
-        view.backgroundColor = UIColor.Celadon
-        view.clipsToBounds = true
-        return view
+        let button = UIButton()
+        button.setImage(UIImage(named: "backIcon"), for: .normal)
+        return button
     }()
     
-    lazy var headerTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 25)
-        label.text = walkDate
-        label.textAlignment = .center
-        return label
+    lazy var moreButton: UIButton = {
+        
+        let button = UIButton()
+        button.setImage(UIImage(named: "more"), for: .normal)
+        return button
     }()
 
     lazy var walkTimeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 20)
+        label.font = UIFont.kleeOneSemiBold(ofSize: 20)
         label.text = walkTime
-        label.textAlignment = .center
+        label.textAlignment = .left
+        label.layoutIfNeeded()
         return label
     }()
     
     lazy var walkStepLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 20)
+        label.font = UIFont.kleeOneSemiBold(ofSize: 20)
         label.text = "走了 \(walkStep ?? 0) 步"
-        label.textAlignment = .center
+        label.textAlignment = .left
+        label.layoutIfNeeded()
         return label
     }()
     
     lazy var walkDistanceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 20)
+        label.font = UIFont.kleeOneSemiBold(ofSize: 20)
         label.text = walkDistance
-        label.textAlignment = .center
+        label.textAlignment = .left
+        label.layoutIfNeeded()
         return label
     }()
     
@@ -58,6 +58,7 @@ class DetailRecordViewController: UIViewController {
         
         let GMSMapView = GMSMapView()
         GMSMapView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+        GMSMapView.layoutIfNeeded()
         return GMSMapView
     }()
         
@@ -83,26 +84,40 @@ class DetailRecordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupHeader()
-        setupHeaderTitleLabel()
-        setupWalkTimeLabel()
-        setupWalkStepLabel()
-        setupWalkDistanceLabel()
-        setupBackIcon()
+
+        self.navigationItem.setHidesBackButton(true, animated: true)
+
         locationManager(locationManager, latitude: latitudeArr, longitude: longitudeArr)
     }
     
     override func viewDidLayoutSubviews() {
         tabbarHeight = self.tabBarController?.tabBar.frame.height
         setuptrackingMapView()
+        setupWalkDistanceLabel()
+        setupWalkStepLabel()
+        setupWalkTimeLabel()
+        setUpBackButton()
+        setUpMoreButton()
     }
     
-    private func setupBackIcon() {
-        let backButtonImage = UIImage(named: "Icons_24px_Back02")?.withRenderingMode(.alwaysOriginal)
-        self.navigationController?.navigationBar.backIndicatorImage = backButtonImage
-        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backButtonImage
-        self.navigationController?.navigationBar.topItem?.title = ""
+    @objc func popBack() {
+
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func popMore() {
+        
+        let controller = UIAlertController(title: "更多功能", message: "", preferredStyle: .actionSheet)
+        let names = ["下載", "分享"]
+        for name in names {
+           let action = UIAlertAction(title: name, style: .default) { action in
+               print(action.title ?? "no action")
+           }
+           controller.addAction(action)
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
     }
 }
 
@@ -120,7 +135,7 @@ extension DetailRecordViewController: CLLocationManagerDelegate {
 
                 polyline.strokeWidth = 2
 
-            polyline.strokeColor = UIColor.hexStringToUIColor(hex: "#43b4f6")
+            polyline.strokeColor = UIColor.black ?? .green
 
                 polyline.geodesic = true
 
@@ -138,35 +153,38 @@ extension DetailRecordViewController: CLLocationManagerDelegate {
 
 extension DetailRecordViewController {
     // MARK: - UI design
-    private func setupHeader() {
+    private func setUpBackButton() {
+                
+        view.addSubview(popButton)
         
-        view.addSubview(headerView)
-        
-        headerView.translatesAutoresizingMaskIntoConstraints = false
+        popButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.topAnchor.constraint(equalTo: view.topAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 100)
+            
+            popButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            popButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            popButton.heightAnchor.constraint(equalToConstant: 40),
+            popButton.widthAnchor.constraint(equalToConstant: 40)
         ])
         
-        headerView.backgroundColor = UIColor.Celadon
+        popButton.addTarget(self, action: #selector(popBack), for: .touchUpInside)
     }
     
-    private func setupHeaderTitleLabel() {
+    private func setUpMoreButton() {
+                
+        view.addSubview(moreButton)
         
-        headerView.addSubview(headerTitleLabel)
-        
-        headerTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        moreButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
-            headerTitleLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-            headerTitleLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-            headerTitleLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 10)
+            
+            moreButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            moreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            moreButton.heightAnchor.constraint(equalToConstant: 40),
+            moreButton.widthAnchor.constraint(equalToConstant: 40)
         ])
+        
+        moreButton.addTarget(self, action: #selector(popMore), for: .touchUpInside)
     }
     
     private func setupWalkTimeLabel() {
@@ -176,9 +194,9 @@ extension DetailRecordViewController {
         walkTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
-            walkTimeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            walkTimeLabel.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 40),
+            
+            walkTimeLabel.leadingAnchor.constraint(equalTo: walkDistanceLabel.leadingAnchor),
+            walkTimeLabel.bottomAnchor.constraint(equalTo: walkStepLabel.bottomAnchor, constant: -30),
             walkTimeLabel.widthAnchor.constraint(equalToConstant: 120)
         ])
     }
@@ -190,10 +208,10 @@ extension DetailRecordViewController {
         walkStepLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
-            walkStepLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            walkStepLabel.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 40),
-            walkStepLabel.widthAnchor.constraint(equalToConstant: 100)
+            
+            walkStepLabel.leadingAnchor.constraint(equalTo: walkDistanceLabel.leadingAnchor),
+            walkStepLabel.bottomAnchor.constraint(equalTo: walkDistanceLabel.bottomAnchor, constant: -30),
+            walkStepLabel.widthAnchor.constraint(equalToConstant: 200)
         ])
     }
     
@@ -204,10 +222,10 @@ extension DetailRecordViewController {
         walkDistanceLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
-            walkDistanceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            walkDistanceLabel.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 40),
-            walkDistanceLabel.widthAnchor.constraint(equalToConstant: 100)
+            
+            walkDistanceLabel.leadingAnchor.constraint(equalTo: trackingMapView.leadingAnchor, constant: 30),
+            walkDistanceLabel.bottomAnchor.constraint(equalTo: trackingMapView.bottomAnchor, constant: -50),
+            walkDistanceLabel.widthAnchor.constraint(equalToConstant: 200)
         ])
     }
     
@@ -220,7 +238,7 @@ extension DetailRecordViewController {
         NSLayoutConstraint.activate([
         
             trackingMapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            trackingMapView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 100),
+            trackingMapView.topAnchor.constraint(equalTo: view.topAnchor),
             trackingMapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             trackingMapView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabbarHeight ?? 49.0))
         ])

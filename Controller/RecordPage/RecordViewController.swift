@@ -8,23 +8,6 @@
 import UIKit
 
 class RecordViewController: UIViewController {
-        
-    lazy var headerView: UIView = {
-        
-        let view = UIView()
-        view.backgroundColor = UIColor.Celadon
-        view.clipsToBounds = true
-        return view
-    }()
-    
-    lazy var headerTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont.kleeOneSemiBold(ofSize: 30)
-        label.text = "歷史紀錄"
-        label.textAlignment = .center
-        return label
-    }()
     
     lazy var recordTableView: UITableView = {
         
@@ -34,7 +17,6 @@ class RecordViewController: UIViewController {
         table.rowHeight = UITableView.automaticDimension
         table.register(RecordTableViewCell.self, forCellReuseIdentifier: RecordTableViewCell.identifier)
         table.reloadData()
-        table.layoutIfNeeded()
 
         return table
     }()
@@ -54,29 +36,31 @@ class RecordViewController: UIViewController {
         }
     }
     
-    var screenshotURL: [String] = []
+    var stepDataWithOutURL: [StepData] = []
     
-    var tabbarHeight: CGFloat? = 0.0
-            
+    var screenshotURL: [String] = []
+                    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-
-        setupHeader()
-        setupHeaderTitleLabel()        
+        
         fetchRecordStepsData()
+        setupRecordTableView()
         refreshTableView()
+        
+//        self.tabBarController?.tabBar.backgroundImage =  UIImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        self.navigationController?.navigationBar.isHidden = false
         fetchRecordStepsData()
     }
     
-    override func viewDidLayoutSubviews() {
-        tabbarHeight = self.tabBarController?.tabBar.frame.height
-        setupRecordTableView()
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.navigationController?.navigationBar.isHidden = true
     }
 
     @objc func navDetailRecordVC(_ sender: UIButton) {
@@ -103,16 +87,17 @@ class RecordViewController: UIViewController {
     }
     
     func fetchRecordStepsData() {
-
-        RecordManager.shared.fetchRecord { [weak self] result in
+        
+        RecordManager.shared.fetchWalkBySelfRecord { [weak self] result in
+        
             switch result {
-
-            case .success(let stepData):
-
-                self?.stepData = stepData
                 
+            case .success(let stepData):
+                
+                self?.stepData = stepData
+                                
             case .failure(let error):
-
+                
                 print("fetchStepsData.failure: \(error)")
             }
         }
@@ -141,37 +126,6 @@ class RecordViewController: UIViewController {
         }
     
     // MARK: - UI design
-    private func setupHeader() {
-        
-        view.addSubview(headerView)
-        
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.topAnchor.constraint(equalTo: view.topAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 100)
-        ])
-        
-        headerView.backgroundColor = UIColor.Celadon
-    }
-    
-    private func setupHeaderTitleLabel() {
-        
-        headerView.addSubview(headerTitleLabel)
-        
-        headerTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            headerTitleLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-            headerTitleLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-            headerTitleLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 10)
-        ])
-    }
-    
     func setupRecordTableView() {
         
         view.addSubview(recordTableView)
@@ -181,9 +135,9 @@ class RecordViewController: UIViewController {
         NSLayoutConstraint.activate([
         
             recordTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            recordTableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            recordTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             recordTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabbarHeight ?? 49.0))
+            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }

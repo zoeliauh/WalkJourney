@@ -13,7 +13,7 @@ class RecordTableViewCell: UITableViewCell {
     lazy var logoImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "WJLogo_suqare")
+        imageView.image = UIImage(named: "loginIcon")
         imageView.layer.cornerRadius = 30
         return imageView
     }()

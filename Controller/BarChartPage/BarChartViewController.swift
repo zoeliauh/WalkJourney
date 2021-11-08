@@ -12,40 +12,38 @@ class BarChartViewController: UIViewController {
     private enum ChartType: Int {
         
         case dayChart = 0
-        
-        case weekChart = 1
-        
-        case monthChart = 2
+                
+        case monthChart = 1
     }
     
     private struct Segue {
         
         static let day = "SegueDay"
-        
-        static let week = "SegueWeek"
-        
+                
         static let month = "SegueMonth"
     }
     
     @IBOutlet weak var dayContainerView: UIView!
-    
-    @IBOutlet weak var weekContainerView: UIView!
-    
+        
     @IBOutlet weak var monthContainerView: UIView!
     
     var containerViews: [UIView] {
 
-        return [dayContainerView, weekContainerView, monthContainerView]
+        return [dayContainerView, monthContainerView]
     }
     
     lazy var chartSegmentedControl: UISegmentedControl = {
         
-        let items = ["天", "週", "月"]
+        let items = ["天", "月"]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.backgroundColor = UIColor.Celadon
-        segmentedControl.selectedSegmentTintColor = UIColor.Sky
+        segmentedControl.backgroundColor = UIColor.C1
+        segmentedControl.selectedSegmentTintColor = UIColor.C4
         segmentedControl.layer.cornerRadius = 10
+        segmentedControl.layer.shadowOpacity = 0.3
+        segmentedControl.layer.shadowRadius = 2.0
+        segmentedControl.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        segmentedControl.layer.shadowColor = UIColor.black.cgColor
         segmentedControl.setTitleTextAttributes([.font: UIFont.kleeOneRegular(ofSize: 20) ], for: .normal)
         segmentedControl.addTarget(self, action: #selector(segmentAction(_:)), for: .valueChanged)
         return segmentedControl
@@ -55,6 +53,8 @@ class BarChartViewController: UIViewController {
         super.viewDidLoad()
         
         setupChartSegmentedControl()
+        
+        self.tabBarController?.tabBar.backgroundImage =  UIImage()
     }
     
     @objc func segmentAction(_ segmentedControl: UISegmentedControl) {
@@ -72,9 +72,6 @@ class BarChartViewController: UIViewController {
             
         case .dayChart:
             dayContainerView.isHidden = false
-            
-        case .weekChart:
-            weekContainerView.isHidden = false
             
         case .monthChart:
             monthContainerView.isHidden = false

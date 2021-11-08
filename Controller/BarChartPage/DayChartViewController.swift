@@ -45,6 +45,8 @@ class DayChartViewController: UIViewController {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "zh_Hant_TW")
+        datePicker.tintColor = UIColor.C2
+//        datePicker.accentColor = UIColor.C2
     
         datePicker.addTarget(self, action: #selector(dateChecked(_:)), for: .valueChanged)
         return datePicker
@@ -151,7 +153,7 @@ class DayChartViewController: UIViewController {
         
         var xValues: [String] = []
         
-        for index in 1...23 {
+        for index in 0...23 {
             xValues.append(String(format: "%02d", index))
         }
         
@@ -206,7 +208,7 @@ extension DayChartViewController {
         
         NSLayoutConstraint.activate([
         
-            calendarDatePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            calendarDatePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             calendarDatePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 50)
         ])
     }

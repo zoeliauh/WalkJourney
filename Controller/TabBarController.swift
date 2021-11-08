@@ -6,14 +6,14 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class TabBarController: UITabBarController {
         
-//    let mapChosenvc = UIStoryboard.position.instantiateViewController(withIdentifier: "MapChosenViewController")
+    let mapChosenvc = UIStoryboard.position.instantiateViewController(withIdentifier: "MapChosenViewController")
     
-    let startPagevc = UIStoryboard.position.instantiateViewController(withIdentifier: "StartPageViewController")
-    
-    let recordvc = UIStoryboard.record.instantiateViewController(withIdentifier: "Record")
+    let recordCatagoryvc =
+    UIStoryboard.record.instantiateViewController(withIdentifier: "RecordCatagoryvc")
 
     let barChartvc = UIStoryboard.barChart.instantiateViewController(withIdentifier: "BarChart")
 
@@ -25,39 +25,43 @@ class TabBarController: UITabBarController {
         setupvcTitle()
         setupTabBar()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupTabBar()
+    }
+    
     func setupTabBar() {
         
-//        let mapChosennav = UINavigationController(rootViewController: mapChosenvc)
-        
-        let startPagevc = UINavigationController(rootViewController: startPagevc)
-        
-        let recordvc = UINavigationController(rootViewController: recordvc)
+        let mapChosenvc = UINavigationController(rootViewController: mapChosenvc)
+                
+        let recordvc = UINavigationController(rootViewController: recordCatagoryvc)
         
         let barChartvc = UINavigationController(rootViewController: barChartvc)
         
         let profilevc = UINavigationController(rootViewController: profilevc)
         
-        self.setViewControllers([startPagevc, recordvc, barChartvc, profilevc], animated: false)
+        self.setViewControllers([mapChosenvc, recordvc, barChartvc, profilevc], animated: false)
         
-        self.tabBar.backgroundColor = .clear
+        self.tabBar.backgroundColor = .C3
         
-        self.tabBar.tintColor = UIColor.hexStringToUIColor(hex: "#67A870")        
+        self.tabBar.tintColor = UIColor.C6
     }
     
     func setupvcTitle() {
         
-        startPagevc.tabBarItem.image = UIImage(systemName: "house")
+        mapChosenvc.tabBarItem.image = UIImage(systemName: "map")
         
-        startPagevc.tabBarItem.selectedImage = UIImage(systemName: "house.fill")
+        mapChosenvc.tabBarItem.selectedImage = UIImage(systemName: "map.fill")
         
-        startPagevc.tabBarItem.title = "首頁"
+        mapChosenvc.tabBarItem.title = "首頁"
         
-        recordvc.tabBarItem.image = UIImage(systemName: "doc.on.doc")
+        recordCatagoryvc.tabBarItem.image = UIImage(systemName: "pawprint")
         
-        recordvc.tabBarItem.selectedImage = UIImage(systemName: "doc.on.doc.fill")
+        recordCatagoryvc.tabBarItem.selectedImage = UIImage(systemName: "pawprint.fill")
         
-        recordvc.tabBarItem.title = "足跡"
+        recordCatagoryvc.tabBarItem.title = "足跡"
         
         barChartvc.tabBarItem.image = UIImage(systemName: "chart.bar")
         

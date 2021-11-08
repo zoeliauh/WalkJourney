@@ -40,6 +40,10 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
         googleMapView.layer.cornerRadius = 10
         
         startButton.layer.cornerRadius = 20
+        startButton.layer.shadowOpacity = 0.3
+        startButton.layer.shadowRadius = 2.0
+        startButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        startButton.layer.shadowColor = UIColor.black.cgColor
     }
     
     @IBAction func startButtonPressed(_ sender: UIButton) {
