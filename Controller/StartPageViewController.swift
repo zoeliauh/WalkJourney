@@ -29,7 +29,9 @@ class StartPageViewController: UIViewController {
     
     @IBAction func goButtonPressed(_ sender: UIButton!) {
         
-        guard let mapChosenViewController = UIStoryboard.position.instantiateViewController(withIdentifier: "MapChosenViewController") as? MapChosenViewController else { return }
+        guard let mapChosenViewController = UIStoryboard.position.instantiateViewController(
+            withIdentifier: "MapChosenViewController"
+        ) as? MapChosenViewController else { return }
         
         self.navigationController?.pushViewController(mapChosenViewController, animated: true)
     }

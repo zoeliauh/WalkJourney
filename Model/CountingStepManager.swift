@@ -28,8 +28,10 @@ class CountingStepManager {
     // read
     func fetchSteps(completion: @escaping (Result<[Location], Error>) -> Void) {
         
-        db.collection("locations").order(by: "createdTime", descending: true).getDocuments() {
-            (querySnapshot, error) in
+        db.collection("locations").order(
+            by: "createdTime",
+            descending: true
+        ).getDocuments { (querySnapshot, error) in
             
             if let error = error {
                 
@@ -59,7 +61,9 @@ class CountingStepManager {
     }
     
     // create
-    func addNewLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees, completion: @escaping (Result<String, Error>) -> Void) {
+    func addNewLocation(latitude: CLLocationDegrees,
+                        longitude: CLLocationDegrees,
+                        completion: @escaping (Result<String, Error>) -> Void) {
         
         let document = db.collection("locations").document()
 
@@ -82,7 +86,7 @@ class CountingStepManager {
     // delete
     func deleteLocation(location: Location, completion: @escaping (Result<String, Error>) -> Void) {
         
-        db.collection("locations").document(location.id).delete() { error in
+        db.collection("locations").document(location.id).delete { error in
             
             if let error = error {
                 

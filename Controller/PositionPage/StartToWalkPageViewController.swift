@@ -18,11 +18,11 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     
     @IBOutlet weak var stepTitleLabel: UILabel!
     
-    @IBOutlet weak var currentStepsLabel: UILabel!
+    @IBOutlet weak var stepsLabel: UILabel!
     
-    @IBOutlet weak var currentdurationLabel: UILabel!
+    @IBOutlet weak var durationLabel: UILabel!
     
-    @IBOutlet weak var currentDistanceLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
     
     @IBOutlet weak var currentRouteMapView: GMSMapView!
     
@@ -107,7 +107,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         timeString = makeTimeString(hour: time.0, min: time.1, sec: time.2)
         
-        currentdurationLabel.text = timeString
+        durationLabel.text = timeString
     }
     
     func defaultPosition() {
@@ -118,13 +118,21 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         currentRouteMapView.isMyLocationEnabled = true
     }
-    // swiftlint:disable line_length
+
     func createNewRecord() {
 
-            guard let currentDistance = currentDistanceLabel.text, let currentduration = currentdurationLabel.text, let currentSteps = currentStepsLabel.text else { return }
-        guard let numberOfStep = Int(currentSteps) else { return }
+            guard let curDist = distanceLabel.text,
+                    let curdur = durationLabel.text,
+                    let currentSteps = stepsLabel.text else { return }
+        
+        guard let numStep = Int(currentSteps) else { return }
 
-        RecordAfterWalkingManager.shared.addNewRecord(distanceWalk: currentDistance, durationTime: currentduration, numStep: numberOfStep, latitude: certainLat, longitude: certainLong, date: date, year: year, month: month) { result in
+        RecordManager.shared.addNewRecord(distanceWalk: curDist,
+                                          durationTime: curdur,
+                                          numStep: numStep,
+                                          latitude: certainLat,
+                                          longitude: certainLong,
+                                          date: date, year: year, month: month) { result in
             
             switch result {
                 
@@ -144,7 +152,12 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         timer.invalidate()
         
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCounter), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: #selector(timerCounter),
+            userInfo: nil,
+            repeats: true)
     }
     
     func countSteps() {
@@ -153,7 +166,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
                 if error == nil {
                     if let response = data {
                         DispatchQueue.main.async {
-                            self.currentStepsLabel.text = response.numberOfSteps.stringValue
+                            self.stepsLabel.text = response.numberOfSteps.stringValue
                         }
                     }
                 }
@@ -196,7 +209,10 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
                 
         if let location = locations.last {
             
-            currentRouteMapView.camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 16)
+            currentRouteMapView.camera = GMSCameraPosition.camera(
+                withLatitude: location.coordinate.latitude,
+                longitude: location.coordinate.longitude,
+                zoom: 16)
             
             path.addLatitude(location.coordinate.latitude, longitude: location.coordinate.longitude)
             
@@ -238,7 +254,7 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
                 
                 let formatDistanceSum = String(format: "%.2f", self.distanceSum / 1000)
                 
-                currentDistanceLabel.text = formatDistanceSum
+                distanceLabel.text = formatDistanceSum
             }
             self.lastLocation = location
         }
@@ -256,9 +272,12 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
         let controller = UIAlertController(title: nil,
                                            message: "已成功儲存至足跡裡",
                                            preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "確定", style: .default) { (action: UIAlertAction) in self.dismiss(animated: true, completion: nil)
-        }
+        let okAction = UIAlertAction(title: "確定",
+                                     style: .default
+        ) { (_: UIAlertAction) in self.dismiss(animated: true, completion: nil) }
+        
         controller.addAction(okAction)
+        
         present(controller, animated: true, completion: nil)
     }
 }

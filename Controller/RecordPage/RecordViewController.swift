@@ -20,7 +20,7 @@ class RecordViewController: UIViewController {
     lazy var headerTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 30)
+        label.font = UIFont.kleeOneSemiBold(ofSize: 30)
         label.text = "歷史紀錄"
         label.textAlignment = .center
         return label
@@ -34,6 +34,8 @@ class RecordViewController: UIViewController {
         table.rowHeight = UITableView.automaticDimension
         table.register(RecordTableViewCell.self, forCellReuseIdentifier: RecordTableViewCell.identifier)
         table.reloadData()
+        table.layoutIfNeeded()
+
         return table
     }()
     
@@ -53,15 +55,15 @@ class RecordViewController: UIViewController {
     }
     
     var screenshotURL: [String] = []
+    
+    var tabbarHeight: CGFloat? = 0.0
             
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
 
         setupHeader()
-        setupHeaderTitleLabel()
-        setupRecordTableView()
-        
+        setupHeaderTitleLabel()        
         fetchRecordStepsData()
         refreshTableView()
     }
@@ -72,16 +74,37 @@ class RecordViewController: UIViewController {
         fetchRecordStepsData()
     }
     
+    override func viewDidLayoutSubviews() {
+        tabbarHeight = self.tabBarController?.tabBar.frame.height
+        setupRecordTableView()
+    }
+
     @objc func navDetailRecordVC(_ sender: UIButton) {
 
-        guard let detailRecordVC = UIStoryboard.record.instantiateViewController(withIdentifier: "DetailRecord") as? DetailRecordViewController else { return }
+        guard let detailRecordVC = UIStoryboard.record.instantiateViewController(
+            withIdentifier: "DetailRecord"
+        ) as? DetailRecordViewController else { return }
+        
+        detailRecordVC.latitudeArr = stepData[sender.tag].latitude
+        
+        detailRecordVC.longitudeArr = stepData[sender.tag].longitude
+        
+        detailRecordVC.walkDate = Date.dateFormatter.string(
+            from: Date.init(milliseconds: stepData[sender.tag].createdTime ?? Int64(0.0)
+                           ))
+        
+        detailRecordVC.walkTime = stepData[sender.tag].durationOfTime
+        
+        detailRecordVC.walkStep = stepData[sender.tag].numberOfSteps
+        
+        detailRecordVC.walkDistance = stepData[sender.tag].distanceOfWalk
         
         navigationController?.pushViewController(detailRecordVC, animated: true)
     }
     
     func fetchRecordStepsData() {
 
-        RecordAfterWalkingManager.shared.fetchRecord { [weak self] result in
+        RecordManager.shared.fetchRecord { [weak self] result in
             switch result {
 
             case .success(let stepData):
@@ -97,7 +120,7 @@ class RecordViewController: UIViewController {
     
     func deleteRecordStepsData(indexPath: IndexPath) {
                 
-        RecordAfterWalkingManager.shared.deleteRecord(stepData: stepData[indexPath.row])
+        RecordManager.shared.deleteRecord(stepData: stepData[indexPath.row])
         stepData.remove(at: indexPath.row)
         recordTableView.deleteRows(at: [indexPath], with: .fade)
     }
@@ -160,7 +183,7 @@ class RecordViewController: UIViewController {
             recordTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             recordTableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             recordTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80)
+            recordTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabbarHeight ?? 49.0))
         ])
     }
 }
@@ -168,18 +191,25 @@ class RecordViewController: UIViewController {
 extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
         UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return stepData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: RecordTableViewCell.identifier, for: indexPath) as? RecordTableViewCell else { fatalError("can not dequeue") }
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: RecordTableViewCell.identifier,
+            for: indexPath
+        ) as? RecordTableViewCell else { fatalError("can not dequeue") }
                 
-        cell.dateLabel.text = Date.dateFormatter.string(from: Date.init(milliseconds: stepData[indexPath.row].createdTime ?? Int64(0.0)))
+        cell.dateLabel.text = Date.dateFormatter.string(
+            from: Date.init(
+                milliseconds: stepData[indexPath.row].createdTime ?? Int64(0.0)))
         
         cell.stepsLabel.text = "\(stepData[indexPath.row].numberOfSteps.description) 步"
         
@@ -194,24 +224,36 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let detailRecordVC = UIStoryboard.record.instantiateViewController(withIdentifier: "DetailRecord") as? DetailRecordViewController else { return }
+        guard let detailRecordVC = UIStoryboard.record.instantiateViewController(
+            withIdentifier: "DetailRecord"
+        ) as? DetailRecordViewController else { return }
         
         detailRecordVC.latitudeArr = stepData[indexPath.row].latitude
+        
         detailRecordVC.longitudeArr = stepData[indexPath.row].longitude
-        detailRecordVC.walkDate = Date.dateFormatter.string(from: Date.init(milliseconds: stepData[indexPath.row].createdTime ?? Int64(0.0)))
+        
+        detailRecordVC.walkDate = Date.dateFormatter.string(
+            from: Date.init(milliseconds: stepData[indexPath.row].createdTime ?? Int64(0.0)
+                           ))
+        
         detailRecordVC.walkTime = stepData[indexPath.row].durationOfTime
+        
         detailRecordVC.walkStep = stepData[indexPath.row].numberOfSteps
+        
         detailRecordVC.walkDistance = stepData[indexPath.row].distanceOfWalk
         
         self.navigationController?.pushViewController(detailRecordVC, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    func tableView(_ tableView: UITableView,
+                   editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         
         return .delete
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
             

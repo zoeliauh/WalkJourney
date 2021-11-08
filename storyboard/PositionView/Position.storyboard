@@ -9,6 +9,14 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="KleeOne-Regular.ttf">
+            <string>KleeOne-Regular</string>
+        </array>
+        <array key="KleeOne-SemiBold.ttf">
+            <string>KleeOne-SemiBold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Map Chosen View Controller-->
         <scene sceneID="Qe6-Sf-DrI">
@@ -18,15 +26,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ymo-w0-QZh">
-                                <rect key="frame" x="30" y="247" width="354" height="55"/>
+                            <button opaque="NO" contentMode="scaleToFill" highlighted="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ymo-w0-QZh">
+                                <rect key="frame" x="30" y="242" width="354" height="55"/>
                                 <color key="backgroundColor" name="DarkCeladon"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="tl9-DD-h5H"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="自己的路，自己走">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle2"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="我的路，我自己定義">
+                                            <attributes>
+                                                <font key="NSFont" size="24" name="Klee-Medium"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -35,22 +49,22 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="該散步囉..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWB-xH-mJm">
-                                <rect key="frame" x="104" y="94" width="206.5" height="53"/>
+                                <rect key="frame" x="123.5" y="94" width="167" height="48"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="44"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="33"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UGj-dj-2xR">
-                                <rect key="frame" x="30" y="402" width="354" height="55"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UGj-dj-2xR">
+                                <rect key="frame" x="30" y="397" width="354" height="55"/>
                                 <color key="backgroundColor" name="DarkCeladon"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="clX-Ul-RoM"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="趣味地圖，趣味走">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle2"/>
+                                <buttonConfiguration key="configuration" style="plain" title="趣味一下 ： GPS art！！！">
+                                    <fontDescription key="titleFontDescription" name="KleeOne-Regular" family="Klee One" pointSize="24"/>
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -63,9 +77,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="UGj-dj-2xR" firstAttribute="trailing" secondItem="Ymo-w0-QZh" secondAttribute="trailing" id="1Og-gj-Dje"/>
-                            <constraint firstItem="Ymo-w0-QZh" firstAttribute="leading" secondItem="a7e-hP-ydA" secondAttribute="leading" priority="997" constant="30" id="Asj-7Q-jMB"/>
+                            <constraint firstItem="Ymo-w0-QZh" firstAttribute="leading" secondItem="a7e-hP-ydA" secondAttribute="leading" constant="30" id="Asj-7Q-jMB"/>
                             <constraint firstItem="UGj-dj-2xR" firstAttribute="top" secondItem="Ymo-w0-QZh" secondAttribute="bottom" constant="100" id="MF8-Ez-nQl"/>
-                            <constraint firstItem="a7e-hP-ydA" firstAttribute="trailing" secondItem="Ymo-w0-QZh" secondAttribute="trailing" priority="997" constant="30" id="TPE-1d-REW"/>
+                            <constraint firstItem="a7e-hP-ydA" firstAttribute="trailing" secondItem="Ymo-w0-QZh" secondAttribute="trailing" constant="30" id="TPE-1d-REW"/>
                             <constraint firstItem="Ymo-w0-QZh" firstAttribute="top" secondItem="JWB-xH-mJm" secondAttribute="bottom" constant="100" id="Tjm-6p-dnN"/>
                             <constraint firstItem="JWB-xH-mJm" firstAttribute="centerX" secondItem="ZTA-ch-8Or" secondAttribute="centerX" id="Xcw-sN-uga"/>
                             <constraint firstItem="UGj-dj-2xR" firstAttribute="leading" secondItem="Ymo-w0-QZh" secondAttribute="leading" id="d1g-xA-d4g"/>
@@ -104,7 +118,7 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="開始囉">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle3"/>
+                                    <fontDescription key="titleFontDescription" name="KleeOne-Regular" family="Klee One" pointSize="22"/>
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -143,7 +157,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wpt-jy-Yby">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wpt-jy-Yby">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -154,36 +168,38 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="253"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fon-nF-eVb">
-                                                    <rect key="frame" x="40" y="31" width="239" height="191"/>
-                                                    <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="200" id="VI7-oJ-MIY"/>
-                                                    </constraints>
-                                                </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CRx-Ys-K7j">
-                                                    <rect key="frame" x="299" y="104.5" width="75" height="44"/>
+                                                    <rect key="frame" x="280.5" y="103.5" width="113.5" height="46"/>
                                                     <color key="backgroundColor" name="DarkCeladon"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="113.5" id="ZVv-Ub-5UV"/>
+                                                    </constraints>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" title="走囉">
-                                                        <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle1"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="挑戰開始">
+                                                        <fontDescription key="titleFontDescription" name="KleeOne-Regular" family="Klee One" pointSize="22"/>
                                                         <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </buttonConfiguration>
                                                 </button>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FjA-XR-PqR">
+                                                    <rect key="frame" x="50" y="21" width="100" height="211"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="100" id="oYS-Z6-0Xn"/>
+                                                        <constraint firstAttribute="width" constant="100" id="tG5-rC-WEv"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="FjA-XR-PqR" firstAttribute="top" secondItem="YTQ-cx-CZ5" secondAttribute="topMargin" constant="10" id="6tW-YW-fMZ"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="FjA-XR-PqR" secondAttribute="bottom" constant="10" id="BDq-Im-43K"/>
                                                 <constraint firstItem="CRx-Ys-K7j" firstAttribute="centerY" secondItem="YTQ-cx-CZ5" secondAttribute="centerY" id="Fx4-V0-fG8"/>
-                                                <constraint firstItem="fon-nF-eVb" firstAttribute="top" secondItem="YTQ-cx-CZ5" secondAttribute="topMargin" constant="20" id="TQr-B0-GXc"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="fon-nF-eVb" secondAttribute="bottom" constant="20" id="YTH-39-E9A"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="CRx-Ys-K7j" secondAttribute="trailing" constant="20" id="geR-vS-2ku"/>
-                                                <constraint firstItem="fon-nF-eVb" firstAttribute="leading" secondItem="YTQ-cx-CZ5" secondAttribute="leadingMargin" constant="20" id="v6w-Ov-fRS"/>
-                                                <constraint firstItem="CRx-Ys-K7j" firstAttribute="leading" secondItem="fon-nF-eVb" secondAttribute="trailing" constant="20" id="wBv-0e-jHL"/>
+                                                <constraint firstItem="FjA-XR-PqR" firstAttribute="leading" secondItem="YTQ-cx-CZ5" secondAttribute="leadingMargin" constant="30" id="a1R-Xi-gOS"/>
+                                                <constraint firstAttribute="trailing" secondItem="CRx-Ys-K7j" secondAttribute="trailing" constant="20" id="geR-vS-2ku"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="goButton" destination="CRx-Ys-K7j" id="s89-XA-3ln"/>
-                                            <outlet property="mapView" destination="fon-nF-eVb" id="KNm-tQ-9hp"/>
+                                            <outlet property="shapeImageView" destination="FjA-XR-PqR" id="lhk-cI-v3V"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -206,6 +222,131 @@
             </objects>
             <point key="canvasLocation" x="2762.3188405797105" y="792.85714285714278"/>
         </scene>
+        <!--Google Art View Controller-->
+        <scene sceneID="umQ-tf-Lxg">
+            <objects>
+                <viewController storyboardIdentifier="GoogleArtPage" id="DSy-jc-EUC" customClass="GoogleArtViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nhh-WS-C7L">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSY-4i-Xl3" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KR2-Lz-mI5">
+                                <rect key="frame" x="70" y="776" width="274" height="46"/>
+                                <color key="backgroundColor" name="DarkCeladon"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="完成囉">
+                                    <fontDescription key="titleFontDescription" name="KleeOne-Regular" family="Klee One" pointSize="22"/>
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="DSy-jc-EUC" eventType="touchUpInside" id="IdV-1m-A3Q"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iAQ-Nh-dv2">
+                                <rect key="frame" x="359" y="64" width="15" height="36.5"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sAk-Js-gY5">
+                                <rect key="frame" x="153.5" y="64" width="107.5" height="36.5"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m93-hV-5xM">
+                                <rect key="frame" x="40" y="64" width="15" height="36.5"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="步" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SbB-gW-4rs">
+                                <rect key="frame" x="55" y="95.5" width="15" height="22"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="時間" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vC4-hn-ELg">
+                                <rect key="frame" x="269" y="95.5" width="30" height="22"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="公里" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ie-nt-ygH">
+                                <rect key="frame" x="354" y="88" width="30" height="37"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="taiwan_line" translatesAutoresizingMaskIntoConstraints="NO" id="VOG-Sg-3JI">
+                                <rect key="frame" x="20" y="606" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="VOG-Sg-3JI" secondAttribute="height" id="Pb2-hu-fnG"/>
+                                    <constraint firstAttribute="width" constant="150" id="S8q-Hn-rBq"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zpI-D1-XXh">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" red="0.0" green="0.51570065526210485" blue="0.25958133253301319" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6mt-Vn-yB9">
+                                <rect key="frame" x="177" y="375.5" width="60" height="145"/>
+                                <fontDescription key="fontDescription" name="KleeOne-SemiBold" family="Klee One" pointSize="100"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Pxf-7m-zSi"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="zpI-D1-XXh" firstAttribute="top" secondItem="nhh-WS-C7L" secondAttribute="top" id="1NG-Fn-vdh"/>
+                            <constraint firstItem="iAQ-Nh-dv2" firstAttribute="top" secondItem="sAk-Js-gY5" secondAttribute="top" id="1xV-5x-urn"/>
+                            <constraint firstItem="2ie-nt-ygH" firstAttribute="top" secondItem="Pxf-7m-zSi" secondAttribute="top" constant="44" id="75M-ea-P4W"/>
+                            <constraint firstItem="6mt-Vn-yB9" firstAttribute="centerX" secondItem="nhh-WS-C7L" secondAttribute="centerX" id="8x9-QG-5oZ"/>
+                            <constraint firstItem="2ie-nt-ygH" firstAttribute="leading" secondItem="iAQ-Nh-dv2" secondAttribute="trailing" constant="-20" id="AwA-1c-HF3"/>
+                            <constraint firstAttribute="bottom" secondItem="zpI-D1-XXh" secondAttribute="bottom" id="Gza-HW-uAo"/>
+                            <constraint firstItem="VOG-Sg-3JI" firstAttribute="leading" secondItem="Pxf-7m-zSi" secondAttribute="leading" constant="20" id="Jqz-TE-lI0"/>
+                            <constraint firstItem="SbB-gW-4rs" firstAttribute="leading" secondItem="m93-hV-5xM" secondAttribute="trailing" id="Lhr-hq-evc"/>
+                            <constraint firstItem="Pxf-7m-zSi" firstAttribute="bottom" secondItem="nSY-4i-Xl3" secondAttribute="bottom" id="Mv5-ab-D0e"/>
+                            <constraint firstItem="zpI-D1-XXh" firstAttribute="leading" secondItem="Pxf-7m-zSi" secondAttribute="leading" id="PO4-hz-DL3"/>
+                            <constraint firstItem="Pxf-7m-zSi" firstAttribute="bottom" secondItem="KR2-Lz-mI5" secondAttribute="bottom" constant="40" id="PVr-oF-LYk"/>
+                            <constraint firstItem="SbB-gW-4rs" firstAttribute="top" secondItem="m93-hV-5xM" secondAttribute="bottom" constant="-5" id="PiW-Mr-YxT"/>
+                            <constraint firstItem="6mt-Vn-yB9" firstAttribute="centerY" secondItem="nhh-WS-C7L" secondAttribute="centerY" id="Qsb-UJ-cQi"/>
+                            <constraint firstItem="m93-hV-5xM" firstAttribute="top" secondItem="sAk-Js-gY5" secondAttribute="top" id="RKL-gv-7zo"/>
+                            <constraint firstItem="iAQ-Nh-dv2" firstAttribute="leading" secondItem="vC4-hn-ELg" secondAttribute="trailing" constant="60" id="VTI-Ye-obg"/>
+                            <constraint firstItem="sAk-Js-gY5" firstAttribute="top" secondItem="Pxf-7m-zSi" secondAttribute="top" constant="20" id="XKT-ec-rks"/>
+                            <constraint firstItem="KR2-Lz-mI5" firstAttribute="leading" secondItem="Pxf-7m-zSi" secondAttribute="leading" constant="70" id="Y2l-Aw-uAA"/>
+                            <constraint firstItem="Pxf-7m-zSi" firstAttribute="trailing" secondItem="iAQ-Nh-dv2" secondAttribute="trailing" constant="40" id="Z6b-Kz-ZOr"/>
+                            <constraint firstItem="nSY-4i-Xl3" firstAttribute="leading" secondItem="Pxf-7m-zSi" secondAttribute="leading" id="ZqN-m1-fR1"/>
+                            <constraint firstItem="zpI-D1-XXh" firstAttribute="trailing" secondItem="Pxf-7m-zSi" secondAttribute="trailing" id="dgk-sp-NU8"/>
+                            <constraint firstItem="sAk-Js-gY5" firstAttribute="centerX" secondItem="nhh-WS-C7L" secondAttribute="centerX" id="ds4-ht-3Nx"/>
+                            <constraint firstItem="m93-hV-5xM" firstAttribute="leading" secondItem="Pxf-7m-zSi" secondAttribute="leading" constant="40" id="euK-he-ikh"/>
+                            <constraint firstItem="vC4-hn-ELg" firstAttribute="centerY" secondItem="SbB-gW-4rs" secondAttribute="centerY" id="lnI-sT-AnU"/>
+                            <constraint firstItem="nSY-4i-Xl3" firstAttribute="top" secondItem="nhh-WS-C7L" secondAttribute="top" id="pdf-zD-dRY"/>
+                            <constraint firstItem="2ie-nt-ygH" firstAttribute="centerY" secondItem="SbB-gW-4rs" secondAttribute="centerY" id="qOO-Bm-4PR"/>
+                            <constraint firstItem="Pxf-7m-zSi" firstAttribute="trailing" secondItem="KR2-Lz-mI5" secondAttribute="trailing" constant="70" id="qlD-gn-jY8"/>
+                            <constraint firstItem="KR2-Lz-mI5" firstAttribute="top" secondItem="VOG-Sg-3JI" secondAttribute="bottom" constant="20" id="u0o-b8-buW"/>
+                            <constraint firstItem="Pxf-7m-zSi" firstAttribute="trailing" secondItem="nSY-4i-Xl3" secondAttribute="trailing" id="zBN-WS-l9h"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="coverImageView" destination="zpI-D1-XXh" id="V1n-CF-9Ka"/>
+                        <outlet property="distanceLabel" destination="iAQ-Nh-dv2" id="7wb-eF-lwU"/>
+                        <outlet property="doneButton" destination="KR2-Lz-mI5" id="CjH-td-m23"/>
+                        <outlet property="googleArtMapView" destination="nSY-4i-Xl3" id="vNN-3C-Q2l"/>
+                        <outlet property="paceLabel" destination="m93-hV-5xM" id="Vi8-SZ-uqb"/>
+                        <outlet property="timeLabel" destination="sAk-Js-gY5" id="Cno-rk-qdL"/>
+                        <outlet property="timerlabel" destination="6mt-Vn-yB9" id="Lg2-ck-eCA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ond-1H-SA9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3600.0000000000005" y="792.85714285714278"/>
+        </scene>
         <!--Start To Walk Page View Controller-->
         <scene sceneID="IEr-bq-59k">
             <objects>
@@ -227,35 +368,35 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Kd-Rj-Tqd" customClass="GMSMapView">
-                                <rect key="frame" x="20" y="180" width="374" height="461.5"/>
+                                <rect key="frame" x="20" y="189.5" width="374" height="446.5"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目前步數" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ahh-vp-2MK">
-                                <rect key="frame" x="132.5" y="64" width="149.5" height="44.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="37"/>
+                                <rect key="frame" x="133" y="64" width="148" height="54"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="37"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ogH-RS-Uap">
-                                <rect key="frame" x="199" y="128.5" width="16.5" height="31.5"/>
+                                <rect key="frame" x="199" y="138" width="16.5" height="31.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="步行時間" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ek-2A-NOc">
-                                <rect key="frame" x="70" y="666.5" width="89.5" height="26.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <rect key="frame" x="70" y="661" width="88" height="32"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="22"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="步行距離" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpo-EO-DWa">
-                                <rect key="frame" x="255" y="666.5" width="89.5" height="26.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <rect key="frame" x="256.5" y="661" width="88" height="32"/>
+                                <fontDescription key="fontDescription" name="KleeOne-Regular" family="Klee One" pointSize="22"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00 : 00 : 00" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZT-6p-5f5">
-                                <rect key="frame" x="49" y="713" width="131.5" height="32"/>
+                                <rect key="frame" x="48.5" y="713" width="131.5" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="PJe-Oc-f6o"/>
                                 </constraints>
@@ -264,7 +405,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAF-oD-nqf">
-                                <rect key="frame" x="281" y="713" width="37.5" height="32"/>
+                                <rect key="frame" x="282" y="713" width="37.5" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -306,12 +447,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="I7G-Co-wn4"/>
                     <connections>
-                        <outlet property="currentDistanceLabel" destination="mAF-oD-nqf" id="yaD-57-1Bg"/>
                         <outlet property="currentRouteMapView" destination="5Kd-Rj-Tqd" id="YB1-nX-aGW"/>
-                        <outlet property="currentStepsLabel" destination="ogH-RS-Uap" id="AVg-kk-Bg6"/>
-                        <outlet property="currentdurationLabel" destination="mZT-6p-5f5" id="Ede-5K-JJm"/>
+                        <outlet property="distanceLabel" destination="mAF-oD-nqf" id="yaD-57-1Bg"/>
+                        <outlet property="durationLabel" destination="mZT-6p-5f5" id="Ede-5K-JJm"/>
                         <outlet property="finishButton" destination="GHm-ZZ-0gs" id="X6Y-fd-Iyf"/>
                         <outlet property="stepTitleLabel" destination="ahh-vp-2MK" id="Wap-Ib-Ujt"/>
+                        <outlet property="stepsLabel" destination="ogH-RS-Uap" id="AVg-kk-Bg6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgU-34-FiD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -380,7 +521,7 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="登入">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle2"/>
+                                    <fontDescription key="titleFontDescription" name="KleeOne-Regular" family="Klee One" pointSize="22"/>
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -472,6 +613,7 @@
     <resources>
         <image name="WJLogo_suqare" width="83" height="85"/>
         <image name="enjoy" width="95" height="102"/>
+        <image name="taiwan_line" width="175" height="303"/>
         <image name="walking" width="168" height="79"/>
         <namedColor name="DarkCeladon">
             <color red="0.40392156862745099" green="0.6588235294117647" blue="0.4392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -479,11 +621,11 @@
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemGray4Color">
             <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

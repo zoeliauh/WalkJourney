@@ -46,7 +46,7 @@ class BarChartViewController: UIViewController {
         segmentedControl.backgroundColor = UIColor.Celadon
         segmentedControl.selectedSegmentTintColor = UIColor.Sky
         segmentedControl.layer.cornerRadius = 10
-        segmentedControl.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 20) ], for: .normal)
+        segmentedControl.setTitleTextAttributes([.font: UIFont.kleeOneRegular(ofSize: 20) ], for: .normal)
         segmentedControl.addTarget(self, action: #selector(segmentAction(_:)), for: .valueChanged)
         return segmentedControl
     }()

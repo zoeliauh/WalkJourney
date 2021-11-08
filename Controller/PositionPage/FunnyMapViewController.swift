@@ -11,6 +11,10 @@ class FunnyMapViewController: UIViewController {
     
     @IBOutlet weak var funnyMapTableView: UITableView!
     
+    var shapeMapExample = ShapeMapExample()
+    
+    var tag: Int? = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,25 +22,39 @@ class FunnyMapViewController: UIViewController {
         
         funnyMapTableView.dataSource = self
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
 }
 
 extension FunnyMapViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        
+        return shapeMapExample.shapeArr.count
     }
-    
+  
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = funnyMapTableView.dequeueReusableCell(withIdentifier: "FunnyMapTableViewCell", for: indexPath) as? FunnyMapTableViewCell else { fatalError("can not dequeue cell") }
+        guard let cell = funnyMapTableView.dequeueReusableCell(
+            withIdentifier: "FunnyMapTableViewCell", for: indexPath
+        ) as? FunnyMapTableViewCell else { fatalError("can not dequeue cell") }
         
-        cell.goButton.tag = indexPath.row
-        cell.goButton.addTarget(self, action: #selector(goButtonPressed), for: .touchUpInside)
+        cell.shapeImageView.image = shapeMapExample.shapeArr[indexPath.row]
         
+        cell.goButton.addTarget(self, action: #selector(goButtonPressed(_:)), for: .touchUpInside)
+                
         return cell
     }
     
-    @objc func goButtonPressed() {
-        guard let mapSearchingPagevc = UIStoryboard.position.instantiateViewController(withIdentifier: "MapSearchingPage") as? MapSearchingPageViewController else { return }
+    @objc func goButtonPressed(_ sender: UIButton!) {
+        guard let googleArtPagevc = UIStoryboard.position.instantiateViewController(
+            withIdentifier: "GoogleArtPage"
+        ) as? GoogleArtViewController else { return }
         
-        self.navigationController?.pushViewController(mapSearchingPagevc, animated: true)
+        googleArtPagevc.routeSampleImageView.image = shapeMapExample.lineArr[sender.tag]
+        
+        self.navigationController?.pushViewController(googleArtPagevc, animated: true)
     }
 }
