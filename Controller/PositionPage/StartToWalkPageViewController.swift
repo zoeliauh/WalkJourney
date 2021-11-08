@@ -203,16 +203,16 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         return timeString
     }
-    
-    func finishedMessage() {
-        
-        let controller = UIAlertController(title: nil,
-                                           message: "已成功儲存至足跡",
-                                           preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "確定", style: .default, handler: nil)
-        controller.addAction(okAction)
-        present(controller, animated: true, completion: nil)
-    }
+//
+//    func finishedMessage() {
+//
+//        let controller = UIAlertController(title: nil,
+//                                           message: "已成功儲存至足跡",
+//                                           preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "確定", style: .default, handler: nil)
+//        controller.addAction(okAction)
+//        present(controller, animated: true, completion: nil)
+//    }
 }
 
 extension StartToWalkPageViewController: CLLocationManagerDelegate {
@@ -281,8 +281,8 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
     
     func successMessage() {
         
-        let controller = UIAlertController(title: nil,
-                                           message: "已成功儲存至足跡裡",
+        let controller = UIAlertController(title: "成功儲存",
+                                           message: "請至 足跡 -> 歷史紀錄 查看",
                                            preferredStyle: .alert)
         let okAction = UIAlertAction(title: "確定",
                                      style: .default

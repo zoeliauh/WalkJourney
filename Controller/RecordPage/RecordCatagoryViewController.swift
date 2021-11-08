@@ -34,7 +34,7 @@ class RecordCatagoryViewController: UIViewController {
     
     lazy var recordSegmentedControl: UISegmentedControl = {
         
-        let items = ["歷史紀錄", "趣味地圖"]
+        let items = ["歷史紀錄", "挑戰地圖"]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = UIColor.C1
@@ -51,10 +51,18 @@ class RecordCatagoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupChartSegmentedControl()
-        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.scrollEdgeAppearance?.backgroundEffect = .none
+        navigationController?.navigationBar.scrollEdgeAppearance?.shadowColor = .clear
+        navigationController?.navigationBar.standardAppearance.backgroundEffect = .none
+        navigationController?.navigationBar.standardAppearance.shadowColor = .clear
+     
         self.tabBarController?.tabBar.backgroundImage =  UIImage()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupChartSegmentedControl()
     }
     
     @objc func segmentAction(_ segmentedControl: UISegmentedControl) {
@@ -75,7 +83,6 @@ class RecordCatagoryViewController: UIViewController {
             
         case .challenge:
             challengeContainerView.isHidden = false
-            
         }
     }
     

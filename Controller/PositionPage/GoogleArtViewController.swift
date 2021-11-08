@@ -318,8 +318,8 @@ extension GoogleArtViewController: CLLocationManagerDelegate {
     
     func successMessage() {
         
-        let controller = UIAlertController(title: nil,
-                                           message: "已成功儲存至足跡裡",
+        let controller = UIAlertController(title: "成功儲存",
+                                           message: "請至 足跡 -> 挑戰地圖 查看",
                                            preferredStyle: .alert)
         let okAction = UIAlertAction(title: "確定",
                                      style: .default

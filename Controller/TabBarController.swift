@@ -14,8 +14,6 @@ class TabBarController: UITabBarController {
     
     let recordCatagoryvc =
     UIStoryboard.record.instantiateViewController(withIdentifier: "RecordCatagoryvc")
-    
-    let recordvc = UIStoryboard.record.instantiateViewController(withIdentifier: "Record")
 
     let barChartvc = UIStoryboard.barChart.instantiateViewController(withIdentifier: "BarChart")
 
@@ -37,9 +35,7 @@ class TabBarController: UITabBarController {
     func setupTabBar() {
         
         let mapChosenvc = UINavigationController(rootViewController: mapChosenvc)
-        
-//        let recordvc = UINavigationController(rootViewController: recordvc)
-        
+                
         let recordvc = UINavigationController(rootViewController: recordCatagoryvc)
         
         let barChartvc = UINavigationController(rootViewController: barChartvc)

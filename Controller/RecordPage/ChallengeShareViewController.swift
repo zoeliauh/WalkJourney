@@ -38,7 +38,7 @@ class ChallengeShareViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         setupScreenshotImageView()
         setUpBackButton()
         setUpMoreButton()

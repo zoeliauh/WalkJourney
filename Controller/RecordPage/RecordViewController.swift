@@ -46,6 +46,8 @@ class RecordViewController: UIViewController {
         fetchRecordStepsData()
         setupRecordTableView()
         refreshTableView()
+        
+//        self.tabBarController?.tabBar.backgroundImage =  UIImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {

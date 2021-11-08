@@ -11,12 +11,14 @@ import Lottie
 
 class ProfileViewController: UIViewController {
     
+    let invitation = ["Ed", "樂清", "Astrid"]
+    
     lazy var nameLabel: UILabel = {
         
         let label = UILabel()
         label.text = "Zoe"
         label.font = UIFont.kleeOneRegular(ofSize: 30)
-        label.tintColor = .black
+        label.textColor = .black
         label.textAlignment = .left
        return label
     }()
@@ -24,15 +26,23 @@ class ProfileViewController: UIViewController {
     lazy var searchButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        button.setImage(UIImage(named: "magnifyingGlass"), for: .normal)
+        return button
+    }()
+    
+    lazy var settingButton: UIButton = {
+        
+        let button = UIButton()
+        button.setImage(UIImage(named: "settingIcon"), for: .normal)
         return button
     }()
     
     lazy var profileBackGroundImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.backgroundColor = .systemGray6
-        imageView.layer.cornerRadius = 35
+//        imageView.backgroundColor = .systemGray6
+        imageView.image = UIImage(named: "placeholder")
+        imageView.layer.cornerRadius = 20
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
        return imageView
@@ -93,6 +103,48 @@ class ProfileViewController: UIViewController {
             return animationView
     }()
     
+    lazy var rankLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "本日排名"
+        label.font = UIFont.kleeOneRegular(ofSize: 20)
+        label.textColor = .lightGray
+        label.textAlignment = .center
+       return label
+    }()
+    
+    lazy var friendListLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "好友名單"
+        label.font = UIFont.kleeOneRegular(ofSize: 20)
+        label.textColor = .lightGray
+        label.textAlignment = .center
+       return label
+    }()
+    
+    lazy var challengeLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "挑戰邀請"
+        label.font = UIFont.kleeOneRegular(ofSize: 20)
+        label.textColor = .black
+        label.textAlignment = .center
+       return label
+    }()
+    
+    lazy var challengeInviteTableView: UITableView = {
+        
+        let table = UITableView()
+        table.dataSource = self
+        table.delegate = self
+        table.rowHeight = UITableView.automaticDimension
+        table.register(ChallengeInvitationTableViewCell.self, forCellReuseIdentifier: ChallengeInvitationTableViewCell.identifier)
+        table.reloadData()
+
+        return table
+    }()
+    
     var tabbarHeight: CGFloat? = 0.0
     
     var userInfo: User?
@@ -102,19 +154,30 @@ class ProfileViewController: UIViewController {
         
         self.tabBarController?.tabBar.backgroundImage =  UIImage()
         
+        self.navigationController?.isNavigationBarHidden = true
+        
         setupNameLabel()
         setupSearchButton()
+        setupSettingButton()
         setupProfileBackGroundImageView()
         setupProfileImageView()
         setupRankImageView()
-        setupChallengeButton()
+//        setupChallengeButton()
+        setupLabels()
+        setupChallengeInvitationTableView()
         
         fetchUserInfo()
     }
     
     override func viewDidLayoutSubviews() {
         tabbarHeight = self.tabBarController?.tabBar.frame.height
-        setupLogoutButton()
+//        setupLogoutButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     func fetchUserInfo() {
@@ -138,6 +201,15 @@ class ProfileViewController: UIViewController {
             }
         }
         
+    }
+    
+    @objc func settingButtonPressed(_ sender: UIButton) {
+        
+        guard let settingVC = UIStoryboard.profile.instantiateViewController(withIdentifier: "SettingVC") as? SettingViewController else { return }
+                        
+        self.present(settingVC, animated: true, completion: nil)
+        
+        print("done")
     }
     
     @objc func logOutAction(_ sender: UIButton) {
@@ -200,10 +272,27 @@ class ProfileViewController: UIViewController {
         NSLayoutConstraint.activate([
         
             searchButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-            searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            searchButton.widthAnchor.constraint(equalToConstant: 30),
-            searchButton.heightAnchor.constraint(equalToConstant: 30)
+            searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
+            searchButton.widthAnchor.constraint(equalToConstant: 20),
+            searchButton.heightAnchor.constraint(equalToConstant: 20)
         ])
+    }
+    
+    private func setupSettingButton() {
+        
+        view.addSubview(settingButton)
+        
+        settingButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            settingButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            settingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            settingButton.widthAnchor.constraint(equalToConstant: 20),
+            settingButton.heightAnchor.constraint(equalToConstant: 20)
+        ])
+        
+        settingButton.addTarget(self, action: #selector(settingButtonPressed(_:)), for: .touchUpInside)
     }
     
     private func setupProfileBackGroundImageView() {
@@ -258,10 +347,52 @@ class ProfileViewController: UIViewController {
         
         NSLayoutConstraint.activate([
         
-            challengeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            challengeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 250),
             challengeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -35),
             challengeButton.widthAnchor.constraint(equalToConstant: 50),
             challengeButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    private func setupLabels() {
+        
+        view.addSubview(rankLabel)
+        view.addSubview(friendListLabel)
+        view.addSubview(challengeLabel)
+        
+        rankLabel.translatesAutoresizingMaskIntoConstraints = false
+        friendListLabel.translatesAutoresizingMaskIntoConstraints = false
+        challengeLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            rankLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            rankLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20),
+//            rankLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            rankLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
+            
+            friendListLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            friendListLabel.topAnchor.constraint(equalTo: rankLabel.topAnchor),
+            friendListLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
+            
+            challengeLabel.topAnchor.constraint(equalTo: rankLabel.topAnchor),
+            challengeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            challengeLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3)
+        ])
+    }
+        
+    private func setupChallengeInvitationTableView() {
+        
+        view.addSubview(challengeInviteTableView)
+        
+        challengeInviteTableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            challengeInviteTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            challengeInviteTableView.topAnchor.constraint(equalTo: rankLabel.bottomAnchor, constant: 20),
+            challengeInviteTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            challengeInviteTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -301,5 +432,28 @@ class ProfileViewController: UIViewController {
         ) as? FunnyMapViewController else { return }
 
         self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
+    }
+}
+
+// MARK: - TableViewDataSource, TableViewDelegate
+extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return invitation.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: ChallengeInvitationTableViewCell.identifier,
+            for: indexPath
+        ) as? ChallengeInvitationTableViewCell else { fatalError("can not dequeue settingTableViewCell") }
+        
+        cell.nameLabel.text = invitation[indexPath.row]
+        
+        cell.chellangeButton.addTarget(self, action: #selector(funnyMapGame(_:)), for: .touchUpInside)
+        
+        return cell
     }
 }

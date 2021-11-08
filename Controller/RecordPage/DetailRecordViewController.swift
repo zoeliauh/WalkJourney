@@ -135,7 +135,7 @@ extension DetailRecordViewController: CLLocationManagerDelegate {
 
                 polyline.strokeWidth = 2
 
-            polyline.strokeColor = UIColor.C6 ?? .green
+            polyline.strokeColor = UIColor.black ?? .green
 
                 polyline.geodesic = true
 
