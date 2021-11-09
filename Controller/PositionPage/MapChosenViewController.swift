@@ -142,8 +142,8 @@ class MapChosenViewController: UIViewController {
             
             walkYourselfButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             walkYourselfButton.topAnchor.constraint(equalTo: walkLabel.bottomAnchor, constant: 40),
-            walkYourselfButton.widthAnchor.constraint(equalToConstant: 130),
-            walkYourselfButton.heightAnchor.constraint(equalToConstant: 130)
+            walkYourselfButton.widthAnchor.constraint(equalToConstant: view.frame.width / 2.75),
+            walkYourselfButton.heightAnchor.constraint(equalToConstant: view.frame.width / 2.75)
         ])
         
         walkYourselfButton.layer.cornerRadius = walkYourselfButton.frame.size.width / 2
@@ -161,8 +161,8 @@ class MapChosenViewController: UIViewController {
         
             walkFunButton.topAnchor.constraint(equalTo: walkLabel.bottomAnchor, constant: 120),
             walkFunButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            walkFunButton.widthAnchor.constraint(equalToConstant: 110),
-            walkFunButton.heightAnchor.constraint(equalToConstant: 110)
+            walkFunButton.widthAnchor.constraint(equalToConstant: view.frame.width / 3.65),
+            walkFunButton.heightAnchor.constraint(equalToConstant: view.frame.width / 3.65)
         ])
         
         walkFunButton.layer.cornerRadius = walkFunButton.frame.size.width / 2

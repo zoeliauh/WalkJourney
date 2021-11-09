@@ -139,7 +139,10 @@ class ProfileViewController: UIViewController {
         table.dataSource = self
         table.delegate = self
         table.rowHeight = UITableView.automaticDimension
-        table.register(ChallengeInvitationTableViewCell.self, forCellReuseIdentifier: ChallengeInvitationTableViewCell.identifier)
+        table.register(
+            ChallengeInvitationTableViewCell.self,
+            forCellReuseIdentifier: ChallengeInvitationTableViewCell.identifier
+        )
         table.reloadData()
 
         return table
@@ -182,9 +185,9 @@ class ProfileViewController: UIViewController {
     
     func fetchUserInfo() {
         
-//        guard let userInfo = userInfo else { return }
+        guard let uid = UserManager.shared.uid else { return }
         
-        UserManager.shared.fetchUserInfo(uesrID: "tB90KGSNRFc9YWwqyAKFbar6QW32") { [weak self] result in
+        UserManager.shared.fetchUserInfo(uesrID: uid) { [weak self] result in
             
             switch result {
                 
@@ -200,12 +203,13 @@ class ProfileViewController: UIViewController {
                 print("fetchStepsData.failure: \(error)")
             }
         }
-        
     }
     
     @objc func settingButtonPressed(_ sender: UIButton) {
         
-        guard let settingVC = UIStoryboard.profile.instantiateViewController(withIdentifier: "SettingVC") as? SettingViewController else { return }
+        guard let settingVC = UIStoryboard.profile.instantiateViewController(
+            withIdentifier: "SettingVC"
+        ) as? SettingViewController else { return }
                         
         self.present(settingVC, animated: true, completion: nil)
         
@@ -257,8 +261,8 @@ class ProfileViewController: UIViewController {
         
         NSLayoutConstraint.activate([
         
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            nameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             nameLabel.widthAnchor.constraint(equalToConstant: view.frame.width)
         ])
     }
@@ -271,7 +275,7 @@ class ProfileViewController: UIViewController {
         
         NSLayoutConstraint.activate([
         
-            searchButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            searchButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
             searchButton.widthAnchor.constraint(equalToConstant: 20),
             searchButton.heightAnchor.constraint(equalToConstant: 20)
@@ -286,7 +290,7 @@ class ProfileViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            settingButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            settingButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             settingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             settingButton.widthAnchor.constraint(equalToConstant: 20),
             settingButton.heightAnchor.constraint(equalToConstant: 20)

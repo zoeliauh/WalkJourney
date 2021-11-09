@@ -9,12 +9,26 @@ import UIKit
 
 class FunnyMapViewController: UIViewController {
     
-    @IBOutlet weak var funnyMapTableView: UITableView!
+//    @IBOutlet weak var funnyMapTableView: UITableView!
+    
+    lazy var funnyMapTableView: UITableView = {
+        
+        let table = UITableView()
+        table.dataSource = self
+        table.delegate = self
+        table.rowHeight = UITableView.automaticDimension
+        table.register(FunnyMapTableViewCell.self, forCellReuseIdentifier: FunnyMapTableViewCell.identifier)
+        table.reloadData()
+
+        return table
+    }()
     
     var shapeMapExample = ShapeMapExample()
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupFunnyMapTableView()
         
         funnyMapTableView.delegate = self
         
@@ -27,6 +41,21 @@ class FunnyMapViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    func setupFunnyMapTableView() {
+        
+        view.addSubview(funnyMapTableView)
+        
+        funnyMapTableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            funnyMapTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            funnyMapTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            funnyMapTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            funnyMapTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
 

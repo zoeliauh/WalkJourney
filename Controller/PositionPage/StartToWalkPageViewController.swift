@@ -13,9 +13,7 @@ import CoreMotion
 import CoreLocation
 
 class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
-        
-    @IBOutlet weak var finishButton: UIButton!
-    
+            
     @IBOutlet weak var stepTitleLabel: UILabel!
     
     @IBOutlet weak var stepsLabel: UILabel!
@@ -67,6 +65,23 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     var month: String = ""
     
     var screenshotImageView = UIImageView()
+    
+    lazy var finishButton: UIButton = {
+        
+        let button = UIButton()
+        button.setTitle("完成囉", for: .normal)
+        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
+        button.backgroundColor = UIColor.C4
+        button.layer.cornerRadius = 20
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowRadius = 2.0
+        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.clipsToBounds = true
+        button.layer.masksToBounds = false
+        button.layoutIfNeeded()
+        return button
+    }()
             
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,7 +107,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         self.timer.invalidate()
     }
     
-    @IBAction func finishButtonPressed(_ sender: UIButton!) {
+    @objc func finishButtonPressed(_ sender: UIButton!) {
                                         
         createNewRecord()
         
@@ -119,15 +134,6 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         currentRouteMapView.settings.myLocationButton = true
         
         currentRouteMapView.isMyLocationEnabled = true
-    }
-    
-    private func setupFinishButton() {
-        
-        finishButton.layer.cornerRadius = 20
-        finishButton.layer.shadowOpacity = 0.3
-        finishButton.layer.shadowRadius = 2.0
-        finishButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        finishButton.layer.shadowColor = UIColor.black.cgColor
     }
 
     func createNewRecord() {
@@ -203,16 +209,22 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         return timeString
     }
-//
-//    func finishedMessage() {
-//
-//        let controller = UIAlertController(title: nil,
-//                                           message: "已成功儲存至足跡",
-//                                           preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "確定", style: .default, handler: nil)
-//        controller.addAction(okAction)
-//        present(controller, animated: true, completion: nil)
-//    }
+    
+    func setupFinishButton() {
+        
+        view.addSubview(finishButton)
+        
+        finishButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            finishButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
+            finishButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
+            finishButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40)
+        ])
+                
+        finishButton.addTarget(self, action: #selector(finishButtonPressed(_:)), for: .touchUpInside)
+    }
 }
 
 extension StartToWalkPageViewController: CLLocationManagerDelegate {

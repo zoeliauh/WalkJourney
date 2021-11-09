@@ -22,9 +22,12 @@ class RecordManager {
     // read
     func fetchRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection(Collections.stepData.rawValue).order(
-            by: "createdTime",
-            descending: true).getDocuments { (querySnapshot, error) in
+        guard let uid = UserManager.shared.uid else { return }
+        
+        db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
+            .order(by: "createdTime", descending: true)
+            .getDocuments { (querySnapshot, error) in
             
             if let error = error {
                 
@@ -54,9 +57,13 @@ class RecordManager {
     // read certain day data
     func fetchDateRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection(Collections.stepData.rawValue).whereField("date", isEqualTo: calenderDay
-        ).getDocuments { (querySnapshot, error) in
-            
+        guard let uid = UserManager.shared.uid else { return }
+        
+        db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
+            .whereField("date", isEqualTo: calenderDay)
+            .getDocuments { (querySnapshot, error) in
+                
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -84,8 +91,12 @@ class RecordManager {
     // read certain month data
     func fetchMonthRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection(Collections.stepData.rawValue).whereField("month", isEqualTo: calenderDay
-        ).getDocuments { (querySnapshot, error) in
+        guard let uid = UserManager.shared.uid else { return }
+
+        db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
+            .whereField("month", isEqualTo: calenderDay)
+            .getDocuments { (querySnapshot, error) in
             
             if let error = error {
                 completion(.failure(error))
@@ -100,6 +111,7 @@ class RecordManager {
                     do {
                         if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
                             stepDatas.append(stepData)
+                            print(stepDatas)
                         }
                     } catch {
                         
@@ -113,8 +125,12 @@ class RecordManager {
     // read certain year data
     func fetchYearRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection(Collections.stepData.rawValue).whereField("Year", isEqualTo: calenderDay
-        ).getDocuments { (querySnapshot, error) in
+        guard let uid = UserManager.shared.uid else { return }
+        
+        db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
+            .whereField("Year", isEqualTo: calenderDay)
+            .getDocuments { (querySnapshot, error) in
             
             if let error = error {
                 completion(.failure(error))
@@ -142,10 +158,13 @@ class RecordManager {
     // fetch walkbyselfRecord
     func fetchWalkBySelfRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
+        guard let uid = UserManager.shared.uid else { return }
+        
         db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
             .whereField("screenshot", isEqualTo: "")
             .order(by: "createdTime", descending: true)
-        .getDocuments { (querySnapshot, error) in
+            .getDocuments { (querySnapshot, error) in
             
             if let error = error {
                 completion(.failure(error))
@@ -174,12 +193,15 @@ class RecordManager {
     // fetch challengeRecord
     func fetchChallengeRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
+        guard let uid = UserManager.shared.uid else { return }
+
         db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
             .whereField("screenshot", isNotEqualTo: "")
             .order(by: "screenshot")
             .order(by: "createdTime", descending: true)
-        .getDocuments { (querySnapshot, error) in
-            
+            .getDocuments { (querySnapshot, error) in
+                
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -206,7 +228,7 @@ class RecordManager {
     
     // create
     func addNewRecord(distanceWalk: String, durationTime: String, numStep: Int, latitude: [CLLocationDegrees], longitude: [CLLocationDegrees], date: String, year: String, month: String, screenshot: UIImageView, completion: @escaping(Result<String, Error>) -> Void) {
-        
+                
         let today = Date()
         let formatterDate = DateFormatter()
         let formatterYear = DateFormatter()
@@ -217,11 +239,13 @@ class RecordManager {
         
         let document = db.collection(Collections.stepData.rawValue).document()
         
+        guard let uid = UserManager.shared.uid else { return }
+        
         uploadScreenshot(imageView: screenshot, id: document.documentID) { url in
             
             document.setData([
                 
-                "id": document.documentID,
+                "id": uid,
                 "distanceOfWalk": "\(distanceWalk) km",
                 "durationOfTime": durationTime,
                 "createdTime": Date().millisecondsSince1970,

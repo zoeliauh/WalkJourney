@@ -95,7 +95,7 @@ class RecordCatagoryViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            recordSegmentedControl.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            recordSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             recordSegmentedControl.widthAnchor.constraint(equalToConstant: 300),
             recordSegmentedControl.heightAnchor.constraint(equalToConstant: 40),
             recordSegmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)

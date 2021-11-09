@@ -98,10 +98,10 @@ class MonthChartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupMonthTestField()
         setupAverageLabel()
         setupStepsNumLabel()
         setupStepLabel()
-        setupMonthTestField()
         setupMonthChartView()
         monthChartView.noDataText = "暫時沒有步行紀錄"
         fetchRecordStepsData()
@@ -187,7 +187,7 @@ class MonthChartViewController: UIViewController {
             
         let chartDataSet = BarChartDataSet(entries: dataEntries, label: nil)
         
-        chartDataSet.colors = ChartColorTemplates.celadon()
+        chartDataSet.colors = ChartColorTemplates.joyful()
         
         let chartData = BarChartData(dataSet: chartDataSet)
         
@@ -247,7 +247,7 @@ extension MonthChartViewController {
         NSLayoutConstraint.activate([
             
             monthPickerTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            monthPickerTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            monthPickerTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
             monthPickerTextField.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
@@ -261,7 +261,7 @@ extension MonthChartViewController {
         NSLayoutConstraint.activate([
             
             averageLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            averageLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100)
+            averageLabel.topAnchor.constraint(equalTo: monthPickerTextField.bottomAnchor, constant: 10)
         ])
     }
     
@@ -300,9 +300,9 @@ extension MonthChartViewController {
         NSLayoutConstraint.activate([
             
             monthChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            monthChartView.topAnchor.constraint(equalTo: averageLabel.bottomAnchor, constant: 50),
+            monthChartView.topAnchor.constraint(equalTo: monthPickerTextField.bottomAnchor, constant: 40),
             monthChartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            monthChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25)
+            monthChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -15)
         ])
     }
 }

@@ -18,6 +18,8 @@ class UserManager {
     
     let user = Auth.auth().currentUser
     
+    let uid = Auth.auth().currentUser?.uid
+    
     private init() {}
     
     let userid: String = {

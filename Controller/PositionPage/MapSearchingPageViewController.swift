@@ -13,9 +13,7 @@ import CoreLocation
 class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     
     @IBOutlet weak var googleMapView: GMSMapView!
-    
-    @IBOutlet weak var startButton: UIButton!
-    
+        
     let searchVC = UISearchController(searchResultsController: ResultsViewController())
     
     var locationManager = CLLocationManager()
@@ -28,6 +26,23 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     
     var newLocation: (() -> Void)?
     
+    lazy var startButton: UIButton = {
+        
+        let button = UIButton()
+        button.setTitle("開始囉", for: .normal)
+        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
+        button.backgroundColor = UIColor.C4
+        button.layer.cornerRadius = 20
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowRadius = 2.0
+        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.clipsToBounds = true
+        button.layer.masksToBounds = false
+        button.layoutIfNeeded()
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                         
@@ -39,19 +54,19 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
         
         googleMapView.layer.cornerRadius = 10
         
-        startButton.layer.cornerRadius = 20
-        startButton.layer.shadowOpacity = 0.3
-        startButton.layer.shadowRadius = 2.0
-        startButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        startButton.layer.shadowColor = UIColor.black.cgColor
+        setupStartButton()
     }
     
-    @IBAction func startButtonPressed(_ sender: UIButton) {
+    @objc func startButtonPressed(_ sender: UIButton) {
         
         guard let startToWalkPagevc = UIStoryboard.position.instantiateViewController(
             withIdentifier: "StartToWalkPage"
         ) as? StartToWalkPageViewController else { return }
-        
+
+        let navvc = UINavigationController(rootViewController: startToWalkPagevc)
+        navvc.modalPresentationStyle = .fullScreen
+        self.present(navvc, animated: true, completion: nil)
+ 
         startToWalkPagevc.currentLocation = currentLocation
     }
     
@@ -112,6 +127,22 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
         alert.addAction(okAction)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    func setupStartButton() {
+        
+        view.addSubview(startButton)
+        
+        startButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
+            startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
+            startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70)
+        ])
+                
+        startButton.addTarget(self, action: #selector(startButtonPressed(_:)), for: .touchUpInside)
     }
 }
 
