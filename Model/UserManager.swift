@@ -87,4 +87,11 @@ class UserManager {
         }
     }
     
+    // update
+    func updateUserInfo(userID: String, url: String) {
+        
+        db.collection(Collections.user.rawValue).document(userID).updateData([
+            "userImageURL": url
+        ])
+    }
 }

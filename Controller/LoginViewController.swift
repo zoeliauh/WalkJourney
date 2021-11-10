@@ -160,7 +160,10 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     return
                 }
                 
-                if let user = authResult?.user {
+                if let additionalUserInfo = authResult?.additionalUserInfo,
+                   let user = authResult?.user,
+                   additionalUserInfo.isNewUser {
+
                     print("Nice! You are now signed in as \(user.uid), email: \(user.email)")
                     
                     if let fullName = appleIDCredential.fullName,
@@ -168,13 +171,17 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     
                     let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
                    
-                    changeRequest?.displayName = userName
+                        changeRequest?.displayName = userName
                     changeRequest?.commitChanges { error in
                       print("can not change userName")
                     }
                     }
                     
                     UserManager.shared.createUserInfo()
+                    
+                } else {
+                    print("be a user already")
+                }
                         
                     guard let window = self.sceneDelegate?.window else {
                         fatalError("Cannot get window")
@@ -198,7 +205,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             
             print("Sign in with Apple errored: \(error)")
         }
-    }
 }
 
 extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {

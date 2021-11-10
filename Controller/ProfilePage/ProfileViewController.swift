@@ -7,7 +7,7 @@
 
 import UIKit
 import FirebaseAuth
-import Lottie
+import Firebase
 
 class ProfileViewController: UIViewController {
     
@@ -37,27 +37,29 @@ class ProfileViewController: UIViewController {
         return button
     }()
     
-    lazy var profileBackGroundImageView: UIImageView = {
-        
-        let imageView = UIImageView()
-//        imageView.backgroundColor = .systemGray6
-        imageView.image = UIImage(named: "placeholder")
-        imageView.layer.cornerRadius = 20
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-       return imageView
-    }()
-    
     lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "profileImage")
-        imageView.layer.cornerRadius = 35
-        imageView.contentMode = .scaleAspectFit
+        imageView.loadImage(eventUrlString, placeHolder: UIImage(systemName: "plus.circle.fill"))
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderWidth = 3
        return imageView
     }()
+    
+    lazy var newPhotoButton: UIButton = {
+        let newPhotoButton = UIButton(type: .system)
+        newPhotoButton.setImage(UIImage(systemName: "camera.fill"), for: .normal)
+        newPhotoButton.tintColor = UIColor.darkGray
+        newPhotoButton.layer.masksToBounds = true
+        newPhotoButton.addTarget(self, action: #selector(newPhoto), for: .touchUpInside)
+        return newPhotoButton
+    }()
+    
+    @objc func newPhoto() {
+        showImagePickerControllerActionSheet()
+    }
     
     // need to be stack view??
     lazy var rankImageView: UIImageView = {
@@ -75,32 +77,6 @@ class ProfileViewController: UIViewController {
         button.contentMode = .scaleAspectFill
         button.addTarget(self, action: #selector(funnyMapGame(_:)), for: .touchUpInside)
         return button
-    }()
-    
-    lazy var logoutButton: UIButton = {
-        
-        let button = UIButton()
-        let myAttribute: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.kleeOneRegular(ofSize: 24)
-        ]
-        let myAttributeString = NSAttributedString(string: "登出", attributes: myAttribute)
-        
-        button.backgroundColor = UIColor.C4
-        button.tintColor = UIColor.white
-        button.layer.cornerRadius = 10
-        button.setTitle("登出", for: .normal)
-        button.titleLabel?.attributedText = myAttributeString
-        button.layoutIfNeeded()
-        button.addTarget(self, action: #selector(logOutAction(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var animationView: AnimationView = {
-            
-            var animationView = AnimationView()
-            animationView = .init(name: "profile_lottie")
-            animationView.animationSpeed = 1
-            return animationView
     }()
     
     lazy var rankLabel: UILabel = {
@@ -152,6 +128,20 @@ class ProfileViewController: UIViewController {
     
     var userInfo: User?
     
+    var eventUrlString = String()
+    
+    var profilePhoto = UIImage() {
+        
+        didSet {
+            
+            profileImageView.image = profilePhoto
+            
+            self.reloadInputViews()
+        }
+    }
+    
+    let storage = Storage.storage().reference()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -162,19 +152,23 @@ class ProfileViewController: UIViewController {
         setupNameLabel()
         setupSearchButton()
         setupSettingButton()
-        setupProfileBackGroundImageView()
-        setupProfileImageView()
         setupRankImageView()
-//        setupChallengeButton()
+        setupProfileImageView()
         setupLabels()
         setupChallengeInvitationTableView()
+        setupNewPhotoButton()
         
         fetchUserInfo()
     }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
         tabbarHeight = self.tabBarController?.tabBar.frame.height
-//        setupLogoutButton()
+        
+        profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
+        
+        profileImageView.layer.masksToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -198,6 +192,8 @@ class ProfileViewController: UIViewController {
                 
                 self?.nameLabel.text = userInfo.username
                 
+                self?.profileImageView.loadImage(userInfo.userImageURL)
+                
             case .failure(let error):
                 
                 print("fetchStepsData.failure: \(error)")
@@ -215,43 +211,7 @@ class ProfileViewController: UIViewController {
         
         print("done")
     }
-    
-    @objc func logOutAction(_ sender: UIButton) {
-                
-        let controller = UIAlertController(title: nil, message: "確定要登出嗎?", preferredStyle: .alert)
-
-        let okAction = UIAlertAction(title: "確定", style: .default) { _ in
-            
-            do {
-                
-                try Auth.auth().signOut()
-                
-                guard let loginVC = UIStoryboard.position.instantiateViewController(
-                    withIdentifier: "LoginViewController"
-                ) as? LoginViewController else { return }
-                                
-                loginVC.modalPresentationStyle = .fullScreen
-
-                self.present(loginVC, animated: true, completion: nil)
-                
-                print("logout")
-                
-            } catch let signOutError as NSError {
-                
-               print("Error signing out: \(signOutError)")
-                
-            }
-        }
-        
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        
-        controller.addAction(okAction)
-        
-        controller.addAction(cancelAction)
-        
-        present(controller, animated: true, completion: nil)
-    }
-    
+ 
     // MARK: UI design
     private func setupNameLabel() {
         
@@ -298,22 +258,7 @@ class ProfileViewController: UIViewController {
         
         settingButton.addTarget(self, action: #selector(settingButtonPressed(_:)), for: .touchUpInside)
     }
-    
-    private func setupProfileBackGroundImageView() {
-        
-        view.addSubview(profileBackGroundImageView)
-        
-        profileBackGroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            profileBackGroundImageView.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            profileBackGroundImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 30),
-            profileBackGroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            profileBackGroundImageView.heightAnchor.constraint(equalToConstant: 150)
-        ])
-    }
-    
+
     private func setupProfileImageView() {
         
         view.addSubview(profileImageView)
@@ -322,9 +267,24 @@ class ProfileViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            profileImageView.centerYAnchor.constraint(equalTo: profileBackGroundImageView.bottomAnchor),
-            profileImageView.widthAnchor.constraint(equalToConstant: 70),
-            profileImageView.heightAnchor.constraint(equalToConstant: 70)
+            profileImageView.topAnchor.constraint(equalTo: rankImageView.bottomAnchor),
+            profileImageView.widthAnchor.constraint(equalToConstant: 150),
+            profileImageView.heightAnchor.constraint(equalToConstant: 150)
+        ])
+        
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
+    }
+    
+    private func setupNewPhotoButton() {
+        view.addSubview(newPhotoButton)
+        
+        newPhotoButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            newPhotoButton.trailingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 6),
+            newPhotoButton.bottomAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 3),
+            newPhotoButton.widthAnchor.constraint(equalTo: profileImageView.widthAnchor, multiplier: 0.4),
+            newPhotoButton.heightAnchor.constraint(equalTo: profileImageView.heightAnchor, multiplier: 0.4)
         ])
     }
     
@@ -343,21 +303,6 @@ class ProfileViewController: UIViewController {
         ])
     }
     
-    private func setupChallengeButton() {
-        
-        view.addSubview(challengeButton)
-        
-        challengeButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            challengeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 250),
-            challengeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -35),
-            challengeButton.widthAnchor.constraint(equalToConstant: 50),
-            challengeButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
-    }
-    
     private func setupLabels() {
         
         view.addSubview(rankLabel)
@@ -372,7 +317,6 @@ class ProfileViewController: UIViewController {
         
             rankLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             rankLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20),
-//            rankLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             rankLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
             
             friendListLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -399,36 +343,6 @@ class ProfileViewController: UIViewController {
             challengeInviteTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
-    private func setupLogoutButton() {
-        
-        view.addSubview(logoutButton)
-        
-        logoutButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            logoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            logoutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabbarHeight ?? 49.0) - 10),
-            logoutButton.heightAnchor.constraint(equalToConstant: 40)
-        ])
-    }
-    
-    private func setupLottie() {
-            
-            view.addSubview(animationView)
-            
-            animationView.translatesAutoresizingMaskIntoConstraints = false
-            
-            NSLayoutConstraint.activate([
-            
-                animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                animationView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20)
-            ])
-            animationView.loopMode = .loop
-            animationView.play()
-        }
     
     @objc func funnyMapGame(_ sender: UIButton!) {
         guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
@@ -461,3 +375,75 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 }
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func showImagePickerControllerActionSheet() {
+        let actionSheet = UIAlertController(title: "Attach Photo", message: "where would you like to attach a photo from", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] _ in
+            
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            picker.delegate = self
+            picker.allowsEditing = true
+            self?.present(picker, animated: true)
+            
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { [weak self] _ in
+            
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.delegate = self
+            picker.allowsEditing = true
+            self?.present(picker, animated: true)
+            
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(actionSheet, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        
+        profilePhoto = editedImage
+        
+        guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        
+        profilePhoto = originalImage
+        
+        guard let imageData = editedImage.jpegData(compressionQuality: 0.25) else {
+            return
+        }
+        
+        let uniqueString = NSUUID().uuidString
+            
+        storage.child("profileImage/\(uniqueString)").putData(imageData, metadata: nil) { _, error in
+            guard error == nil else {
+                print("Failed to upload")
+                return
+            }
+            self.storage.child("profileImage/\(uniqueString)").downloadURL(completion: { url, error in
+                guard let url = url, error == nil else {
+                    return
+                }
+                let urlString = url.absoluteString
+                print("Download URL: \(urlString)")
+                self.eventUrlString = urlString
+                UserDefaults.standard.set(urlString, forKey: "url")
+                
+                guard let uid = UserManager.shared.uid else { return }
+                
+                UserManager.shared.updateUserInfo(userID: uid, url: urlString)
+                
+                })
+            }
+        }
+    }

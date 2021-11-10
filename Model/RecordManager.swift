@@ -111,7 +111,7 @@ class RecordManager {
                     do {
                         if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
                             stepDatas.append(stepData)
-                            print(stepDatas)
+//                            print(stepDatas)
                         }
                     } catch {
                         
