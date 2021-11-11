@@ -18,6 +18,23 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var appEnglishNameLabel: UILabel!
     
+    lazy var policySettingLabel: UILabel = {
+        let label = UILabel()
+        label.text = "客戶註冊即表示您同意我們的"
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textColor = .black
+        return label
+    }()
+    
+    lazy var policySettingButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("隱私權政策", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 10)
+        button.setTitleColor(.blue, for: .normal)
+        button.addTarget(self, action: #selector(presentPolicy), for: .touchUpInside)
+        return button
+    }()
+    
     fileprivate var currentNonce: String?
     
     var handle: AuthStateDidChangeListenerHandle?
@@ -30,6 +47,10 @@ class LoginViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
         
         setUpSignInButton()
+        
+        setPolicySettingLabel()
+        
+        setPolicySettingButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,6 +71,34 @@ class LoginViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - presentPolicy
+    @objc func presentPolicy() {
+        let storyboard = UIStoryboard(name: "Position", bundle: nil)
+        guard let policyVc = storyboard.instantiateViewController(
+            withIdentifier: String(describing: PrivacyPolicyViewController.self)
+        ) as? PrivacyPolicyViewController else { return }
+        
+        present(policyVc, animated: true, completion: nil)
+    }
+    
+    private func setPolicySettingLabel() {
+        view.addSubview(policySettingLabel)
+        policySettingLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            policySettingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            policySettingLabel.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -110)
+        ])
+    }
+    
+    private func setPolicySettingButton() {
+        view.addSubview(policySettingButton)
+        policySettingButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            policySettingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            policySettingButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
+        ])
+    }
+    
     func setUpSignInButton() {
         
         let button = ASAuthorizationAppleIDButton()
@@ -62,7 +111,7 @@ class LoginViewController: UIViewController {
             
             button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            button.bottomAnchor.constraint(equalTo: appEnglishNameLabel.bottomAnchor, constant: 100),
+            button.topAnchor.constraint(equalTo: appEnglishNameLabel.bottomAnchor, constant: 80),
             button.heightAnchor.constraint(equalToConstant: 45)
         ])
         

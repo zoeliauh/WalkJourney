@@ -8,19 +8,36 @@
 import UIKit
 import FirebaseAuth
 import Firebase
+import SwiftUI
 
 class ProfileViewController: UIViewController {
     
+     enum LabelType: Int {
+        
+        case rank = 0
+        
+        case friendList = 1
+        
+        case challenge = 2
+    }
+    
+    var labels: [UILabel] {
+        
+        return [rankLabel, friendListLabel, challengeLabel]
+    }
+    
     let invitation = ["Ed", "樂清", "Astrid"]
     
-    lazy var nameLabel: UILabel = {
+    lazy var nameTextField: UITextField = {
         
-        let label = UILabel()
-        label.text = "Zoe"
-        label.font = UIFont.kleeOneRegular(ofSize: 30)
-        label.textColor = .black
-        label.textAlignment = .left
-       return label
+        let textfield = UITextField()
+        textfield.text = nil
+        textfield.placeholder = "輸入使用者名稱"
+        textfield.font = UIFont.kleeOneRegular(ofSize: 30)
+        textfield.textAlignment = .left
+        textfield.textColor = .black
+    
+       return textfield
     }()
     
     lazy var searchButton: UIButton = {
@@ -57,10 +74,6 @@ class ProfileViewController: UIViewController {
         return newPhotoButton
     }()
     
-    @objc func newPhoto() {
-        showImagePickerControllerActionSheet()
-    }
-    
     // need to be stack view??
     lazy var rankImageView: UIImageView = {
         
@@ -84,7 +97,7 @@ class ProfileViewController: UIViewController {
         let label = UILabel()
         label.text = "本日排名"
         label.font = UIFont.kleeOneRegular(ofSize: 20)
-        label.textColor = .lightGray
+        label.textColor = .black
         label.textAlignment = .center
        return label
     }()
@@ -104,7 +117,7 @@ class ProfileViewController: UIViewController {
         let label = UILabel()
         label.text = "挑戰邀請"
         label.font = UIFont.kleeOneRegular(ofSize: 20)
-        label.textColor = .black
+        label.textColor = .lightGray
         label.textAlignment = .center
        return label
     }()
@@ -149,7 +162,7 @@ class ProfileViewController: UIViewController {
         
         self.navigationController?.isNavigationBarHidden = true
         
-        setupNameLabel()
+        setupNameTextField()
         setupSearchButton()
         setupSettingButton()
         setupRankImageView()
@@ -177,6 +190,10 @@ class ProfileViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     
+    @objc func newPhoto() {
+        showImagePickerControllerActionSheet()
+    }
+    
     func fetchUserInfo() {
         
         guard let uid = UserManager.shared.uid else { return }
@@ -190,7 +207,7 @@ class ProfileViewController: UIViewController {
                 self?.userInfo = userInfo
                 print(userInfo)
                 
-                self?.nameLabel.text = userInfo.username
+                self?.nameTextField.text = userInfo.username
                 
                 self?.profileImageView.loadImage(userInfo.userImageURL)
                 
@@ -213,18 +230,29 @@ class ProfileViewController: UIViewController {
     }
  
     // MARK: UI design
-    private func setupNameLabel() {
+    private func setupNameTextField() {
         
-        view.addSubview(nameLabel)
+        view.addSubview(nameTextField)
         
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameTextField.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
         
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            nameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            nameLabel.widthAnchor.constraint(equalToConstant: view.frame.width)
+            nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            nameTextField.widthAnchor.constraint(equalToConstant: view.frame.width)
         ])
+        
+        nameTextField.addTarget(self, action: #selector(setupEditNameTextField), for: .editingDidEnd)
+    }
+    
+    @objc private func setupEditNameTextField(_ sender: UITextField) {
+        
+        guard let userName = sender.text else { return }
+        
+        guard let uid = UserManager.shared.uid else { return }
+        
+        UserManager.shared.updateUserInfo(userID: uid, url: nil, username: userName)
     }
     
     private func setupSearchButton() {
@@ -296,8 +324,8 @@ class ProfileViewController: UIViewController {
         
         NSLayoutConstraint.activate([
         
-            rankImageView.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            rankImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
+            rankImageView.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            rankImageView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 5),
             rankImageView.widthAnchor.constraint(equalToConstant: 24),
             rankImageView.heightAnchor.constraint(equalToConstant: 24)
         ])
@@ -327,7 +355,73 @@ class ProfileViewController: UIViewController {
             challengeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             challengeLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3)
         ])
+        
+        labelClicked()
     }
+    
+    private func labelClicked() {
+        
+        labels.forEach {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(labelAction(_:)))
+            $0.isUserInteractionEnabled = true
+            $0.addGestureRecognizer(tap)
+        }
+    }
+        
+    @objc func labelAction(_ gesture: UITapGestureRecognizer) {
+        
+        let label = gesture.view as? UILabel
+
+        guard let label = label else { return }
+        
+        if label.text == "本日排名" {
+            clickRankLabel(type: .rank)
+        }
+        
+        if label.text == "好友名單" {
+            clickRankLabel(type: .friendList)
+        }
+        
+        if label.text == "挑戰邀請" {
+            clickRankLabel(type: .challenge)
+        }
+    }
+    
+    func clickRankLabel(type: LabelType) {
+            
+        switch type {
+            
+        case .rank:
+            resetLabelsColor()
+            rankLabel.textColor = UIColor.black
+            
+        case .friendList:
+            resetLabelsColor()
+            friendListLabel.textColor = UIColor.black
+            
+        case .challenge:
+            resetLabelsColor()
+            challengeLabel.textColor = UIColor.black
+        }
+    }
+    
+    func resetLabelsColor() {
+        labels.forEach {
+            $0.textColor = UIColor.lightGray
+        }
+    }
+    
+    @objc func clickFriendListLabel() {
+        
+        print("time to clickFriend")
+    }
+    
+    @objc func clickChallengeLabel() {
+        
+        print("time to clickChallenge")
+    }
+    
+    // MARK: - clickLabel
         
     private func setupChallengeInvitationTableView() {
         
@@ -441,7 +535,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 
                 guard let uid = UserManager.shared.uid else { return }
                 
-                UserManager.shared.updateUserInfo(userID: uid, url: urlString)
+                UserManager.shared.updateUserInfo(userID: uid, url: urlString, username: nil)
                 
                 })
             }

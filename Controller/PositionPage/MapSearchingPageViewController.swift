@@ -139,7 +139,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
             
             startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
             startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
-            startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70)
+            startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
         ])
                 
         startButton.addTarget(self, action: #selector(startButtonPressed(_:)), for: .touchUpInside)

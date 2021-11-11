@@ -37,7 +37,7 @@ class UserManager {
             print(userName)
             return userName
         } else {
-            return "使用者"
+            return "設定使用者名稱"
         }
     }()
     
@@ -88,10 +88,22 @@ class UserManager {
     }
     
     // update
-    func updateUserInfo(userID: String, url: String) {
+    func updateUserInfo(userID: String, url: String?, username: String?) {
         
-        db.collection(Collections.user.rawValue).document(userID).updateData([
-            "userImageURL": url
-        ])
+        if url == nil {
+        
+            db.collection(Collections.user.rawValue).document(userID).updateData([
+                "username": username,
+//                "userImageURL": url
+            ])
+        }
+        
+        if username == nil {
+            
+            db.collection(Collections.user.rawValue).document(userID).updateData([
+//                "username": username,
+                "userImageURL": url
+            ])
+        }
     }
 }
