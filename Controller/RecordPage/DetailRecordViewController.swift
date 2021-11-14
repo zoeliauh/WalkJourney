@@ -20,7 +20,7 @@ class DetailRecordViewController: UIViewController {
     lazy var moreButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(named: "more"), for: .normal)
+        button.setImage(UIImage(named: "more2"), for: .normal)
         return button
     }()
 
@@ -107,15 +107,10 @@ class DetailRecordViewController: UIViewController {
     
     @objc func popMore() {
         
-        let controller = UIAlertController(title: "更多功能", message: "", preferredStyle: .actionSheet)
-        let names = ["下載", "分享"]
-        for name in names {
-           let action = UIAlertAction(title: name, style: .default) { action in
-               print(action.title ?? "no action")
-           }
-           controller.addAction(action)
-        }
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let downloadAction = UIAlertAction(title: "儲存", style: .default, handler: nil)
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(downloadAction)
         controller.addAction(cancelAction)
         present(controller, animated: true, completion: nil)
     }
@@ -135,7 +130,7 @@ extension DetailRecordViewController: CLLocationManagerDelegate {
 
                 polyline.strokeWidth = 2
 
-            polyline.strokeColor = UIColor.black ?? .green
+            polyline.strokeColor = UIColor.black
 
                 polyline.geodesic = true
 
