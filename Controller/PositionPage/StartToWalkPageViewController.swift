@@ -111,8 +111,6 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
                                         
         createNewRecord()
         
-        locationManager.stopUpdatingLocation()
-        
         successMessage()
     }
     

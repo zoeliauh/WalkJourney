@@ -11,7 +11,6 @@ import Firebase
 import FirebaseFirestore
 import CoreMotion
 import CoreLocation
-import SwiftUI
 
 class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     

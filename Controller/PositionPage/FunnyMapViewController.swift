@@ -8,9 +8,7 @@
 import UIKit
 
 class FunnyMapViewController: UIViewController {
-    
-//    @IBOutlet weak var funnyMapTableView: UITableView!
-    
+        
     lazy var funnyMapTableView: UITableView = {
         
         let table = UITableView()
