@@ -24,6 +24,51 @@
             </objects>
             <point key="canvasLocation" x="35" y="55"/>
         </scene>
+        <!--Invitation View Controller-->
+        <scene sceneID="ypq-cT-ca5">
+            <objects>
+                <viewController storyboardIdentifier="InvitationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="v6y-b5-bAy" customClass="InvitationViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="72i-IG-zzN">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="EHS-8Y-YjE"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x9q-Ic-2TF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="35" y="824"/>
+        </scene>
+        <!--Friend Lists View Controller-->
+        <scene sceneID="HJp-WN-4fn">
+            <objects>
+                <viewController storyboardIdentifier="FriendListsViewController" id="Cvr-ia-QSH" customClass="FriendListsViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="A9H-Uo-D5G">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Lj3-Ff-uxl"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5lm-Ji-iql" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="906" y="824"/>
+        </scene>
+        <!--Block Lists View Controller-->
+        <scene sceneID="LbA-2h-bsc">
+            <objects>
+                <viewController storyboardIdentifier="BlockListsViewController" id="bm9-6Q-Qfl" customClass="BlockListsViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0b9-OA-wVb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="F10-c5-amy"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3k9-wK-uRI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1723" y="824"/>
+        </scene>
         <!--Setting View Controller-->
         <scene sceneID="qwW-Hk-g0H">
             <objects>
