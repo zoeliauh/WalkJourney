@@ -193,7 +193,7 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
         NSLayoutConstraint.activate([
         
             routeSampleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            routeSampleImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20),
+            routeSampleImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
             routeSampleImageView.widthAnchor.constraint(equalToConstant: 150),
             routeSampleImageView.heightAnchor.constraint(equalToConstant: 150)
         ])
@@ -207,32 +207,7 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
         doneButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
         doneButton.layer.shadowColor = UIColor.black.cgColor
     }
-    
-//    func createLocation() {
-//
-//        CountingStepManager.shared.addNewLocation(latitude: currentLocation[0],
-//                                                  longitude: currentLocation[1]) { result in
-//
-//            switch result {
-//
-//            case .success:
-//
-//                print("success to create new location")
-//
-//                self.newLocation?()
-//
-//                self.googleArtMapView.camera = GMSCameraPosition.camera(
-//                    withLatitude: self.currentLocation[0],
-//                    longitude: self.currentLocation[1],
-//                    zoom: 15)
-//
-//            case .failure(let error):
-//
-//                print("create location.failure: \(error)")
-//            }
-//        }
-//    }
-    
+
     func timerLabelAnimation() {
         
         timerlabel.transform = CGAffineTransform(scaleX: 2.75, y: 2.75)
@@ -318,7 +293,7 @@ extension GoogleArtViewController: CLLocationManagerDelegate {
     func successMessage() {
         
         let controller = UIAlertController(title: "成功儲存",
-                                           message: "請至 足跡 -> 挑戰地圖 查看",
+                                           message: "請至 足跡 -> 挑戰地圖 查看或分享",
                                            preferredStyle: .alert)
         let okAction = UIAlertAction(title: "確定",
                                      style: .default

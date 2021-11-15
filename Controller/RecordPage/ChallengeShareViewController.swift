@@ -19,7 +19,7 @@ class ChallengeShareViewController: UIViewController {
     lazy var moreButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(systemName: "square.and.arrow.up.fill"), for: .normal)
+        button.setImage(UIImage(named: "share"), for: .normal)
         return button
     }()
     
@@ -51,11 +51,22 @@ class ChallengeShareViewController: UIViewController {
     
     @objc func popMore() {
         
-        let controller = UIAlertController(title: "更多功能", message: "", preferredStyle: .actionSheet)
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let names = ["下載", "分享"]
         for name in names {
            let action = UIAlertAction(title: name, style: .default) { action in
-               print(action.title ?? "no action")
+               if name == "下載" {
+                   self.popButton.isHidden = true
+                   self.moreButton.isHidden = true
+                   let screenshotImage = self.view.takeScreenshot()
+                   UIImageWriteToSavedPhotosAlbum(screenshotImage, nil, nil, nil)
+                   Toast.showSuccess(text: "已下載")
+                   self.popButton.isHidden = false
+                   self.moreButton.isHidden = false
+               } else {
+                   Toast.showSuccess(text: "已分享")
+                   print("no action")
+               }
            }
            controller.addAction(action)
         }

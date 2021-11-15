@@ -170,7 +170,7 @@ class DayChartViewController: UIViewController {
         
         let set = BarChartDataSet(entries: dataEntries, label: nil)
         
-        set.colors = ChartColorTemplates.joyful()
+        set.colors = ChartColorTemplates.liberty()
         
         let data = BarChartData(dataSet: set)
         

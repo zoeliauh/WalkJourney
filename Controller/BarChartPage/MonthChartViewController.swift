@@ -187,7 +187,7 @@ class MonthChartViewController: UIViewController {
             
         let chartDataSet = BarChartDataSet(entries: dataEntries, label: nil)
         
-        chartDataSet.colors = ChartColorTemplates.joyful()
+        chartDataSet.colors = ChartColorTemplates.liberty()
         
         let chartData = BarChartData(dataSet: chartDataSet)
         

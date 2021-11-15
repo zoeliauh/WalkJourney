@@ -163,11 +163,17 @@ class InvitationManager {
             .whereField("accepted", isEqualTo: 0)
             .getDocuments { snapshot, error in
                 
+                if let error = error {
+                    
+                    print("delete InvitedRequest \(error)")
+                } else {
+                
                 guard let snapshot = snapshot else { return }
                 
                 snapshot.documents.forEach { snapshot in
                     snapshot.reference.delete()
                 }
+            }
             }
     }
 }

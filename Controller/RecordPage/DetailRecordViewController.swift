@@ -10,6 +10,15 @@ import GoogleMaps
 
 class DetailRecordViewController: UIViewController {
     
+    lazy var logoImageView: UIImageView = {
+        
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "loginIcon")
+        imageView.layer.cornerRadius = 30
+        imageView.transform.rotated(by: 130)
+        return imageView
+    }()
+    
     lazy var popButton: UIButton = {
         
         let button = UIButton()
@@ -93,6 +102,7 @@ class DetailRecordViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         tabbarHeight = self.tabBarController?.tabBar.frame.height
         setuptrackingMapView()
+        setupLogoImageView()
         setupWalkDistanceLabel()
         setupWalkStepLabel()
         setupWalkTimeLabel()
@@ -108,7 +118,16 @@ class DetailRecordViewController: UIViewController {
     @objc func popMore() {
         
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let downloadAction = UIAlertAction(title: "儲存", style: .default, handler: nil)
+        let downloadAction = UIAlertAction(title: "儲存", style: .default) { _ in
+            self.popButton.isHidden = true
+            self.moreButton.isHidden = true
+            let screenshotImage = self.view.takeScreenshot()
+            UIImageWriteToSavedPhotosAlbum(screenshotImage, nil, nil, nil)
+            Toast.showSuccess(text: "已下載")
+            self.popButton.isHidden = false
+            self.moreButton.isHidden = false
+        }
+        
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         controller.addAction(downloadAction)
         controller.addAction(cancelAction)
@@ -182,6 +201,23 @@ extension DetailRecordViewController {
         moreButton.addTarget(self, action: #selector(popMore), for: .touchUpInside)
     }
     
+    private func setupLogoImageView() {
+        
+        view.addSubview(logoImageView)
+        
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            logoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 90),
+            logoImageView.bottomAnchor.constraint(equalTo: trackingMapView.bottomAnchor, constant: -60),
+            logoImageView.heightAnchor.constraint(equalToConstant: 70),
+            logoImageView.widthAnchor.constraint(equalToConstant: 70)
+        
+        ])
+        
+    }
+    
     private func setupWalkTimeLabel() {
         
         view.addSubview(walkTimeLabel)
@@ -219,7 +255,7 @@ extension DetailRecordViewController {
         NSLayoutConstraint.activate([
             
             walkDistanceLabel.leadingAnchor.constraint(equalTo: trackingMapView.leadingAnchor, constant: 30),
-            walkDistanceLabel.bottomAnchor.constraint(equalTo: trackingMapView.bottomAnchor, constant: -50),
+            walkDistanceLabel.bottomAnchor.constraint(equalTo: trackingMapView.bottomAnchor, constant: -80),
             walkDistanceLabel.widthAnchor.constraint(equalToConstant: 200)
         ])
     }
@@ -235,7 +271,7 @@ extension DetailRecordViewController {
             trackingMapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trackingMapView.topAnchor.constraint(equalTo: view.topAnchor),
             trackingMapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            trackingMapView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabbarHeight ?? 49.0))
+            trackingMapView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }

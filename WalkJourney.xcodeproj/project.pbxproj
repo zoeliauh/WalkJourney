@@ -26,7 +26,7 @@
 		6B0221802720122000C61593 /* FirebaseStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B02217F2720122000C61593 /* FirebaseStruct.swift */; };
 		6B02218227201F6700C61593 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B02218127201F6700C61593 /* DataHelper.swift */; };
 		6B02218427215E8A00C61593 /* CountingStepManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B02218327215E8900C61593 /* CountingStepManager.swift */; };
-		6B0F3889272920F100F00448 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0F3888272920F100F00448 /* UIImageView+Extension.swift */; };
+		6B0F3889272920F100F00448 /* KingfisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0F3888272920F100F00448 /* KingfisherWrapper.swift */; };
 		6B0F388E2729529E00F00448 /* DayChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0F388D2729529E00F00448 /* DayChartViewController.swift */; };
 		6B0F3890272952BF00F00448 /* WeekChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0F388F272952BF00F00448 /* WeekChartViewController.swift */; };
 		6B0F3892272952D200F00448 /* MonthChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0F3891272952D200F00448 /* MonthChartViewController.swift */; };
@@ -55,7 +55,6 @@
 		6B5C09ED2737C87900E10EF5 /* ChallengeShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09EC2737C87900E10EF5 /* ChallengeShareViewController.swift */; };
 		6B5C09EF27383DD700E10EF5 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09EE27383DD700E10EF5 /* SettingViewController.swift */; };
 		6B5C09F1273845AF00E10EF5 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09F0273845AF00E10EF5 /* SettingTableViewCell.swift */; };
-		6B5C09F3273849CB00E10EF5 /* SettingStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09F2273849CB00E10EF5 /* SettingStruct.swift */; };
 		6B5C09F52738B3B400E10EF5 /* ChallengeInvitationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09F42738B3B400E10EF5 /* ChallengeInvitationTableViewCell.swift */; };
 		6B868A23271B18B400965075 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B868A22271B18B400965075 /* AppDelegate.swift */; };
 		6B868A25271B18B400965075 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B868A24271B18B400965075 /* SceneDelegate.swift */; };
@@ -69,6 +68,9 @@
 		6B868A66271D41C800965075 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B868A65271D41C800965075 /* Profile.storyboard */; };
 		6B868A68271D42C400965075 /* MapSearchingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B868A67271D42C300965075 /* MapSearchingPageViewController.swift */; };
 		6BBFA13B2740A42600C92974 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BBFA13A2740A42600C92974 /* GoogleService-Info.plist */; };
+		6BBFA13E2741309C00C92974 /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBFA13D2741309C00C92974 /* JGProgressHUDWrapper.swift */; };
+		6BBFA1402741315F00C92974 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBFA13F2741315F00C92974 /* UIViewController+Extension.swift */; };
+		6BBFA1422741928200C92974 /* GPSArtTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBFA1412741928200C92974 /* GPSArtTableViewCell.swift */; };
 		6BF89FAE273CBDA7004B6980 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF89FAD273CBDA7004B6980 /* PrivacyPolicyViewController.swift */; };
 		6BF89FB0273D8900004B6980 /* UserSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF89FAF273D8900004B6980 /* UserSearchViewController.swift */; };
 		6BF89FB3273D9293004B6980 /* UserSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF89FB2273D9293004B6980 /* UserSearchTableViewCell.swift */; };
@@ -103,7 +105,7 @@
 		6B02217F2720122000C61593 /* FirebaseStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStruct.swift; sourceTree = "<group>"; };
 		6B02218127201F6700C61593 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
 		6B02218327215E8900C61593 /* CountingStepManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountingStepManager.swift; sourceTree = "<group>"; };
-		6B0F3888272920F100F00448 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		6B0F3888272920F100F00448 /* KingfisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingfisherWrapper.swift; sourceTree = "<group>"; };
 		6B0F388D2729529E00F00448 /* DayChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayChartViewController.swift; sourceTree = "<group>"; };
 		6B0F388F272952BF00F00448 /* WeekChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekChartViewController.swift; sourceTree = "<group>"; };
 		6B0F3891272952D200F00448 /* MonthChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthChartViewController.swift; sourceTree = "<group>"; };
@@ -133,7 +135,6 @@
 		6B5C09EC2737C87900E10EF5 /* ChallengeShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeShareViewController.swift; sourceTree = "<group>"; };
 		6B5C09EE27383DD700E10EF5 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		6B5C09F0273845AF00E10EF5 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
-		6B5C09F2273849CB00E10EF5 /* SettingStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingStruct.swift; sourceTree = "<group>"; };
 		6B5C09F42738B3B400E10EF5 /* ChallengeInvitationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeInvitationTableViewCell.swift; sourceTree = "<group>"; };
 		6B868A1F271B18B400965075 /* WalkJourney.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalkJourney.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B868A22271B18B400965075 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -150,6 +151,9 @@
 		6B868A65271D41C800965075 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		6B868A67271D42C300965075 /* MapSearchingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchingPageViewController.swift; sourceTree = "<group>"; };
 		6BBFA13A2740A42600C92974 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6BBFA13D2741309C00C92974 /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
+		6BBFA13F2741315F00C92974 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		6BBFA1412741928200C92974 /* GPSArtTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSArtTableViewCell.swift; sourceTree = "<group>"; };
 		6BF89FAD273CBDA7004B6980 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		6BF89FAF273D8900004B6980 /* UserSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchViewController.swift; sourceTree = "<group>"; };
 		6BF89FB2273D9293004B6980 /* UserSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewCell.swift; sourceTree = "<group>"; };
@@ -302,9 +306,10 @@
 		6B868A16271B18B400965075 = {
 			isa = PBXGroup;
 			children = (
+				6BBFA13C2741305A00C92974 /* Third Party Wrapper */,
+				6B868A5C271D14B100965075 /* Extension */,
 				6B1269D22731A8A300833A81 /* customFonts */,
 				6B0F3898272BA45D00F00448 /* storyboard */,
-				6B868A5C271D14B100965075 /* Extension */,
 				6B868A59271D148B00965075 /* Model */,
 				6B868A5A271D149600965075 /* View */,
 				6B868A5B271D14A100965075 /* Controller */,
@@ -353,7 +358,6 @@
 				6B227DD2273419EA0067E51C /* UserManager.swift */,
 				6BF89FB5273E3F02004B6980 /* Invitation.swift */,
 				6BF89FB7273E3F38004B6980 /* InvitationManager.swift */,
-				6B5C09F2273849CB00E10EF5 /* SettingStruct.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -369,6 +373,7 @@
 				6BF89FB2273D9293004B6980 /* UserSearchTableViewCell.swift */,
 				6BF89FC0273F7CAD004B6980 /* InvitedTableViewCell.swift */,
 				6BF89FC4274005B8004B6980 /* FriendListsCollectionViewCell.swift */,
+				6BBFA1412741928200C92974 /* GPSArtTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -393,14 +398,23 @@
 			children = (
 				6B02215C271D758200C61593 /* UIStoryboard+Extension.swift */,
 				6B022156271D742600C61593 /* UIView+Extension.swift */,
-				6B0F3888272920F100F00448 /* UIImageView+Extension.swift */,
 				6B1269D92731ABE100833A81 /* UIFont+Extension.swift */,
 				6B022158271D74D000C61593 /* UIColor+Extension.swift */,
 				6B02215A271D752400C61593 /* UIScreen+Extension.swift */,
 				6B1699EC2727BA3B00260D70 /* UITableViewCell+Extension.swift */,
+				6BBFA13F2741315F00C92974 /* UIViewController+Extension.swift */,
 				6B1269D02731734400833A81 /* String+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		6BBFA13C2741305A00C92974 /* Third Party Wrapper */ = {
+			isa = PBXGroup;
+			children = (
+				6B0F3888272920F100F00448 /* KingfisherWrapper.swift */,
+				6BBFA13D2741309C00C92974 /* JGProgressHUDWrapper.swift */,
+			);
+			path = "Third Party Wrapper";
 			sourceTree = "<group>";
 		};
 		6BF89FB9273F7389004B6980 /* ProfileView */ = {
@@ -575,6 +589,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BBFA1402741315F00C92974 /* UIViewController+Extension.swift in Sources */,
 				6BF89FBD273F7489004B6980 /* FriendListsViewController.swift in Sources */,
 				6B02215F271D7AD700C61593 /* BarChartViewController.swift in Sources */,
 				6B1269D12731734400833A81 /* String+Extension.swift in Sources */,
@@ -585,7 +600,6 @@
 				6B1699ED2727BA3B00260D70 /* UITableViewCell+Extension.swift in Sources */,
 				6B022172271ED25100C61593 /* FunnyMapViewController.swift in Sources */,
 				6B022163271D7AFF00C61593 /* ShareViewController.swift in Sources */,
-				6B5C09F3273849CB00E10EF5 /* SettingStruct.swift in Sources */,
 				6B868A68271D42C400965075 /* MapSearchingPageViewController.swift in Sources */,
 				6B022176271F31FC00C61593 /* GoogleMapsManager.swift in Sources */,
 				6B0F3890272952BF00F00448 /* WeekChartViewController.swift in Sources */,
@@ -599,7 +613,7 @@
 				6BF89FBF273F752F004B6980 /* BlockListsViewController.swift in Sources */,
 				6B02216B271E6D7100C61593 /* StartToWalkPageViewController.swift in Sources */,
 				6B022157271D742700C61593 /* UIView+Extension.swift in Sources */,
-				6B0F3889272920F100F00448 /* UIImageView+Extension.swift in Sources */,
+				6B0F3889272920F100F00448 /* KingfisherWrapper.swift in Sources */,
 				6B492DDB272E4D7B0030DAFE /* LoginViewController.swift in Sources */,
 				6BF89FB6273E3F02004B6980 /* Invitation.swift in Sources */,
 				6B0F3892272952D200F00448 /* MonthChartViewController.swift in Sources */,
@@ -622,12 +636,14 @@
 				6B0221802720122000C61593 /* FirebaseStruct.swift in Sources */,
 				6BF89FB0273D8900004B6980 /* UserSearchViewController.swift in Sources */,
 				6B868A23271B18B400965075 /* AppDelegate.swift in Sources */,
+				6BBFA1422741928200C92974 /* GPSArtTableViewCell.swift in Sources */,
 				6B5C09EB2737B39300E10EF5 /* ChallengeTableViewCell.swift in Sources */,
 				6B0F388E2729529E00F00448 /* DayChartViewController.swift in Sources */,
 				6B5C09E72737AAB900E10EF5 /* RecordCatagoryViewController.swift in Sources */,
 				6B868A25271B18B400965075 /* SceneDelegate.swift in Sources */,
 				6B022161271D7AE900C61593 /* RecordViewController.swift in Sources */,
 				6B022170271EC4DF00C61593 /* MapChosenViewController.swift in Sources */,
+				6BBFA13E2741309C00C92974 /* JGProgressHUDWrapper.swift in Sources */,
 				6B1269DC2732AF4400833A81 /* GoogleArtViewController.swift in Sources */,
 				6B02215D271D758200C61593 /* UIStoryboard+Extension.swift in Sources */,
 				6B02215B271D752400C61593 /* UIScreen+Extension.swift in Sources */,

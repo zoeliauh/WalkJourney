@@ -44,40 +44,6 @@ class InvitedTableViewCell: UITableViewCell {
         return button
     }()
     
-    var confirmedButtonIsEnable: Bool = true {
-        
-        didSet {
-            
-            if confirmedButtonIsEnable {
-                
-                confirmedButton.backgroundColor = .C4
-                confirmedButton.isEnabled = true
-            } else {
-                
-                confirmedButton.backgroundColor = .lightGray
-                confirmedButton.isEnabled = false
-                confirmedButton.setTitle("已確認", for: .normal)
-            }
-        }
-    }
-    
-    var notNowButtonIsEnable: Bool = true {
-        
-        didSet {
-            
-            if notNowButtonIsEnable {
-                
-                notNowButton.backgroundColor = .C4
-                notNowButton.isEnabled = true
-            } else {
-                
-                notNowButton.backgroundColor = .lightGray
-                notNowButton.isEnabled = false
-                notNowButton.isHidden = true
-            }
-        }
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         
