@@ -75,9 +75,7 @@ class SettingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        isModalInPresentation = true
-        
+                        
         setupCloseButton()
                 
         setupButtons()
@@ -115,11 +113,11 @@ class SettingViewController: UIViewController {
     
     @objc func blockListsPressed(_ sender: UIButton) {
         
-        guard let blockListsVC = UIStoryboard.profile.instantiateViewController(
-            withIdentifier: "BlockListsViewController"
-        ) as? BlockListsViewController else { return }
-
-        self.present(blockListsVC, animated: true, completion: nil)
+//        guard let blockListsVC = UIStoryboard.profile.instantiateViewController(
+//            withIdentifier: "BlockListsViewController"
+//        ) as? BlockListsViewController else { return }
+//
+//        self.present(blockListsVC, animated: true, completion: nil)
     }
     
     @objc func deleteAccount(_ sender: UIButton) {

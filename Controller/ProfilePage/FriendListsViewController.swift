@@ -28,7 +28,7 @@ class FriendListsViewController: UIViewController {
     
     var myID = UserManager.shared.uid
     
-    var friendLists: [String] = []
+    var friendLists: [String] = [] 
     
     var friendName: [String] = []
     
@@ -72,17 +72,15 @@ class FriendListsViewController: UIViewController {
                             
                             guard let profileURL = friends.userImageURL else { return }
                             
-                            self.friendName.append(contentsOf: [name])
+                            self.friendName.append(name)
                             
-                            self.friendProfileImage.append(contentsOf: [profileURL])
-                            
-                            print(self.friendProfileImage)
-                            print(self.friendName)
-                            
+                            self.friendProfileImage.append(profileURL)
+                        
                             group.leave()
                             
                         case .failure(let error):
                             print("fetcFriendData.failure: \(error)")
+                            
                             group.leave()
                         }
                     }
@@ -90,6 +88,7 @@ class FriendListsViewController: UIViewController {
                 group.notify(queue: .main) {
                     friendListsCollectionView.dataSource = self
                     friendListsCollectionView.delegate = self
+                    friendListsCollectionView.reloadData()
                 }
                     
             case .failure(let error):

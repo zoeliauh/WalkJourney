@@ -29,6 +29,8 @@ class ProfileViewController: UIViewController {
         
         let button = UIButton()
         button.setImage(UIImage(systemName: "pencil"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageEdgeInsets = UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25)
         return button
     }()
     
@@ -53,28 +55,40 @@ class ProfileViewController: UIViewController {
     lazy var newPhotoButton: UIButton = {
         let newPhotoButton = UIButton(type: .system)
         newPhotoButton.setImage(UIImage(systemName: "camera.fill"), for: .normal)
-        newPhotoButton.tintColor = UIColor.darkGray
+        newPhotoButton.tintColor = UIColor.C1
         newPhotoButton.layer.masksToBounds = true
         newPhotoButton.addTarget(self, action: #selector(newPhoto), for: .touchUpInside)
         return newPhotoButton
     }()
+
+    lazy var gpsArtLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "挑戰你我他"
+        label.textColor = .black
+        label.font = UIFont.kleeOneRegular(ofSize: 25)
+        label.textAlignment = .center
+        return label
+    }()
     
-    // need to be stack view??
-    lazy var rankImageView: UIImageView = {
+    lazy var pinImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "star")
+        imageView.image = UIImage(named: "Icon_Pin")
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    lazy var challengeButton: UIButton = {
+    lazy var gpsArtTableView: UITableView = {
         
-        let button = UIButton()
-        button.setImage(UIImage(named: "friends_invitation"), for: .normal)
-        button.contentMode = .scaleAspectFill
-        button.addTarget(self, action: #selector(funnyMapGame(_:)), for: .touchUpInside)
-        return button
+        let table = UITableView()
+        table.dataSource = self
+        table.delegate = self
+        table.rowHeight = UITableView.automaticDimension
+        table.register(GPSArtTableViewCell.self, forCellReuseIdentifier: GPSArtTableViewCell.identifier)
+        table.reloadData()
+
+        return table
     }()
     
     var tabbarHeight: CGFloat? = 0.0
@@ -117,15 +131,14 @@ class ProfileViewController: UIViewController {
         navigationItem.searchController?.searchBar.placeholder = "請搜尋使用者名稱"
         
         fetchUserInfo()
-//        fetchAllUserInfo()
-        
         setupNameTextField()
         setupEditButton()
-//        setupSearchButton()
         setupSettingButton()
-        setupRankImageView()
         setupProfileImageView()
         setupNewPhotoButton()
+        setupGPSArtLabel()
+        setupPinImageView()
+        setupgpsArtTableView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -140,9 +153,7 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-//        self.navigationController?.isNavigationBarHidden = true
-        
+                
         fetchUserInfo()
     }
     
@@ -279,6 +290,30 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 }
 
+// MARK: - tableViewDelegate, tableViewDataSource
+extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: GPSArtTableViewCell.identifier, for: indexPath
+        ) as? GPSArtTableViewCell else { fatalError("can not dequeue gpsAtrCell") }
+        
+        let url = "https://firebasestorage.googleapis.com/v0/b/walkjourney-8eaaf.appspot.com/o/5ZjRhKR3qRqvvUSD4Yfu.jpg?alt=media&token=ef8b809f-1b99-498d-83c9-345c5199cbb9"
+        
+        cell.gpsImageView.loadImage(url, placeHolder: nil)
+        
+        cell.pinImageView.image = UIImage(named: "Icon_Pin")
+        
+        cell.selectionStyle = .none
+        
+        return cell
+    }
+}
+
 // MARK: - UISearchResultsUpdating
 extension ProfileViewController: UISearchResultsUpdating {
     
@@ -294,6 +329,8 @@ extension ProfileViewController: UISearchResultsUpdating {
             
             guard let username = $0.username else { return true }
             
+            if username == userInfo?.username { return false }
+            
             return username.lowercased().prefix(text.count) == text.lowercased()
         })
         
@@ -301,6 +338,7 @@ extension ProfileViewController: UISearchResultsUpdating {
     }
 }
 
+// MARK: - UI design
 extension ProfileViewController {
     
     private func setupNameTextField() {
@@ -311,7 +349,7 @@ extension ProfileViewController {
         
         NSLayoutConstraint.activate([
             
-            nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
             nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             nameTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 2)
         ])
@@ -327,10 +365,8 @@ extension ProfileViewController {
         
         NSLayoutConstraint.activate([
             
-            editButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            editButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
-            editButton.widthAnchor.constraint(equalToConstant: 20),
-            editButton.heightAnchor.constraint(equalToConstant: 20)
+            editButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            editButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80)
         ])
         
         editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
@@ -349,10 +385,10 @@ extension ProfileViewController {
         
         NSLayoutConstraint.activate([
             
-            settingButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            settingButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
             settingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            settingButton.widthAnchor.constraint(equalToConstant: 20),
-            settingButton.heightAnchor.constraint(equalToConstant: 20)
+            settingButton.widthAnchor.constraint(equalToConstant: 25),
+            settingButton.heightAnchor.constraint(equalToConstant: 25)
         ])
         
         settingButton.addTarget(self, action: #selector(settingButtonPressed(_:)), for: .touchUpInside)
@@ -365,10 +401,10 @@ extension ProfileViewController {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            profileImageView.topAnchor.constraint(equalTo: rankImageView.bottomAnchor),
-            profileImageView.widthAnchor.constraint(equalToConstant: 150),
-            profileImageView.heightAnchor.constraint(equalToConstant: 150)
+            profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            profileImageView.topAnchor.constraint(equalTo: nameTextField.topAnchor),
+            profileImageView.widthAnchor.constraint(equalToConstant: 70),
+            profileImageView.heightAnchor.constraint(equalToConstant: 70)
         ])
         
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
@@ -386,19 +422,64 @@ extension ProfileViewController {
             newPhotoButton.heightAnchor.constraint(equalTo: profileImageView.heightAnchor, multiplier: 0.4)
         ])
     }
+//
+//    func setupRankImageView() {
+//
+//        view.addSubview(rankImageView)
+//
+//        rankImageView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        NSLayoutConstraint.activate([
+//
+//            rankImageView.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+//            rankImageView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 5),
+//            rankImageView.widthAnchor.constraint(equalToConstant: 24),
+//            rankImageView.heightAnchor.constraint(equalToConstant: 24)
+//        ])
+//    }
     
-    func setupRankImageView() {
+    private func setupGPSArtLabel() {
         
-        view.addSubview(rankImageView)
+        view.addSubview(gpsArtLabel)
         
-        rankImageView.translatesAutoresizingMaskIntoConstraints = false
+        gpsArtLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
-            rankImageView.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
-            rankImageView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 5),
-            rankImageView.widthAnchor.constraint(equalToConstant: 24),
-            rankImageView.heightAnchor.constraint(equalToConstant: 24)
+//            gpsArtLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 44),
+            gpsArtLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            gpsArtLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5)
+        ])
+    }
+    
+    private func setupPinImageView() {
+        
+        view.addSubview(pinImageView)
+        
+        pinImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+//            pinImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            pinImageView.trailingAnchor.constraint(equalTo: gpsArtLabel.leadingAnchor, constant: -10),
+            pinImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5),
+            pinImageView.widthAnchor.constraint(equalToConstant: 20),
+            pinImageView.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+    
+    private func setupgpsArtTableView() {
+        
+        view.addSubview(gpsArtTableView)
+        
+        gpsArtTableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            gpsArtTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            gpsArtTableView.topAnchor.constraint(equalTo: gpsArtLabel.bottomAnchor, constant: 10),
+            gpsArtTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            gpsArtTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
         ])
     }
 }

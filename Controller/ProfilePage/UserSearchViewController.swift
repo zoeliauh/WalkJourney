@@ -40,6 +40,10 @@ class UserSearchViewController: UIViewController {
     var shouldShowSearchResults = false
     
     var userInvitation: [Invitation] = []
+    
+    var receiver: [String] = []
+    
+    var friendLists: [String] = []
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +51,8 @@ class UserSearchViewController: UIViewController {
         fetchAllUserInfo()
         
         setupTableView()
+        
+//        fetchuserFriendLists()
         
         fetchUserInvitationInfo()        
     }
@@ -57,6 +63,8 @@ class UserSearchViewController: UIViewController {
         fetchAllUserInfo()
         
         setupTableView()
+        
+        fetchuserFriendLists()
         
         fetchUserInvitationInfo()
     }
@@ -79,6 +87,27 @@ class UserSearchViewController: UIViewController {
         }
     }
     
+    func fetchuserFriendLists() {
+        
+        guard let uid = UserManager.shared.uid else { return }
+        
+        UserManager.shared.fetchUserInfo(uesrID: uid) { result in
+            
+            switch result {
+                
+            case .success(let user):
+                
+                guard let friendLists = user.friendLists else { return }
+                
+                self.friendLists = friendLists
+                print("my friendLists is \(friendLists)")
+                
+            case .failure(let error):
+                print("fetch friendList \(error)")
+            }
+        }
+    }
+    
     func fetchUserInvitationInfo() {
         
         InvitationManager.shared.fetchUserInvitationInfo { result in
@@ -87,6 +116,8 @@ class UserSearchViewController: UIViewController {
                 
             case .success(let userInvitation):
                 self.userInvitation = userInvitation
+                
+                self.receiver = userInvitation.map{ $0.receiver }
 //                print("userInvitation is \(userInvitation)")
                 
             case .failure(let error):
@@ -136,16 +167,28 @@ extension UserSearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.addFriendButton.tag = indexPath.row
         
         cell.selectionStyle = .none
-
-//        if allInvitation[indexPath.row].sender == UserManager.shared.uid && allInvitation[indexPath.row].receiver == allUserInfo[indexPath.row].userID {
+        
+        if friendLists.contains(filteredUserInfo[indexPath.row].userID) || receiver.contains(filteredUserInfo[indexPath.row].userID) {
+            
+                cell.addFriendButton.isEnabled = false
+                cell.addFriendButton.backgroundColor = .lightGray
+            } else {
+            
+                cell.addFriendButton.isEnabled = true
+                cell.addFriendButton.backgroundColor = .C4
+                cell.addFriendButton.addTarget(self, action: #selector(sendInvitation(_:)), for: .touchUpInside)
+            }
+        
+//        if receiver.contains(filteredUserInfo[indexPath.row].userID) {
 //
-//            cell.buttonIsEnable = false
+//            cell.addFriendButton.isEnabled = false
+//            cell.addFriendButton.backgroundColor = .lightGray
 //        } else {
 //
-//            cell.buttonIsEnable = true
+//            cell.addFriendButton.isEnabled = true
+//            cell.addFriendButton.backgroundColor = .C4
+//            cell.addFriendButton.addTarget(self, action: #selector(sendInvitation(_:)), for: .touchUpInside)
 //        }
-        
-        cell.addFriendButton.addTarget(self, action: #selector(sendInvitation(_:)), for: .touchUpInside)
         
         return cell
     }

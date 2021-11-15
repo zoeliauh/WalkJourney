@@ -24,8 +24,7 @@ class InvitationViewController: UIViewController {
     var invitedRequests: [Invitation] = [] {
         
         didSet {
-            invitedTableView.dataSource = self
-            invitedTableView.delegate = self
+            
             invitedTableView.reloadData()
         }
     }
@@ -33,29 +32,19 @@ class InvitationViewController: UIViewController {
     var myID = UserManager.shared.uid
     
     var friendLists: [String] = []
-    
-    var senderInfo: [User] = []
+        
+    var senderInfo: [String: User] = [:]
     
     var senderID: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupTableView()
-
+    
         fetchInvitedRequest()
         
         fetchFriendList()
         
-//        isModalInPresentation = true
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         setupTableView()
-        
-        fetchInvitedRequest()
     }
     
     func fetchFriendList() {
@@ -85,54 +74,75 @@ class InvitationViewController: UIViewController {
             switch result {
                 
             case .success(let invitedRequest):
-                self.invitedRequests = invitedRequest
+                
+                let group = DispatchGroup()
+                
+                self.invitedRequests = invitedRequest.filter({ request -> Bool in
+                    if request.accepted == 0 {
+                        
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                
+                for sender in invitedRequest {
+                    
+                    group.enter()
+                    
+                    UserManager.shared.fetchUserInfo(uesrID: sender.sender) { result in
+                        
+                        switch result {
+                            
+                        case .success(let senderInfo):
+                            
+                            self.senderInfo[sender.sender] = senderInfo
+                                                        
+                            print("senderInfo is \(senderInfo)")
+                            
+                            group.leave()
+                            
+                        case .failure(let error):
+                            
+                            print("fetch sender info \(error)")
+                            
+                            group.leave()
+                        }
+                    }
+                }
+                
+                group.notify(queue: .main) {
+                    self.invitedTableView.dataSource = self
+                    self.invitedTableView.delegate = self
+                    self.invitedTableView.reloadData()
+                }
                 
             case .failure(let error):
                 print("fetchAllInvitation.failure: \(error)")
-            }
-        }
-        self.fetchUserInfo()
-    }
-            
-    func fetchUserInfo() {
-        
-        for sender in invitedRequests {
-            
-            UserManager.shared.fetchUserInfo(uesrID: sender.sender) { result in
-           
-                switch result {
-                                                            
-                case .success(let senderInfo):
-                                        
-                    self.senderInfo.append(contentsOf: [senderInfo])
-                    
-                case .failure:
-                    print("error for the sender info")
-                }
             }
         }
     }
     
     @objc func confirmedPressed(_ sender: UIButton!) {
         
-        self.friendLists.append(senderInfo[sender.tag].userID)
-        
+        self.friendLists.append(invitedRequests[sender.tag].sender)
+
         UserManager.shared.updateFriendList(friendLists: friendLists)
+
+        InvitationManager.shared.updateInvitedStatus(sender: invitedRequests[sender.tag].sender)
         
-        InvitationManager.shared.updateInvitedStatus(sender: senderInfo[sender.tag].userID)
-        print(senderInfo[sender.tag].userID)
-                
-        sender.backgroundColor = .lightGray
-        sender.isEnabled = false
+        invitedRequests.remove(at: sender.tag)
+        
+        Toast.showSuccess(text: "成功加入好友")
     }
     
     @objc func notNowButtonPressed(_ sender: UIButton!) {
         
-        InvitationManager.shared.deleteInvitedRequest(sender: senderInfo[sender.tag].userID)
-        print(senderInfo[sender.tag].userID)
-        senderInfo.remove(at: sender.tag)
-        print(sender.tag)
-        invitedTableView.reloadData()
+        InvitationManager.shared.deleteInvitedRequest(sender: invitedRequests[sender.tag].sender)
+        
+        invitedRequests.remove(at: sender.tag)
+        
+        Toast.showSuccess(text: "已取消")
     }
 }
 
@@ -144,7 +154,7 @@ extension InvitationViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return senderInfo.count
+        return invitedRequests.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -153,30 +163,23 @@ extension InvitationViewController: UITableViewDelegate, UITableViewDataSource {
             withIdentifier: InvitedTableViewCell.identifier, for: indexPath
         ) as? InvitedTableViewCell else { fatalError("can not dequeue") }
         
-        cell.profileImageView.loadImage(senderInfo[indexPath.row].userImageURL,
-                                        placeHolder: UIImage(systemName: "person.crop.circle")
-        )
+        let senderID = invitedRequests[indexPath.row].sender
+        
+        guard let userInfo = senderInfo[senderID] else { return cell }
         
         cell.confirmedButton.tag = indexPath.row
         
         cell.notNowButton.tag = indexPath.row
         
-        cell.userName.text = senderInfo[indexPath.row].username
+        cell.profileImageView.loadImage(userInfo.userImageURL, placeHolder: UIImage(systemName: "person.crop.circle"))
         
+        cell.userName.text = userInfo.username
+                            
         if invitedRequests[indexPath.row].accepted == 0 {
-            
-            cell.confirmedButtonIsEnable = true
-            
-            cell.notNowButtonIsEnable = true
-            
+
             cell.confirmedButton.addTarget(self, action: #selector(confirmedPressed(_:)), for: .touchUpInside)
-            
+
             cell.notNowButton.addTarget(self, action: #selector(notNowButtonPressed(_:)), for: .touchUpInside)
-        } else {
-            
-            cell.confirmedButtonIsEnable = false
-            
-            cell.notNowButtonIsEnable = false
         }
         
         cell.selectionStyle = .none
