@@ -58,7 +58,11 @@ class FriendListsViewController: UIViewController {
                 
                 guard let lists = friendList.friendLists else { return }
                 
+                guard let blockLists = friendList.blockLists else { return }
+
                 self.friendLists = lists
+                
+                self.blockLists = blockLists
                 
                 for friend in self.friendLists {
                     
@@ -71,12 +75,11 @@ class FriendListsViewController: UIViewController {
                         case .success(let friends):
                             
                             self.friendInfo[friend] = friends
-                            
-                            print("friends are \(friends)")
-                        
+                                                    
                             group.leave()
                             
                         case .failure(let error):
+                            
                             print("fetcFriendData.failure: \(error)")
                             
                             group.leave()
@@ -138,27 +141,40 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
                 
                 discoverabilityTitle: nil, attributes: .destructive) { [self]_ in
                     
-                print("error")
+                    let controller = UIAlertController(title: "",
+                                                       message: "確定要將此人加入黑名單嗎?\n一但加入即無法取消唷",
+                                                       preferredStyle: .alert)
                     
-                    self.blockLists.append(friendLists[indexPath.row])
+                    let okAction = UIAlertAction(title: "確定", style: .default) { _ in
+                                                
+                        self.blockLists.append(friendLists[indexPath.row])
+                        
+                        UserManager.shared.updateBlockList(blockLists: blockLists)
+                        
+                        friendLists.remove(at: indexPath.row)
+                        
+                        UserManager.shared.updateFriendList(friendLists: friendLists)
+                        
+                        friendListsCollectionView.reloadData()
+                    }
                     
-                    UserManager.shared.updateBlockList(blockLists: blockLists)
+                    let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
                     
-                    friendLists.remove(at: indexPath.row)
+                    controller.addAction(okAction)
                     
-                    UserManager.shared.updateFriendList(friendLists: friendLists)
+                    controller.addAction(cancelAction)
                     
-                    friendListsCollectionView.reloadData()
+                    present(controller, animated: true, completion: nil)
+                }
+                    
+                    return UIMenu(title: "", image: nil, identifier: nil,
+                                  
+                                  options: UIMenu.Options.displayInline, children: [blockAction]
+                    )
                 }
             
-            return UIMenu(title: "", image: nil, identifier: nil,
-                          
-                          options: UIMenu.Options.displayInline, children: [blockAction]
-            )
+            return config
         }
-        
-        return config
-    }
     
     func setupCollectionView() {
         
