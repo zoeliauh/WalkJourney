@@ -28,11 +28,13 @@ class FriendListsViewController: UIViewController {
     
     var myID = UserManager.shared.uid
     
-    var friendLists: [String] = [] 
+    var friendLists: [String] = []
     
-    var friendName: [String] = []
+    var friendInfo: [String: User] = [:]
     
-    var friendProfileImage: [String] = [] 
+    var friendID: String = ""
+    
+    var blockLists: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,13 +70,9 @@ class FriendListsViewController: UIViewController {
                             
                         case .success(let friends):
                             
-                            guard let name = friends.username else { return }
+                            self.friendInfo[friend] = friends
                             
-                            guard let profileURL = friends.userImageURL else { return }
-                            
-                            self.friendName.append(name)
-                            
-                            self.friendProfileImage.append(profileURL)
+                            print("friends are \(friends)")
                         
                             group.leave()
                             
@@ -101,6 +99,7 @@ class FriendListsViewController: UIViewController {
 extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return friendLists.count
     }
     
@@ -115,11 +114,50 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
             fatalError("can not dequeue collectionViewCell")
         }
         
-        cell.profileImageView.loadImage(friendProfileImage[indexPath.row])
+        friendID = friendLists[indexPath.row]
+        
+        guard let userInfo = friendInfo[friendID] else { return cell }
 
-        cell.friendName.text = friendName[indexPath.row]
+        cell.profileImageView.loadImage(userInfo.userImageURL)
+        
+        cell.friendName.text = userInfo.username
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath,
+                        point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            
+            let blockAction = UIAction(
+                
+                title: "封鎖使用者", image: UIImage(systemName: "person.fill.xmark"),
+                
+                identifier: nil,
+                
+                discoverabilityTitle: nil, attributes: .destructive) { [self]_ in
+                    
+                print("error")
+                    
+                    self.blockLists.append(friendLists[indexPath.row])
+                    
+                    UserManager.shared.updateBlockList(blockLists: blockLists)
+                    
+                    friendLists.remove(at: indexPath.row)
+                    
+                    UserManager.shared.updateFriendList(friendLists: friendLists)
+                    
+                    friendListsCollectionView.reloadData()
+                }
+            
+            return UIMenu(title: "", image: nil, identifier: nil,
+                          
+                          options: UIMenu.Options.displayInline, children: [blockAction]
+            )
+        }
+        
+        return config
     }
     
     func setupCollectionView() {

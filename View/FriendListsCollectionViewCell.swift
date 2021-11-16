@@ -15,6 +15,7 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
         
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "person.crop.circle")
+        imageView.layer.cornerRadius = 10
         return imageView
     }()
     
@@ -50,6 +51,8 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
         setupfriendNameLabel()
         setupChallengeButton()
         
+        profileImageView.layer.cornerRadius = 20
+        
         contentView.backgroundColor = .C1
         contentView.layer.cornerRadius = 10
     }
@@ -58,6 +61,14 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not beed implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        contentViewConfig()
+        
+        profileImageView.clipsToBounds = true
+    }
+
     private func buttonConfig(_ button: UIButton) {
         
         button.titleLabel?.font = UIFont.kleeOneRegular(ofSize: 15)
@@ -70,6 +81,17 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
         button.clipsToBounds = true
         button.layer.masksToBounds = false
         button.layoutIfNeeded()
+    }
+    
+    private func contentViewConfig() {
+        
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0))
+        contentView.layer.shadowColor = UIColor.black.cgColor
+        contentView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        contentView.layer.shadowRadius = 4
+        contentView.layer.shadowOpacity = 0.1
+        contentView.layer.masksToBounds = false
+        layer.masksToBounds = false
     }
     
     // MARK: - UI design

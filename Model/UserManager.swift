@@ -156,4 +156,25 @@ class UserManager {
             "friendLists": friendLists as Any
         ])
     }
+    
+    // update user blockLists
+    func updateBlockList(blockLists: [String]) {
+        
+        guard let uid = uid else { return }
+        
+        db.collection(Collections.user.rawValue).document(uid).updateData([
+            "blockLists": blockLists as Any
+        ])
+    }
+    
+//    // delete certain friend from friendLists
+//    func deletefriend(friendID: String) {
+//        
+//        guard let uid = UserManager.shared.uid else { return }
+//        
+//        let documentRef = db.collection(Collections.invitation.rawValue)
+//            .document(uid)
+//        
+//        documentRef.delete()
+//    }
 }
