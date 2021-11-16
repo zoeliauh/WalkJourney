@@ -804,7 +804,7 @@
 				CODE_SIGN_ENTITLEMENTS = WalkJourney/WalkJourney.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 35VS24D7UT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WalkJourney/Info.plist;
@@ -847,7 +847,7 @@
 				CODE_SIGN_ENTITLEMENTS = WalkJourney/WalkJourney.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 35VS24D7UT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WalkJourney/Info.plist;
