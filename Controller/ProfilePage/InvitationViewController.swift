@@ -32,10 +32,18 @@ class InvitationViewController: UIViewController {
     var myID = UserManager.shared.uid
     
     var friendLists: [String] = []
+    
+    var senderFriendLists: [String] = []
         
     var senderInfo: [String: User] = [:]
     
-    var senderID: String = ""
+    var senderID: String = "" {
+        
+        didSet {
+            
+            fetchSenderFriendList()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +51,7 @@ class InvitationViewController: UIViewController {
         fetchInvitedRequest()
         
         fetchFriendList()
-        
+                
         setupTableView()
     }
     
@@ -62,6 +70,28 @@ class InvitationViewController: UIViewController {
                                 
             case .failure(let error):
                 print("fetchAllInvitation.failure: \(error)")
+                
+            }
+        }
+    }
+    
+    func fetchSenderFriendList() {
+                        
+        UserManager.shared.fetchUserInfo(uesrID: senderID) { result in
+            
+            print(self.senderID)
+            
+            switch result {
+                
+            case .success(let friendList):
+                guard let lists = friendList.friendLists else { return }
+                        
+                self.senderFriendLists = lists
+                
+                print("senderFriendList is \(self.senderFriendLists)")
+                                
+            case .failure(let error):
+                print("fetchSenderFriendLists.failure: \(error)")
                 
             }
         }
@@ -126,8 +156,14 @@ class InvitationViewController: UIViewController {
     @objc func confirmedPressed(_ sender: UIButton!) {
         
         self.friendLists.append(invitedRequests[sender.tag].sender)
+        
+    print("confirm \(senderFriendLists)")
+        
+        self.senderFriendLists.append(invitedRequests[sender.tag].receiver)
 
         UserManager.shared.updateFriendList(friendLists: friendLists)
+        
+        UserManager.shared.updateOtherUserFriendList(sender: senderID, friendLists: senderFriendLists)
 
         InvitationManager.shared.updateInvitedStatus(sender: invitedRequests[sender.tag].sender)
         
@@ -162,9 +198,9 @@ extension InvitationViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: InvitedTableViewCell.identifier, for: indexPath
         ) as? InvitedTableViewCell else { fatalError("can not dequeue") }
-        
-        let senderID = invitedRequests[indexPath.row].sender
-        
+                
+        senderID = invitedRequests[indexPath.row].sender
+                
         guard let userInfo = senderInfo[senderID] else { return cell }
         
         cell.confirmedButton.tag = indexPath.row

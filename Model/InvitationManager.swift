@@ -176,4 +176,15 @@ class InvitationManager {
             }
             }
     }
+    
+    // get real time data
+    func getRealTimeFriendList() {
+        
+        
+        
+        
+        
+        
+    }
+    
 }

@@ -37,7 +37,8 @@ class UserManager {
             print(userName)
             return userName
         } else {
-            return "設定使用者名稱"
+//            return "設定使用者名稱"
+            return ""
         }
     }()
     
@@ -138,12 +139,20 @@ class UserManager {
             ])
         }
     }
-    // update FriendList
+    // update user FriendList
     func updateFriendList(friendLists: [String]) {
         
         guard let uid = uid else { return }
         
         db.collection(Collections.user.rawValue).document(uid).updateData([
+            "friendLists": friendLists as Any
+        ])
+    }
+    
+    // update other user FriendList
+    func updateOtherUserFriendList(sender: String, friendLists: [String]) {
+                
+        db.collection(Collections.user.rawValue).document(sender).updateData([
             "friendLists": friendLists as Any
         ])
     }
