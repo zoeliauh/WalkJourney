@@ -56,13 +56,15 @@ class FriendListsViewController: UIViewController {
                 
                 let group = DispatchGroup()
                 
-                guard let lists = friendList.friendLists else { return }
-                
-                guard let blockLists = friendList.blockLists else { return }
+//                guard let lists = friendList.friendLists else {
+//                    return }
+//
+//                guard let blockLists = friendList.blockLists else {
+//                    return }
 
-                self.friendLists = lists
+                self.friendLists = friendList.friendLists ?? []
                 
-                self.blockLists = blockLists
+                self.blockLists = friendList.blockLists ?? []
                 
                 for friend in self.friendLists {
                     
@@ -97,6 +99,11 @@ class FriendListsViewController: UIViewController {
             }
         }
     }
+    
+    @objc func challengeButtonPressed() {
+        
+        Toast.showSuccess(text: "已發出挑戰")
+    }
 }
 
 extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -124,6 +131,8 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
         cell.profileImageView.loadImage(userInfo.userImageURL)
         
         cell.friendName.text = userInfo.username
+        
+        cell.challengeButton.addTarget(self, action: #selector(challengeButtonPressed), for: .touchUpInside)
         
         return cell
     }

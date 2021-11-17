@@ -19,5 +19,8 @@ pod 'Firebase/Auth'
 pod 'JGProgressHUD'
 pod 'Firebase/Database'
 pod 'Charts'
+pod 'Firebase/Crashlytics'
+pod 'Firebase/Analytics'
+
 
 end
