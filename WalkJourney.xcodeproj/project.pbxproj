@@ -50,6 +50,8 @@
 		6B23FA012722A1740009DA6E /* RecordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B23FA002722A1740009DA6E /* RecordManager.swift */; };
 		6B492DDB272E4D7B0030DAFE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B492DDA272E4D7B0030DAFE /* LoginViewController.swift */; };
 		6B56D7B32745FAA400068E79 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B56D7B22745FAA400068E79 /* TimeManager.swift */; };
+		6B56D7B62746411800068E79 /* Gallery.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B56D7B52746411800068E79 /* Gallery.storyboard */; };
+		6B56D7B92746448B00068E79 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B56D7B82746448B00068E79 /* GalleryViewController.swift */; };
 		6B5C09E72737AAB900E10EF5 /* RecordCatagoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09E62737AAB900E10EF5 /* RecordCatagoryViewController.swift */; };
 		6B5C09E92737B33300E10EF5 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09E82737B33300E10EF5 /* ChallengeViewController.swift */; };
 		6B5C09EB2737B39300E10EF5 /* ChallengeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09EA2737B39300E10EF5 /* ChallengeTableViewCell.swift */; };
@@ -132,6 +134,8 @@
 		6B23FA002722A1740009DA6E /* RecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManager.swift; sourceTree = "<group>"; };
 		6B492DDA272E4D7B0030DAFE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		6B56D7B22745FAA400068E79 /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
+		6B56D7B52746411800068E79 /* Gallery.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Gallery.storyboard; sourceTree = "<group>"; };
+		6B56D7B82746448B00068E79 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		6B5C09E62737AAB900E10EF5 /* RecordCatagoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCatagoryViewController.swift; sourceTree = "<group>"; };
 		6B5C09E82737B33300E10EF5 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
 		6B5C09EA2737B39300E10EF5 /* ChallengeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTableViewCell.swift; sourceTree = "<group>"; };
@@ -221,6 +225,7 @@
 				6B5C09E82737B33300E10EF5 /* ChallengeViewController.swift */,
 				6B1699EE2727E51E00260D70 /* DetailRecordViewController.swift */,
 				6B5C09EC2737C87900E10EF5 /* ChallengeShareViewController.swift */,
+				6B0F3891272952D200F00448 /* MonthChartViewController.swift */,
 			);
 			path = RecordPage;
 			sourceTree = "<group>";
@@ -247,7 +252,6 @@
 				6B02215E271D7AD700C61593 /* BarChartViewController.swift */,
 				6B0F388D2729529E00F00448 /* DayChartViewController.swift */,
 				6B0F388F272952BF00F00448 /* WeekChartViewController.swift */,
-				6B0F3891272952D200F00448 /* MonthChartViewController.swift */,
 			);
 			path = BarChartPage;
 			sourceTree = "<group>";
@@ -280,6 +284,7 @@
 				6B0F388B272938CB00F00448 /* RecordView */,
 				6B0F3893272952EC00F00448 /* BarChartView */,
 				6BF89FB9273F7389004B6980 /* ProfileView */,
+				6B56D7B4274640D300068E79 /* GalleryView */,
 			);
 			path = storyboard;
 			sourceTree = "<group>";
@@ -305,6 +310,22 @@
 				6B1269D52731A8A300833A81 /* KleeOne-SemiBold.ttf */,
 			);
 			path = customFonts;
+			sourceTree = "<group>";
+		};
+		6B56D7B4274640D300068E79 /* GalleryView */ = {
+			isa = PBXGroup;
+			children = (
+				6B56D7B52746411800068E79 /* Gallery.storyboard */,
+			);
+			path = GalleryView;
+			sourceTree = "<group>";
+		};
+		6B56D7B72746444400068E79 /* GalleryPage */ = {
+			isa = PBXGroup;
+			children = (
+				6B56D7B82746448B00068E79 /* GalleryViewController.swift */,
+			);
+			path = GalleryPage;
 			sourceTree = "<group>";
 		};
 		6B868A16271B18B400965075 = {
@@ -394,6 +415,7 @@
 				6B0F388627287F7700F00448 /* RecordPage */,
 				6B0F388C2729526C00F00448 /* BarChartPage */,
 				6B1269AD272EFD1300833A81 /* ProfilePage */,
+				6B56D7B72746444400068E79 /* GalleryPage */,
 				6B022162271D7AFF00C61593 /* ShareViewController.swift */,
 			);
 			path = Controller;
@@ -503,6 +525,7 @@
 				6B868A2C271B18B700965075 /* Assets.xcassets in Resources */,
 				6B868A60271D418300965075 /* BarChart.storyboard in Resources */,
 				6B868A66271D41C800965075 /* Profile.storyboard in Resources */,
+				6B56D7B62746411800068E79 /* Gallery.storyboard in Resources */,
 				6B868A2A271B18B400965075 /* Main.storyboard in Resources */,
 				6B227DD92736CA030067E51C /* starry_background.json in Resources */,
 				6B1269D72731A8A300833A81 /* KleeOne-Regular.ttf in Resources */,
@@ -668,6 +691,7 @@
 				6B5C09EB2737B39300E10EF5 /* ChallengeTableViewCell.swift in Sources */,
 				6B0F388E2729529E00F00448 /* DayChartViewController.swift in Sources */,
 				6B5C09E72737AAB900E10EF5 /* RecordCatagoryViewController.swift in Sources */,
+				6B56D7B92746448B00068E79 /* GalleryViewController.swift in Sources */,
 				6B868A25271B18B400965075 /* SceneDelegate.swift in Sources */,
 				6B022161271D7AE900C61593 /* RecordViewController.swift in Sources */,
 				6B022170271EC4DF00C61593 /* MapChosenViewController.swift in Sources */,

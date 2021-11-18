@@ -350,8 +350,8 @@ extension ProfileViewController {
         NSLayoutConstraint.activate([
             
             nameTextField.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
-            nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            nameTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 3)
+            nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+//            nameTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 3)
         ])
         
         nameTextField.addTarget(self, action: #selector(setupEditNameTextField), for: .editingDidEnd)
