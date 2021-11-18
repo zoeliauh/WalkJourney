@@ -49,6 +49,7 @@
 		6B227DD92736CA030067E51C /* starry_background.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B227DD82736CA030067E51C /* starry_background.json */; };
 		6B23FA012722A1740009DA6E /* RecordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B23FA002722A1740009DA6E /* RecordManager.swift */; };
 		6B492DDB272E4D7B0030DAFE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B492DDA272E4D7B0030DAFE /* LoginViewController.swift */; };
+		6B56D7B32745FAA400068E79 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B56D7B22745FAA400068E79 /* TimeManager.swift */; };
 		6B5C09E72737AAB900E10EF5 /* RecordCatagoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09E62737AAB900E10EF5 /* RecordCatagoryViewController.swift */; };
 		6B5C09E92737B33300E10EF5 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09E82737B33300E10EF5 /* ChallengeViewController.swift */; };
 		6B5C09EB2737B39300E10EF5 /* ChallengeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09EA2737B39300E10EF5 /* ChallengeTableViewCell.swift */; };
@@ -130,6 +131,7 @@
 		6B227DD82736CA030067E51C /* starry_background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = starry_background.json; sourceTree = "<group>"; };
 		6B23FA002722A1740009DA6E /* RecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManager.swift; sourceTree = "<group>"; };
 		6B492DDA272E4D7B0030DAFE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		6B56D7B22745FAA400068E79 /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
 		6B5C09E62737AAB900E10EF5 /* RecordCatagoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCatagoryViewController.swift; sourceTree = "<group>"; };
 		6B5C09E82737B33300E10EF5 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
 		6B5C09EA2737B39300E10EF5 /* ChallengeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTableViewCell.swift; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 		6B868A59271D148B00965075 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6B56D7B22745FAA400068E79 /* TimeManager.swift */,
 				6B227DD427353BBB0067E51C /* CollectionManager.swift */,
 				6B022175271F31FC00C61593 /* GoogleMapsManager.swift */,
 				6B02217B271FC6DF00C61593 /* GooglePlacesManager.swift */,
@@ -660,6 +663,7 @@
 				6B0221802720122000C61593 /* FirebaseStruct.swift in Sources */,
 				6BF89FB0273D8900004B6980 /* UserSearchViewController.swift in Sources */,
 				6B868A23271B18B400965075 /* AppDelegate.swift in Sources */,
+				6B56D7B32745FAA400068E79 /* TimeManager.swift in Sources */,
 				6BBFA1422741928200C92974 /* GPSArtTableViewCell.swift in Sources */,
 				6B5C09EB2737B39300E10EF5 /* ChallengeTableViewCell.swift in Sources */,
 				6B0F388E2729529E00F00448 /* DayChartViewController.swift in Sources */,

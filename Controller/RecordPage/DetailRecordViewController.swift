@@ -98,7 +98,7 @@ class DetailRecordViewController: UIViewController {
 
         locationManager(locationManager, latitude: latitudeArr, longitude: longitudeArr)
     }
-    
+
     override func viewDidLayoutSubviews() {
         tabbarHeight = self.tabBarController?.tabBar.frame.height
         setuptrackingMapView()
@@ -118,7 +118,7 @@ class DetailRecordViewController: UIViewController {
     @objc func popMore() {
         
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let downloadAction = UIAlertAction(title: "儲存", style: .default) { _ in
+        let downloadAction = UIAlertAction(title: "儲存至相簿", style: .default) { _ in
             self.popButton.isHidden = true
             self.moreButton.isHidden = true
             let screenshotImage = self.view.takeScreenshot()
@@ -168,7 +168,7 @@ extension DetailRecordViewController: CLLocationManagerDelegate {
 extension DetailRecordViewController {
     // MARK: - UI design
     private func setUpBackButton() {
-                
+                                
         view.addSubview(popButton)
         
         popButton.translatesAutoresizingMaskIntoConstraints = false
@@ -185,7 +185,7 @@ extension DetailRecordViewController {
     }
     
     private func setUpMoreButton() {
-                
+                                
         view.addSubview(moreButton)
         
         moreButton.translatesAutoresizingMaskIntoConstraints = false

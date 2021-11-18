@@ -38,6 +38,8 @@ class ChallengeShareViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.setHidesBackButton(true, animated: true)
                 
         setupScreenshotImageView()
         setUpBackButton()
@@ -52,10 +54,10 @@ class ChallengeShareViewController: UIViewController {
     @objc func popMore() {
         
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let names = ["下載", "分享"]
+        let names = ["儲存至相簿", "分享至塗鴉牆"]
         for name in names {
            let action = UIAlertAction(title: name, style: .default) { action in
-               if name == "下載" {
+               if name == "儲存至相簿" {
                    self.popButton.isHidden = true
                    self.moreButton.isHidden = true
                    let screenshotImage = self.view.takeScreenshot()

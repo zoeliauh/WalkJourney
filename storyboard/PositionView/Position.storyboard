@@ -454,6 +454,9 @@
             <point key="canvasLocation" x="1173.913043478261" y="54.910714285714285"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="WWD-Va-x7a"/>
+    </designables>
     <resources>
         <image name="loginIcon" width="220.5" height="221.5"/>
         <namedColor name="C1">

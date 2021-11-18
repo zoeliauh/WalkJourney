@@ -167,7 +167,7 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
                         friendListsCollectionView.reloadData()
                     }
                     
-                    let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                    let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
                     
                     controller.addAction(okAction)
                     

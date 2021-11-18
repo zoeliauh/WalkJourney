@@ -70,7 +70,7 @@
         <!--Month Chart View Controller-->
         <scene sceneID="3qs-98-oUR">
             <objects>
-                <viewController id="cnm-L6-gn4" customClass="MonthChartViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MonthChartViewController1" id="cnm-L6-gn4" customClass="MonthChartViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rGN-aw-QGG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="778"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
