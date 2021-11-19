@@ -12,7 +12,7 @@
         <!--Record Catagory View Controller-->
         <scene sceneID="QHq-CI-IZJ">
             <objects>
-                <viewController storyboardIdentifier="RecordCatagoryvc" id="aeJ-yS-3eB" customClass="RecordCatagoryViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RecordCatagoryvc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aeJ-yS-3eB" customClass="RecordCatagoryViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6ja-zw-SrU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

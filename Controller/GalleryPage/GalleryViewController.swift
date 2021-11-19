@@ -158,9 +158,6 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
         navZoomInvc.screenshotURL = publicPosts[indexPath.row].screenshotURL
     
         navigationController?.pushViewController(navZoomInvc, animated: true)
-        
-        print("navZoomInvc")
-        
     }
 }
 

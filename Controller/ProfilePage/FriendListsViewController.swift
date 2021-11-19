@@ -100,9 +100,15 @@ class FriendListsViewController: UIViewController {
         }
     }
     
-    @objc func challengeButtonPressed() {
-        
+    @objc func challengeButtonPressed(_ sender: UIButton) {
+    
         Toast.showSuccess(text: "已發出挑戰")
+        
+        guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
+            withIdentifier: "FunnyMapPage"
+        ) as? FunnyMapViewController else { return }
+        
+        self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
     }
 }
 

@@ -21,7 +21,7 @@
         <!--Map Chosen View Controller-->
         <scene sceneID="Qe6-Sf-DrI">
             <objects>
-                <viewController storyboardIdentifier="MapChosenViewController" id="gG4-k7-8wQ" customClass="MapChosenViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapChosenViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gG4-k7-8wQ" customClass="MapChosenViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZTA-ch-8Or">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -128,7 +128,7 @@
         <!--Funny Map View Controller-->
         <scene sceneID="7FC-bM-xcy">
             <objects>
-                <viewController storyboardIdentifier="FunnyMapPage" id="kIq-hR-ij9" customClass="FunnyMapViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FunnyMapPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kIq-hR-ij9" customClass="FunnyMapViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dbJ-5G-yaE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

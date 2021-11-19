@@ -292,14 +292,17 @@ extension GoogleArtViewController: CLLocationManagerDelegate {
     
     func successMessage() {
         
-        let controller = UIAlertController(title: "成功儲存",
-                                           message: "請至 足跡 -> 挑戰地圖 查看或分享",
+        let controller = UIAlertController(title: "儲存成功",
+                                           message: nil,
                                            preferredStyle: .alert)
         let okAction = UIAlertAction(title: "確定",
                                      style: .default
         ) { (_: UIAlertAction) in
             
             self.navigationController?.popViewController(animated: true)
+            
+            self.tabBarController?.selectedIndex = 1
+                        
             self.tabBarController?.tabBar.isHidden = false
         }
         

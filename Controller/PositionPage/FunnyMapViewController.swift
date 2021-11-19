@@ -73,6 +73,8 @@ extension FunnyMapViewController: UITableViewDelegate, UITableViewDataSource {
         cell.goButton.tag = indexPath.row
         
         cell.goButton.addTarget(self, action: #selector(goButtonPressed(_:)), for: .touchUpInside)
+        
+        cell.selectionStyle = .none
                 
         return cell
     }

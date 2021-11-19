@@ -174,6 +174,8 @@ class RecordCatagoryViewController: UIViewController {
              
         self.tabBarController?.tabBar.backgroundImage =  UIImage()
         
+        self.navigationController?.navigationBar.isHidden = true
+        
         fetchRecordStepsData()
     }
     
@@ -187,7 +189,7 @@ class RecordCatagoryViewController: UIViewController {
         setupStepsNumLabel()
         setupStepLabel()
         setupPushButton()
-        setupChartSegmentedControl()
+        setupChartSegmentedControl()        
     }
     
     @objc func pushToMonthChartVC(_ sender: UIButton!) {

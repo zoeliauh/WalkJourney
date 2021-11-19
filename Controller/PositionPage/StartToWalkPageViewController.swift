@@ -291,12 +291,15 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
     
     func successMessage() {
         
-        let controller = UIAlertController(title: "成功儲存",
-                                           message: "請至 足跡 -> 歷史紀錄 查看",
+        let controller = UIAlertController(title: "儲存成功",
+                                           message: nil,
                                            preferredStyle: .alert)
         let okAction = UIAlertAction(title: "確定",
                                      style: .default
-        ) { (_: UIAlertAction) in self.dismiss(animated: true, completion: nil) }
+        ) { (_: UIAlertAction) in
+            
+            self.dismiss(animated: true, completion: nil)
+        }
         
         controller.addAction(okAction)
         
