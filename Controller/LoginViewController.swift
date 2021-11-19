@@ -260,18 +260,18 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 if let additionalUserInfo = authResult?.additionalUserInfo,
                    let user = authResult?.user,
                    additionalUserInfo.isNewUser {
-
+                    
                     print("Nice! You are now signed in as \(user.uid), email: \(user.email)")
                     
                     if let fullName = appleIDCredential.fullName,
                        let userName = fullName.givenName {
-                    
-                    let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                   
+                        
+                        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                        
                         changeRequest?.displayName = userName
-                    changeRequest?.commitChanges { error in
-                      print("can not change userName")
-                    }
+                        changeRequest?.commitChanges { error in
+                            print("can not change userName")
+                        }
                     }
                     
                     UserManager.shared.createUserInfo()
