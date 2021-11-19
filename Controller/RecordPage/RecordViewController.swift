@@ -93,6 +93,8 @@ class RecordViewController: UIViewController {
             case .success(let stepData):
                 
                 self?.stepData = stepData
+                
+                print("step is \(stepData)")
                                 
             case .failure(let error):
                 

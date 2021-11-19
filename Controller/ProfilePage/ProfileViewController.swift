@@ -305,9 +305,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         let url = "https://firebasestorage.googleapis.com/v0/b/walkjourney-8eaaf.appspot.com/o/5ZjRhKR3qRqvvUSD4Yfu.jpg?alt=media&token=ef8b809f-1b99-498d-83c9-345c5199cbb9"
         
         cell.gpsImageView.loadImage(url, placeHolder: nil)
-        
-        cell.pinImageView.image = UIImage(named: "Icon_Pin")
-        
+                
         cell.selectionStyle = .none
         
         return cell
