@@ -114,20 +114,6 @@ class GalleryViewController: UIViewController {
             }
         }
     }
-    
-    @objc func navZoomInvc(_ sender: UIButton) {
-
-        guard let navZoomInvc = UIStoryboard.gallery.instantiateViewController(
-            withIdentifier: "ZoomIn"
-        ) as? ZoomInViewController else { return }
-        
-//        detailRecordVC.latitudeArr = stepData[sender.tag].latitude
-//
-        
-        navigationController?.pushViewController(navZoomInvc, animated: true)
-        
-        print("navZoomInvc")
-    }
 }
 
 // MARK: - tableViewDelegate, tableViewDataSource
@@ -155,12 +141,24 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
         cell.userNameLabel.text = userInfo.username
                 
         cell.profileImageView.loadImage(userInfo.userImageURL, placeHolder: UIImage(systemName: "person.crop.circle"))
-        
-        cell.expandButton.addTarget(self, action: #selector(navZoomInvc), for: .touchUpInside)
-                
+                        
         cell.selectionStyle = .none
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let navZoomInvc = UIStoryboard.gallery.instantiateViewController(
+            withIdentifier: "ZoomIn"
+        ) as? ZoomInViewController else { return }
+        
+        navZoomInvc.screenshotURL = publicPosts[indexPath.row].screenshotURL
+    
+        navigationController?.pushViewController(navZoomInvc, animated: true)
+        
+        print("navZoomInvc")
+        
     }
 }
 

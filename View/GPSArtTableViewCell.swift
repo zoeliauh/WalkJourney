@@ -49,14 +49,7 @@ class GPSArtTableViewCell: UITableViewCell {
         imageView.clipsToBounds = true
         return imageView
     }()
-    
-    lazy var expandButton: UIButton = {
-        
-        let button = UIButton()
-        button.setImage(UIImage(named: "Icon_expand"), for: .normal)
-        return button
-    }()
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     
@@ -69,7 +62,6 @@ class GPSArtTableViewCell: UITableViewCell {
         setupUserNameLabel()
         setupPostTimeLabel()
         setupGPSImageView()
-        setupExpandButton()
     }
     
     required init?(coder: NSCoder) {
@@ -129,21 +121,6 @@ class GPSArtTableViewCell: UITableViewCell {
             gpsImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             gpsImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             gpsImageView.heightAnchor.constraint(equalToConstant: 120)
-        ])
-    }
-    
-    private func setupExpandButton() {
-        
-        gpsImageView.addSubview(expandButton)
-        
-        expandButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            expandButton.centerXAnchor.constraint(equalTo: gpsImageView.centerXAnchor),
-            expandButton.centerYAnchor.constraint(equalTo: gpsImageView.centerYAnchor),
-            expandButton.widthAnchor.constraint(equalToConstant: 70),
-            expandButton.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
 }

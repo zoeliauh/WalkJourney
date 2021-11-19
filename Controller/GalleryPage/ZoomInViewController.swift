@@ -8,22 +8,38 @@
 import UIKit
 
 class ZoomInViewController: UIViewController {
+    
+    lazy var gpsImageView: UIImageView = {
+        
+        let url = screenshotURL
+        let imageView = UIImageView()
+        imageView.loadImage(screenshotURL, placeHolder: nil)
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 10
+        return imageView
+    }()
+    
+    var screenshotURL: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .darkGray
+        setupGpsImageView()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupGpsImageView() {
+        
+        view.addSubview(gpsImageView)
+        
+        gpsImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            gpsImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            gpsImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            gpsImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            gpsImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
-    */
-
 }
