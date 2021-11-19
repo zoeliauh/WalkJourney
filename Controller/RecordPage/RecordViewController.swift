@@ -54,7 +54,7 @@ class RecordViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         fetchRecordStepsData()
     }
-//    
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         

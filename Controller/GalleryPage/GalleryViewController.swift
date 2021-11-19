@@ -58,8 +58,10 @@ class GalleryViewController: UIViewController {
             navigationItem.title = "社群"
         navigationController?.navigationBar.barTintColor = UIColor.black
         let font = UIFont.boldSystemFont(ofSize: 25)
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: font,
-                                                                       NSAttributedString.Key.foregroundColor: UIColor.black]
+            navigationController?.navigationBar.titleTextAttributes = [
+                NSAttributedString.Key.font: font,
+                NSAttributedString.Key.foregroundColor: UIColor.black
+            ]
         }
     
     private func fetchAllPublicPostInfo() {

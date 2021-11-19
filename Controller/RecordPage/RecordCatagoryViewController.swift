@@ -179,25 +179,17 @@ class RecordCatagoryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-                
-        monthPickerTextField.isHidden = false
-        
+                        
         setupMonthTextField()
         setupPullImageView()
         setupBackgroundView()
         setupAverageLabel()
         setupStepsNumLabel()
         setupStepLabel()
-        setupPushPushButton()
+        setupPushButton()
         setupChartSegmentedControl()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-                
-        monthPickerTextField.isHidden = true
-    }
-
     @objc func pushToMonthChartVC(_ sender: UIButton!) {
         
         guard let monthChartViewController = UIStoryboard.record.instantiateViewController(
@@ -322,7 +314,7 @@ extension RecordCatagoryViewController {
             
             pullImageView.leadingAnchor.constraint(
             equalTo: (monthPickerTextField.trailingAnchor),
-            constant: -50),
+            constant: -60),
             pullImageView.topAnchor.constraint(
             equalTo: monthPickerTextField.topAnchor),
             pullImageView.heightAnchor.constraint(equalToConstant: 30),
@@ -385,7 +377,7 @@ extension RecordCatagoryViewController {
         ])
     }
     
-    private func setupPushPushButton() {
+    private func setupPushButton() {
         
         backgroundView.addSubview(pushButton)
         
