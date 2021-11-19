@@ -35,6 +35,23 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    lazy var andLabel: UILabel = {
+        let label = UILabel()
+        label.text = "及"
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textColor = .black
+        return label
+    }()
+    
+    lazy var LAEUButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Apple標準許可協議", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 10)
+        button.setTitleColor(.blue, for: .normal)
+        button.addTarget(self, action: #selector(presentLAEU), for: .touchUpInside)
+        return button
+    }()
+    
     fileprivate var currentNonce: String?
     
     var handle: AuthStateDidChangeListenerHandle?
@@ -51,6 +68,10 @@ class LoginViewController: UIViewController {
         setPolicySettingLabel()
         
         setPolicySettingButton()
+        
+        setAndLabel()
+        
+        setLAEUButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,6 +102,15 @@ class LoginViewController: UIViewController {
         present(policyVc, animated: true, completion: nil)
     }
     
+    @objc func presentLAEU() {
+        let storyboard = UIStoryboard(name: "Position", bundle: nil)
+        guard let LAEUvc = storyboard.instantiateViewController(
+            withIdentifier: String(describing: LAEUViewController.self)
+        ) as? LAEUViewController else { return }
+        
+        present(LAEUvc, animated: true, completion: nil)
+    }
+    
     private func setPolicySettingLabel() {
         view.addSubview(policySettingLabel)
         policySettingLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -96,6 +126,24 @@ class LoginViewController: UIViewController {
         NSLayoutConstraint.activate([
             policySettingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             policySettingButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
+        ])
+    }
+    
+    private func setAndLabel() {
+        view.addSubview(andLabel)
+        andLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            andLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            andLabel.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -82)
+        ])
+    }
+    
+    private func setLAEUButton() {
+        view.addSubview(LAEUButton)
+        LAEUButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            LAEUButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            LAEUButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -75)
         ])
     }
     
