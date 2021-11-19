@@ -18,10 +18,10 @@ class FriendListsViewController: UIViewController {
         layout.minimumInteritemSpacing = 1
         layout.itemSize = CGSize(width: ((width - 44) / 3), height: width / 3 * 1.5)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
         collectionView.register(FriendListsCollectionViewCell.self,
                                 forCellWithReuseIdentifier: FriendListsCollectionViewCell.identifier
         )
+        collectionView.backgroundColor = .white
         
         return collectionView
     }()
