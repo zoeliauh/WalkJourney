@@ -17,17 +17,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DAU-OE-c80">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                            </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x74-2v-TpD">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="84" width="414" height="778"/>
                                 <connections>
                                     <segue destination="cnm-L6-gn4" kind="embed" identifier="SegueMonth" id="Vtf-dx-zf4"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x4s-7H-08y">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="84" width="414" height="778"/>
                                 <connections>
                                     <segue destination="rWn-dl-qsA" kind="embed" identifier="SegueDay" id="MYV-IM-mbB"/>
                                 </connections>
@@ -37,16 +34,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="x4s-7H-08y" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="Mka-wk-D3q"/>
-                            <constraint firstItem="x4s-7H-08y" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="Qnv-0f-1io"/>
+                            <constraint firstItem="x4s-7H-08y" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="40" id="Qnv-0f-1io"/>
                             <constraint firstItem="x4s-7H-08y" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="SLO-6g-Q5F"/>
-                            <constraint firstItem="DAU-OE-c80" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Vro-KP-RRG"/>
                             <constraint firstItem="x4s-7H-08y" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="WRx-Mn-iBW"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="x74-2v-TpD" secondAttribute="bottom" id="bek-vQ-DgY"/>
                             <constraint firstItem="x74-2v-TpD" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="cup-MQ-o7R"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="DAU-OE-c80" secondAttribute="trailing" id="foe-JH-D5g"/>
-                            <constraint firstItem="DAU-OE-c80" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="hQS-WH-Ulj"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="DAU-OE-c80" secondAttribute="bottom" id="kjq-QX-Si2"/>
-                            <constraint firstItem="x74-2v-TpD" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="o62-IX-dDe"/>
+                            <constraint firstItem="x74-2v-TpD" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="40" id="o62-IX-dDe"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="x74-2v-TpD" secondAttribute="trailing" id="ypi-4k-J05"/>
                         </constraints>
                     </view>
@@ -64,7 +57,7 @@
             <objects>
                 <viewController id="rWn-dl-qsA" customClass="DayChartViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Cp-Bx-SHP">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="778"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="UWJ-Xn-B0j"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -79,7 +72,7 @@
             <objects>
                 <viewController id="cnm-L6-gn4" customClass="MonthChartViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rGN-aw-QGG">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="778"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="wUn-D3-STz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

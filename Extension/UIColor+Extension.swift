@@ -21,6 +21,8 @@ extension UIColor {
     
     static let C6 = UIColor(named: "C6")
     
+    static let D1 = UIColor(named: "D1")
+    
     static func hexStringToUIColor(hex: String) -> UIColor {
 
         var cString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()

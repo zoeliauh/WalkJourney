@@ -18,13 +18,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7I-Pq-fzM">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="84" width="414" height="778"/>
                                 <connections>
                                     <segue destination="HbM-1p-tmp" kind="embed" identifier="SequeChallenge" id="XLR-of-3Kf"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bdb-Kl-PG2">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="84" width="414" height="778"/>
                                 <connections>
                                     <segue destination="ByB-EI-L2o" kind="embed" identifier="SequeRecord" id="CW5-fm-g4Q"/>
                                 </connections>
@@ -34,17 +34,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="bye-bP-69w" firstAttribute="trailing" secondItem="Bdb-Kl-PG2" secondAttribute="trailing" id="208-4v-bEH"/>
-                            <constraint firstItem="Bdb-Kl-PG2" firstAttribute="top" secondItem="bye-bP-69w" secondAttribute="top" id="6yk-zJ-CiQ"/>
+                            <constraint firstItem="Bdb-Kl-PG2" firstAttribute="top" secondItem="bye-bP-69w" secondAttribute="top" constant="40" id="6yk-zJ-CiQ"/>
                             <constraint firstItem="y7I-Pq-fzM" firstAttribute="bottom" secondItem="bye-bP-69w" secondAttribute="bottom" id="8YJ-6X-IAg"/>
-                            <constraint firstItem="y7I-Pq-fzM" firstAttribute="leading" secondItem="bye-bP-69w" secondAttribute="leading" id="AI8-2R-b6j"/>
-                            <constraint firstItem="y7I-Pq-fzM" firstAttribute="top" secondItem="bye-bP-69w" secondAttribute="top" id="HVQ-MP-RRD"/>
                             <constraint firstItem="y7I-Pq-fzM" firstAttribute="trailing" secondItem="bye-bP-69w" secondAttribute="trailing" id="Mtg-Ts-1yZ"/>
                             <constraint firstItem="Bdb-Kl-PG2" firstAttribute="leading" secondItem="bye-bP-69w" secondAttribute="leading" id="QKp-bM-ZOV"/>
-                            <constraint firstItem="bye-bP-69w" firstAttribute="bottom" secondItem="y7I-Pq-fzM" secondAttribute="bottom" id="Vph-mv-rHH"/>
                             <constraint firstItem="y7I-Pq-fzM" firstAttribute="leading" secondItem="bye-bP-69w" secondAttribute="leading" id="YPX-S6-GGA"/>
-                            <constraint firstItem="y7I-Pq-fzM" firstAttribute="top" secondItem="bye-bP-69w" secondAttribute="top" id="Z60-cv-Taz"/>
+                            <constraint firstItem="y7I-Pq-fzM" firstAttribute="top" secondItem="bye-bP-69w" secondAttribute="top" constant="40" id="Z60-cv-Taz"/>
                             <constraint firstItem="bye-bP-69w" firstAttribute="bottom" secondItem="Bdb-Kl-PG2" secondAttribute="bottom" id="bTa-7D-fDq"/>
-                            <constraint firstItem="bye-bP-69w" firstAttribute="trailing" secondItem="y7I-Pq-fzM" secondAttribute="trailing" id="fWe-ou-7Zg"/>
                         </constraints>
                     </view>
                     <connections>
@@ -77,8 +73,9 @@
             <objects>
                 <viewController id="ByB-EI-L2o" customClass="RecordViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cWX-RU-z3J">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="778"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Jwq-0t-uHe"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                 </viewController>
@@ -91,8 +88,9 @@
             <objects>
                 <viewController id="HbM-1p-tmp" customClass="ChallengeViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="g2h-2J-vUg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="778"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="oUn-Qf-COP"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                 </viewController>

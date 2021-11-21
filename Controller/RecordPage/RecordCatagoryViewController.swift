@@ -34,7 +34,7 @@ class RecordCatagoryViewController: UIViewController {
     
     lazy var recordSegmentedControl: UISegmentedControl = {
         
-        let items = ["歷史紀錄", "挑戰地圖"]
+        let items = ["漫遊足跡", "挑戰地圖"]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = UIColor.C1
@@ -95,7 +95,7 @@ class RecordCatagoryViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            recordSegmentedControl.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            recordSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             recordSegmentedControl.widthAnchor.constraint(equalToConstant: 300),
             recordSegmentedControl.heightAnchor.constraint(equalToConstant: 40),
             recordSegmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)

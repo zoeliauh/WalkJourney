@@ -88,7 +88,7 @@ class BarChartViewController: UIViewController {
         
         NSLayoutConstraint.activate([
         
-            chartSegmentedControl.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            chartSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             chartSegmentedControl.widthAnchor.constraint(equalToConstant: 300),
             chartSegmentedControl.heightAnchor.constraint(equalToConstant: 40),
             chartSegmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)

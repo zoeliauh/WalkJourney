@@ -13,7 +13,7 @@ import CoreLocation
 
 struct Location: Codable {
     
-    var id: String  // need to same as userID
+    var id: String
     var location: Geopoint
     var createdTime: Int64?
     

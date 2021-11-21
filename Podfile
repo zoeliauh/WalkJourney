@@ -14,10 +14,13 @@ pod 'GooglePlaces'
 pod 'Firebase/Storage'
 pod 'Kingfisher'
 pod 'IQKeyboardManagerSwift'
-pod 'Charts'
 pod 'lottie-ios'
 pod 'Firebase/Auth'
 pod 'JGProgressHUD'
 pod 'Firebase/Database'
+pod 'Charts'
+pod 'Firebase/Crashlytics'
+pod 'Firebase/Analytics'
+
 
 end

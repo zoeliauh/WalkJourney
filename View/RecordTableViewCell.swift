@@ -76,7 +76,6 @@ class RecordTableViewCell: UITableViewCell {
             logoImageView.heightAnchor.constraint(equalToConstant: 30),
             logoImageView.widthAnchor.constraint(equalToConstant: 30)
         ])
-        
     }
     
     private func setupDateLabel() {

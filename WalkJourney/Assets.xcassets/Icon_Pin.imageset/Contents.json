@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "friends_invitation.jpeg",
+      "filename" : "Icon_Pin.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Icon_Pin@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Icon_Pin@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

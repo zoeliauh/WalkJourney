@@ -46,7 +46,6 @@ class DayChartViewController: UIViewController {
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "zh_Hant_TW")
         datePicker.tintColor = UIColor.C2
-//        datePicker.accentColor = UIColor.C2
     
         datePicker.addTarget(self, action: #selector(dateChecked(_:)), for: .valueChanged)
         return datePicker
@@ -76,10 +75,10 @@ class DayChartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupcalendarDatePicker()
         setupTotalLabel()
         setupStepsNumLabel()
         setupStepLabel()
-        setupcalendarDatePicker()
         setupDayChartView()
         dayChartView.noDataText = "暫時沒有步行紀錄"
         fetchRecordStepsData()
@@ -171,7 +170,7 @@ class DayChartViewController: UIViewController {
         
         let set = BarChartDataSet(entries: dataEntries, label: nil)
         
-        set.colors = ChartColorTemplates.celadon()
+        set.colors = ChartColorTemplates.liberty()
         
         let data = BarChartData(dataSet: set)
         
@@ -209,7 +208,7 @@ extension DayChartViewController {
         NSLayoutConstraint.activate([
         
             calendarDatePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            calendarDatePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 50)
+            calendarDatePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 10)
         ])
     }
     
@@ -222,7 +221,7 @@ extension DayChartViewController {
         NSLayoutConstraint.activate([
         
             totalLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            totalLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100)
+            totalLabel.topAnchor.constraint(equalTo: calendarDatePicker.bottomAnchor, constant: 10)
         ])
     }
     
@@ -261,9 +260,9 @@ extension DayChartViewController {
         NSLayoutConstraint.activate([
             
             dayChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            dayChartView.topAnchor.constraint(equalTo: calendarDatePicker.bottomAnchor, constant: 50),
+            dayChartView.topAnchor.constraint(equalTo: calendarDatePicker.bottomAnchor, constant: 40),
             dayChartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            dayChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25)
+            dayChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -15)
         ])
     }
 }

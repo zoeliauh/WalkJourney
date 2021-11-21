@@ -10,28 +10,56 @@ import FirebaseAuth
 
 class SettingViewController: UIViewController {
     
-    let settingItem = [
+    lazy var invitationButton: UIButton = {
+        
+        let button = UIButton()
+        configButton(button)
+        button.setTitle("好友邀請", for: .normal)
+        button.addTarget(self, action: #selector(invitedPressed(_:)), for: .touchUpInside)
+        return button
+    }()
     
-    SettingStruct(itme: "緊急聯絡方式"),
-    SettingStruct(itme: "支援"),
-    SettingStruct(itme: "登出"),
-    SettingStruct(itme: "帳戶刪除")
-    ]
+    lazy var friendListsButton: UIButton = {
+        
+        let button = UIButton()
+        configButton(button)
+        button.setTitle("好友名單", for: .normal)
+        button.addTarget(self, action: #selector(firendListsPressed(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var blockLishButton: UIButton = {
+        
+        let button = UIButton()
+        configButton(button)
+        button.setTitle("黑名單", for: .normal)
+        button.addTarget(self, action: #selector(blockListsPressed(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var deleteAccountButton: UIButton = {
+        
+        let button = UIButton()
+        configButton(button)
+        button.setTitle("刪除帳戶", for: .normal)
+        button.addTarget(self, action: #selector(deleteAccount(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var policyButton: UIButton = {
+        
+        let button = UIButton()
+        configButton(button)
+        button.setTitle("隱私權條款", for: .normal)
+        button.addTarget(self, action: #selector(presentPolicy(_:)), for: .touchUpInside)
+        return button
+    }()
     
     lazy var logoutButton: UIButton = {
         
         let button = UIButton()
-        let myAttribute: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.kleeOneRegular(ofSize: 24)
-        ]
-        let myAttributeString = NSAttributedString(string: "登出", attributes: myAttribute)
-        
-        button.backgroundColor = UIColor.C4
-        button.tintColor = UIColor.white
-        button.layer.cornerRadius = 10
+        configButton(button)
         button.setTitle("登出", for: .normal)
-        button.titleLabel?.attributedText = myAttributeString
-        button.layoutIfNeeded()
         button.addTarget(self, action: #selector(logOutAction(_:)), for: .touchUpInside)
         return button
     }()
@@ -41,36 +69,73 @@ class SettingViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.tintColor = UIColor.black
+        button.addTarget(self, action: #selector(closeButtonPress(_:)), for: .touchUpInside)
         return button
-    }()
-    
-    lazy var settingTableView: UITableView = {
-        
-        let table = UITableView()
-        table.dataSource = self
-        table.delegate = self
-        table.rowHeight = UITableView.automaticDimension
-        table.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
-//        table.allowsSelection = false
-        table.reloadData()
-
-        return table
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        isModalInPresentation = true
-        
+                        
         setupCloseButton()
-        
-        setupSettingTableView()
-        
-        setupLogoutButton()
+                
+        setupButtons()
     }
     
-    @objc func labelTapped(_ sender: UITapGestureRecognizer) {
-        print("click Label")
+    private func configButton(_ button: UIButton) {
+        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
+        button.backgroundColor = UIColor.C4
+        button.tintColor = UIColor.white
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 10
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowRadius = 2.0
+        button.layer.shadowOffset = CGSize(width: 2.0, height: 5.0)
+        button.layoutIfNeeded()
+    }
+    
+    @objc func invitedPressed(_ sender: UIButton) {
+        
+        guard let invitationVC = UIStoryboard.profile.instantiateViewController(
+            withIdentifier: "InvitationViewController"
+        ) as? InvitationViewController else { return }
+
+        self.present(invitationVC, animated: true, completion: nil)
+    }
+    
+    @objc func firendListsPressed(_ sender: UIButton) {
+        
+        guard let firendListsVC = UIStoryboard.profile.instantiateViewController(
+            withIdentifier: "FriendListsViewController"
+        ) as? FriendListsViewController else { return }
+
+        self.present(firendListsVC, animated: true, completion: nil)
+    }
+    
+    @objc func blockListsPressed(_ sender: UIButton) {
+        
+        guard let blockListsVC = UIStoryboard.profile.instantiateViewController(
+            withIdentifier: "BlockListsViewController"
+        ) as? BlockListsViewController else { return }
+
+        self.present(blockListsVC, animated: true, completion: nil)
+    }
+    
+    @objc func deleteAccount(_ sender: UIButton) {
+        
+        let alert = UIAlertController(title: "請聯絡我們幫您刪除帳戶", message: "woanjwuliauh@gmail.com", preferredStyle: .alert )
+        let okButton = UIAlertAction(title: "ok", style: .default)
+        
+        alert.addAction(okButton)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func presentPolicy(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Position", bundle: nil)
+        guard let policyVc = storyboard.instantiateViewController(
+            withIdentifier: String(describing: PrivacyPolicyViewController.self)
+        ) as? PrivacyPolicyViewController else { return }
+        
+        present(policyVc, animated: true, completion: nil)
     }
     
     @objc func closeButtonPress(_ sender: UIButton) {
@@ -114,18 +179,53 @@ class SettingViewController: UIViewController {
         present(controller, animated: true, completion: nil)
     }
     
-    private func setupLogoutButton() {
+    private func setupButtons() {
         
+        view.addSubview(invitationButton)
+        view.addSubview(friendListsButton)
+        view.addSubview(blockLishButton)
+        view.addSubview(deleteAccountButton)
+        view.addSubview(policyButton)
         view.addSubview(logoutButton)
         
+        invitationButton.translatesAutoresizingMaskIntoConstraints = false
+        friendListsButton.translatesAutoresizingMaskIntoConstraints = false
+        blockLishButton.translatesAutoresizingMaskIntoConstraints = false
+        deleteAccountButton.translatesAutoresizingMaskIntoConstraints = false
+        policyButton.translatesAutoresizingMaskIntoConstraints = false
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
-            logoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            logoutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
-            logoutButton.heightAnchor.constraint(equalToConstant: 40)
+            
+            invitationButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            invitationButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            invitationButton.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 8),
+            invitationButton.heightAnchor.constraint(equalToConstant: 35),
+            
+            friendListsButton.widthAnchor.constraint(equalTo: invitationButton.widthAnchor),
+            friendListsButton.heightAnchor.constraint(equalTo: invitationButton.heightAnchor),
+            friendListsButton.centerXAnchor.constraint(equalTo: invitationButton.centerXAnchor),
+            friendListsButton.topAnchor.constraint(equalTo: invitationButton.bottomAnchor, constant: 30),
+
+            blockLishButton.widthAnchor.constraint(equalTo: invitationButton.widthAnchor),
+            blockLishButton.heightAnchor.constraint(equalTo: invitationButton.heightAnchor),
+            blockLishButton.centerXAnchor.constraint(equalTo: invitationButton.centerXAnchor),
+            blockLishButton.topAnchor.constraint(equalTo: friendListsButton.bottomAnchor, constant: 30),
+            
+            deleteAccountButton.widthAnchor.constraint(equalTo: invitationButton.widthAnchor),
+            deleteAccountButton.heightAnchor.constraint(equalTo: invitationButton.heightAnchor),
+            deleteAccountButton.centerXAnchor.constraint(equalTo: invitationButton.centerXAnchor),
+            deleteAccountButton.topAnchor.constraint(equalTo: blockLishButton.bottomAnchor, constant: 30),
+            
+            policyButton.widthAnchor.constraint(equalTo: invitationButton.widthAnchor),
+            policyButton.heightAnchor.constraint(equalTo: invitationButton.heightAnchor),
+            policyButton.centerXAnchor.constraint(equalTo: invitationButton.centerXAnchor),
+            policyButton.topAnchor.constraint(equalTo: deleteAccountButton.bottomAnchor, constant: 30),
+            
+            logoutButton.widthAnchor.constraint(equalTo: invitationButton.widthAnchor),
+            logoutButton.heightAnchor.constraint(equalTo: invitationButton.heightAnchor),
+            logoutButton.centerXAnchor.constraint(equalTo: invitationButton.centerXAnchor),
+            logoutButton.topAnchor.constraint(equalTo: policyButton.bottomAnchor, constant: 30)
         ])
     }
     
@@ -142,48 +242,5 @@ class SettingViewController: UIViewController {
             closeButton.widthAnchor.constraint(equalToConstant: 30),
             closeButton.heightAnchor.constraint(equalToConstant: 30)
         ])
-        
-        closeButton.addTarget(self, action: #selector(closeButtonPress(_:)), for: .touchUpInside)
-    }
-    
-    func setupSettingTableView() {
-        
-        view.addSubview(settingTableView)
-        
-        settingTableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            settingTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            settingTableView.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 10),
-            settingTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            settingTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-}
-
-extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return settingItem.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: SettingTableViewCell.identifier, for: indexPath
-        ) as? SettingTableViewCell else { fatalError("can not dequeue settingTableViewCell") }
-        
-        cell.itemLabel.text = settingItem[indexPath.row].itme
-
-        cell.itemLabel.tag = indexPath.item
-        
-        cell.selectionStyle = .none
-        
-        let labelTap = UIGestureRecognizer(target: self, action: #selector(self.labelTapped(_:)))
-        
-        cell.itemLabel.addGestureRecognizer(labelTap)
-        
-        return cell
     }
 }
