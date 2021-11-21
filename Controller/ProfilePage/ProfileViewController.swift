@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 import FirebaseAuth
 import Firebase
 
@@ -60,35 +61,41 @@ class ProfileViewController: UIViewController {
         newPhotoButton.addTarget(self, action: #selector(newPhoto), for: .touchUpInside)
         return newPhotoButton
     }()
-
-    lazy var gpsArtLabel: UILabel = {
+    
+    lazy var invitationButton: UIButton = {
         
-        let label = UILabel()
-        label.text = "挑戰你我他"
-        label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 25)
-        label.textAlignment = .center
-        return label
+        let button = UIButton()
+        configButton(button)
+        button.setTitle("好友邀請", for: .normal)
+        button.addTarget(self, action: #selector(invitedPressed(_:)), for: .touchUpInside)
+        return button
     }()
     
-    lazy var pinImageView: UIImageView = {
+    lazy var friendListsButton: UIButton = {
         
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "Icon_Pin")
-        imageView.clipsToBounds = true
-        return imageView
+        let button = UIButton()
+        configButton(button)
+        button.setTitle("好友名單", for: .normal)
+        button.addTarget(self, action: #selector(firendListsPressed(_:)), for: .touchUpInside)
+        return button
     }()
     
-    lazy var gpsArtTableView: UITableView = {
+    lazy var blockLishButton: UIButton = {
         
-        let table = UITableView()
-        table.dataSource = self
-        table.delegate = self
-        table.rowHeight = UITableView.automaticDimension
-        table.register(GPSArtTableViewCell.self, forCellReuseIdentifier: GPSArtTableViewCell.identifier)
-        table.reloadData()
-
-        return table
+        let button = UIButton()
+        configButton(button)
+        button.setTitle("黑名單", for: .normal)
+        button.addTarget(self, action: #selector(blockListsPressed(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var animationView: AnimationView = {
+        
+        var animationView = AnimationView()
+        animationView = .init(name: "loading")
+        animationView.animationSpeed = 1
+        animationView.layoutIfNeeded()
+        return animationView
     }()
     
     var tabbarHeight: CGFloat? = 0.0
@@ -128,7 +135,7 @@ class ProfileViewController: UIViewController {
         let searchController = UISearchController(searchResultsController: UserSearchViewController())
         searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
-        navigationItem.searchController?.searchBar.placeholder = "請搜尋使用者名稱"
+        navigationItem.searchController?.searchBar.placeholder = "請搜尋好友名稱"
         
         fetchUserInfo()
         setupProfileImageView()
@@ -136,9 +143,8 @@ class ProfileViewController: UIViewController {
         setupEditButton()
         setupSettingButton()
         setupNewPhotoButton()
-        setupGPSArtLabel()
-        setupPinImageView()
-        setupgpsArtTableView()
+        setupButtons()
+        setupLottie()
     }
     
     override func viewDidLayoutSubviews() {
@@ -163,10 +169,14 @@ class ProfileViewController: UIViewController {
     
     // fetch certain user Data
     func fetchUserInfo() {
+                
+        let group = DispatchGroup()
         
         guard let uid = UserManager.shared.uid else { return }
         
         UserManager.shared.fetchUserInfo(uesrID: uid) { [weak self] result in
+            
+            group.enter()
             
             switch result {
                 
@@ -178,11 +188,32 @@ class ProfileViewController: UIViewController {
                 
                 self?.profileImageView.loadImage(userInfo.userImageURL)
                 
+                group.leave()
+                
             case .failure(let error):
                 
                 print("fetchStepsData.failure: \(error)")
+                
+                group.leave()
+            }
+
+            group.notify(queue: .main) {
+
+                self?.animationView.removeFromSuperview()
             }
         }
+    }
+    
+    private func configButton(_ button: UIButton) {
+        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
+        button.backgroundColor = UIColor.C4
+        button.tintColor = UIColor.white
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 10
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowRadius = 2.0
+        button.layer.shadowOffset = CGSize(width: 2.0, height: 5.0)
+        button.layoutIfNeeded()
     }
 
     @objc func settingButtonPressed(_ sender: UIButton) {
@@ -203,6 +234,33 @@ class ProfileViewController: UIViewController {
         UserManager.shared.updateUserInfo(userID: uid, url: nil, username: userName)
         
         nameTextFieldIsEnable = false
+    }
+    
+    @objc func invitedPressed(_ sender: UIButton) {
+        
+        guard let invitationVC = UIStoryboard.profile.instantiateViewController(
+            withIdentifier: "InvitationViewController"
+        ) as? InvitationViewController else { return }
+
+        self.present(invitationVC, animated: true, completion: nil)
+    }
+    
+    @objc func firendListsPressed(_ sender: UIButton) {
+        
+        guard let firendListsVC = UIStoryboard.profile.instantiateViewController(
+            withIdentifier: "FriendListsViewController"
+        ) as? FriendListsViewController else { return }
+
+        self.present(firendListsVC, animated: true, completion: nil)
+    }
+    
+    @objc func blockListsPressed(_ sender: UIButton) {
+        
+        guard let blockListsVC = UIStoryboard.profile.instantiateViewController(
+            withIdentifier: "BlockListsViewController"
+        ) as? BlockListsViewController else { return }
+
+        self.present(blockListsVC, animated: true, completion: nil)
     }
     
     @objc func funnyMapGame(_ sender: UIButton!) {
@@ -290,30 +348,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 }
 
-// MARK: - tableViewDelegate, tableViewDataSource
-extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: GPSArtTableViewCell.identifier, for: indexPath
-        ) as? GPSArtTableViewCell else { fatalError("can not dequeue gpsAtrCell") }
-        
-        let url = "https://firebasestorage.googleapis.com/v0/b/walkjourney-8eaaf.appspot.com/o/5ZjRhKR3qRqvvUSD4Yfu.jpg?alt=media&token=ef8b809f-1b99-498d-83c9-345c5199cbb9"
-        
-        cell.gpsImageView.loadImage(url, placeHolder: nil)
-        
-        cell.pinImageView.image = UIImage(named: "Icon_Pin")
-        
-        cell.selectionStyle = .none
-        
-        return cell
-    }
-}
-
 // MARK: - UISearchResultsUpdating
 extension ProfileViewController: UISearchResultsUpdating {
     
@@ -350,8 +384,7 @@ extension ProfileViewController {
         NSLayoutConstraint.activate([
             
             nameTextField.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
-            nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            nameTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 3)
+            nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
         
         nameTextField.addTarget(self, action: #selector(setupEditNameTextField), for: .editingDidEnd)
@@ -423,46 +456,49 @@ extension ProfileViewController {
         ])
     }
     
-    private func setupGPSArtLabel() {
+    private func setupButtons() {
         
-        view.addSubview(gpsArtLabel)
+        view.addSubview(invitationButton)
+        view.addSubview(friendListsButton)
+        view.addSubview(blockLishButton)
         
-        gpsArtLabel.translatesAutoresizingMaskIntoConstraints = false
+        invitationButton.translatesAutoresizingMaskIntoConstraints = false
+        friendListsButton.translatesAutoresizingMaskIntoConstraints = false
+        blockLishButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
-            gpsArtLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            gpsArtLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5)
-        ])
+            invitationButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            invitationButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            invitationButton.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 40),
+            invitationButton.heightAnchor.constraint(equalToConstant: 35),
+            
+            friendListsButton.widthAnchor.constraint(equalTo: invitationButton.widthAnchor),
+            friendListsButton.heightAnchor.constraint(equalTo: invitationButton.heightAnchor),
+            friendListsButton.centerXAnchor.constraint(equalTo: invitationButton.centerXAnchor),
+            friendListsButton.topAnchor.constraint(equalTo: invitationButton.bottomAnchor, constant: 25),
+
+            blockLishButton.widthAnchor.constraint(equalTo: invitationButton.widthAnchor),
+            blockLishButton.heightAnchor.constraint(equalTo: invitationButton.heightAnchor),
+            blockLishButton.centerXAnchor.constraint(equalTo: invitationButton.centerXAnchor),
+            blockLishButton.topAnchor.constraint(equalTo: friendListsButton.bottomAnchor, constant: 25)
+            
+            ])
     }
     
-    private func setupPinImageView() {
+    private func setupLottie() {
         
-        view.addSubview(pinImageView)
+        view.addSubview(animationView)
         
-        pinImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            
-            pinImageView.trailingAnchor.constraint(equalTo: gpsArtLabel.leadingAnchor, constant: -10),
-            pinImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5),
-            pinImageView.widthAnchor.constraint(equalToConstant: 20),
-            pinImageView.heightAnchor.constraint(equalToConstant: 30)
-        ])
-    }
-    
-    private func setupgpsArtTableView() {
-        
-        view.addSubview(gpsArtTableView)
-        
-        gpsArtTableView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
-            gpsArtTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            gpsArtTableView.topAnchor.constraint(equalTo: gpsArtLabel.bottomAnchor, constant: 10),
-            gpsArtTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
-            gpsArtTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+            animationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animationView.topAnchor.constraint(equalTo: view.topAnchor),
+            animationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animationView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        animationView.play()
     }
 }

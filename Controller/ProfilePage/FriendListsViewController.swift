@@ -18,10 +18,10 @@ class FriendListsViewController: UIViewController {
         layout.minimumInteritemSpacing = 1
         layout.itemSize = CGSize(width: ((width - 44) / 3), height: width / 3 * 1.5)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
         collectionView.register(FriendListsCollectionViewCell.self,
                                 forCellWithReuseIdentifier: FriendListsCollectionViewCell.identifier
         )
+        collectionView.backgroundColor = .white
         
         return collectionView
     }()
@@ -100,9 +100,15 @@ class FriendListsViewController: UIViewController {
         }
     }
     
-    @objc func challengeButtonPressed() {
-        
+    @objc func challengeButtonPressed(_ sender: UIButton) {
+    
         Toast.showSuccess(text: "已發出挑戰")
+        
+        guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
+            withIdentifier: "FunnyMapPage"
+        ) as? FunnyMapViewController else { return }
+        
+        self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
     }
 }
 
@@ -167,7 +173,7 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
                         friendListsCollectionView.reloadData()
                     }
                     
-                    let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                    let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
                     
                     controller.addAction(okAction)
                     

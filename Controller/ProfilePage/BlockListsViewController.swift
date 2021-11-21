@@ -22,6 +22,7 @@ class BlockListsViewController: UIViewController {
         collectionView.register(BlockListsCollectionViewCell.self,
                                 forCellWithReuseIdentifier: BlockListsCollectionViewCell.identifier
         )
+        collectionView.backgroundColor = .white
         
         return collectionView
     }()

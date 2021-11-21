@@ -58,7 +58,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     }
     
     @objc func startButtonPressed(_ sender: UIButton) {
-        
+    
         guard let startToWalkPagevc = UIStoryboard.position.instantiateViewController(
             withIdentifier: "StartToWalkPage"
         ) as? StartToWalkPageViewController else { return }

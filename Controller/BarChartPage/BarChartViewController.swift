@@ -54,7 +54,7 @@ class BarChartViewController: UIViewController {
         
         setupChartSegmentedControl()
         
-        self.tabBarController?.tabBar.backgroundImage =  UIImage()
+        self.tabBarController?.tabBar.backgroundImage =  UIImage()        
     }
     
     @objc func segmentAction(_ segmentedControl: UISegmentedControl) {

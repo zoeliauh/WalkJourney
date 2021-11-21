@@ -15,21 +15,25 @@ class TabBarController: UITabBarController {
     let recordCatagoryvc =
     UIStoryboard.record.instantiateViewController(withIdentifier: "RecordCatagoryvc")
 
-    let barChartvc = UIStoryboard.barChart.instantiateViewController(withIdentifier: "BarChart")
+//    let barChartvc = UIStoryboard.barChart.instantiateViewController(withIdentifier: "BarChart")
 
     let profilevc = UIStoryboard.profile.instantiateViewController(withIdentifier: "Profile")
+    
+    let galleryvc = UIStoryboard.gallery.instantiateViewController(withIdentifier: "Gallery")
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupvcTitle()
         setupTabBar()
+        tabBar.backgroundColor = .C3
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         setupTabBar()
+        tabBar.backgroundColor = .C3
     }
     
     func setupTabBar() {
@@ -38,11 +42,13 @@ class TabBarController: UITabBarController {
                 
         let recordvc = UINavigationController(rootViewController: recordCatagoryvc)
         
-        let barChartvc = UINavigationController(rootViewController: barChartvc)
+//        let barChartvc = UINavigationController(rootViewController: barChartvc)
         
         let profilevc = UINavigationController(rootViewController: profilevc)
         
-        self.setViewControllers([mapChosenvc, recordvc, barChartvc, profilevc], animated: false)
+        let galleryvc = UINavigationController(rootViewController: galleryvc)
+        
+        self.setViewControllers([mapChosenvc, recordvc, galleryvc, profilevc], animated: false)
         
         self.tabBar.backgroundColor = .C3
         
@@ -63,11 +69,11 @@ class TabBarController: UITabBarController {
         
         recordCatagoryvc.tabBarItem.title = "足跡"
         
-        barChartvc.tabBarItem.image = UIImage(systemName: "chart.bar")
+        galleryvc.tabBarItem.image = UIImage(systemName: "person.3")
         
-        barChartvc.tabBarItem.selectedImage = UIImage(systemName: "chart.bar.fill")
+        galleryvc.tabBarItem.selectedImage = UIImage(systemName: "person.3.fill")
         
-        barChartvc.tabBarItem.title = "紀錄"
+        galleryvc.tabBarItem.title = "社群"
         
         profilevc.tabBarItem.image = UIImage(systemName: "person.circle")
         
