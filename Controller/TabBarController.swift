@@ -57,9 +57,9 @@ class TabBarController: UITabBarController {
         
         mapChosenvc.tabBarItem.title = "首頁"
         
-        recordCatagoryvc.tabBarItem.image = UIImage(systemName: "pawprint")
-        
-        recordCatagoryvc.tabBarItem.selectedImage = UIImage(systemName: "pawprint.fill")
+        recordCatagoryvc.tabBarItem.image = UIImage(named: "pawprint")
+                
+        recordCatagoryvc.tabBarItem.selectedImage = UIImage(named: "pawprint_fill")
         
         recordCatagoryvc.tabBarItem.title = "足跡"
         

@@ -46,8 +46,6 @@ class RecordViewController: UIViewController {
         fetchRecordStepsData()
         setupRecordTableView()
         refreshTableView()
-        
-//        self.tabBarController?.tabBar.backgroundImage =  UIImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -104,8 +102,10 @@ class RecordViewController: UIViewController {
     }
     
     func deleteRecordStepsData(indexPath: IndexPath) {
-                
-        RecordManager.shared.deleteRecord(stepData: stepData[indexPath.row])
+        
+        guard let createdTime = stepData[indexPath.row].createdTime else { return }
+        
+        RecordManager.shared.deleteRecord(createdTime: createdTime)                
         stepData.remove(at: indexPath.row)
         recordTableView.deleteRows(at: [indexPath], with: .fade)
     }

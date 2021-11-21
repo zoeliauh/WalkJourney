@@ -66,11 +66,13 @@ class CountingStepManager {
                         completion: @escaping (Result<String, Error>) -> Void) {
         
         let document = db.collection(Collections.location.rawValue).document()
+        
+        guard let uid = UserManager.shared.uid else { return }
 
         document.setData([
             "createdTime": Date().millisecondsSince1970,
             "location": [latitude, longitude],
-            "id": document.documentID
+            "id": uid
         ]) { error in
             
             if let error = error {

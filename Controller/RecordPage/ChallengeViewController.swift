@@ -89,8 +89,10 @@ class ChallengeViewController: UIViewController {
     }
     
     func deleteRecordStepsData(indexPath: IndexPath) {
+        
+        guard let createdTime = stepData[indexPath.row].createdTime else { return }
                 
-        RecordManager.shared.deleteRecord(stepData: stepData[indexPath.row])
+        RecordManager.shared.deleteRecord(createdTime: createdTime)
         stepData.remove(at: indexPath.row)
         recordTableView.deleteRows(at: [indexPath], with: .fade)
     }

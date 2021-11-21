@@ -22,186 +22,208 @@ class RecordManager {
     // read
     func fetchRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection(Collections.stepData.rawValue).order(
-            by: "createdTime",
-            descending: true).getDocuments { (querySnapshot, error) in
-            
-            if let error = error {
+        guard let uid = UserManager.shared.uid else { return }
+        
+        db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
+            .order(by: "createdTime", descending: true)
+            .getDocuments { (querySnapshot, error) in
                 
-                completion(.failure(error))
-            } else {
-                
-                var stepDatas = [StepData]()
-                
-                guard let querySnapshot = querySnapshot else { return }
-                
-                for document in querySnapshot.documents {
+                if let error = error {
                     
-                    do {
-                        if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
-                            stepDatas.append(stepData)
-                        }
-                    } catch {
+                    completion(.failure(error))
+                } else {
+                    
+                    var stepDatas = [StepData]()
+                    
+                    guard let querySnapshot = querySnapshot else { return }
+                    
+                    for document in querySnapshot.documents {
                         
-                        completion(.failure(error))
+                        do {
+                            if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
+                                stepDatas.append(stepData)
+                            }
+                        } catch {
+                            
+                            completion(.failure(error))
+                        }
                     }
+                    completion(.success(stepDatas))
                 }
-                completion(.success(stepDatas))
             }
-        }
     }
     
     // read certain day data
     func fetchDateRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection(Collections.stepData.rawValue).whereField("date", isEqualTo: calenderDay
-        ).getDocuments { (querySnapshot, error) in
-            
-            if let error = error {
-                completion(.failure(error))
-            } else {
+        guard let uid = UserManager.shared.uid else { return }
+        
+        db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
+            .whereField("date", isEqualTo: calenderDay)
+            .getDocuments { (querySnapshot, error) in
                 
-                var stepDatas = [StepData]()
-                
-                guard let querySnapshot = querySnapshot else { return }
-                
-                for document in querySnapshot.documents {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
                     
-                    do {
-                        if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
-                            stepDatas.append(stepData)
-                        }
-                    } catch {
+                    var stepDatas = [StepData]()
+                    
+                    guard let querySnapshot = querySnapshot else { return }
+                    
+                    for document in querySnapshot.documents {
                         
-                        completion(.failure(error))
+                        do {
+                            if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
+                                stepDatas.append(stepData)
+                            }
+                        } catch {
+                            
+                            completion(.failure(error))
+                        }
                     }
+                    completion(.success(stepDatas))
                 }
-                completion(.success(stepDatas))
             }
-        }
     }
     
     // read certain month data
     func fetchMonthRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection(Collections.stepData.rawValue).whereField("month", isEqualTo: calenderDay
-        ).getDocuments { (querySnapshot, error) in
-            
-            if let error = error {
-                completion(.failure(error))
-            } else {
+        guard let uid = UserManager.shared.uid else { return }
+        
+        db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
+            .whereField("month", isEqualTo: calenderDay)
+            .getDocuments { (querySnapshot, error) in
                 
-                var stepDatas = [StepData]()
-                
-                guard let querySnapshot = querySnapshot else { return }
-                
-                for document in querySnapshot.documents {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
                     
-                    do {
-                        if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
-                            stepDatas.append(stepData)
-                        }
-                    } catch {
+                    var stepDatas = [StepData]()
+                    
+                    guard let querySnapshot = querySnapshot else { return }
+                    
+                    for document in querySnapshot.documents {
                         
-                        completion(.failure(error))
+                        do {
+                            if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
+                                stepDatas.append(stepData)
+                                //                            print(stepDatas)
+                            }
+                        } catch {
+                            
+                            completion(.failure(error))
+                        }
                     }
+                    completion(.success(stepDatas))
                 }
-                completion(.success(stepDatas))
             }
-        }
     }
     // read certain year data
     func fetchYearRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
-        db.collection(Collections.stepData.rawValue).whereField("Year", isEqualTo: calenderDay
-        ).getDocuments { (querySnapshot, error) in
-            
-            if let error = error {
-                completion(.failure(error))
-            } else {
+        guard let uid = UserManager.shared.uid else { return }
+        
+        db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
+            .whereField("Year", isEqualTo: calenderDay)
+            .getDocuments { (querySnapshot, error) in
                 
-                var stepDatas = [StepData]()
-                
-                guard let querySnapshot = querySnapshot else { return }
-                
-                for document in querySnapshot.documents {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
                     
-                    do {
-                        if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
-                            stepDatas.append(stepData)
-                        }
-                    } catch {
+                    var stepDatas = [StepData]()
+                    
+                    guard let querySnapshot = querySnapshot else { return }
+                    
+                    for document in querySnapshot.documents {
                         
-                        completion(.failure(error))
+                        do {
+                            if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
+                                stepDatas.append(stepData)
+                            }
+                        } catch {
+                            
+                            completion(.failure(error))
+                        }
                     }
+                    completion(.success(stepDatas))
                 }
-                completion(.success(stepDatas))
             }
-        }
     }
     // fetch walkbyselfRecord
     func fetchWalkBySelfRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
+        guard let uid = UserManager.shared.uid else { return }
+        
         db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
             .whereField("screenshot", isEqualTo: "")
             .order(by: "createdTime", descending: true)
-        .getDocuments { (querySnapshot, error) in
-            
-            if let error = error {
-                completion(.failure(error))
-            } else {
+            .getDocuments { (querySnapshot, error) in
                 
-                var stepDatas = [StepData]()
-                
-                guard let querySnapshot = querySnapshot else { return }
-                
-                for document in querySnapshot.documents {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
                     
-                    do {
-                        if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
-                            stepDatas.append(stepData)
-                        }
-                    } catch {
+                    var stepDatas = [StepData]()
+                    
+                    guard let querySnapshot = querySnapshot else { return }
+                    
+                    for document in querySnapshot.documents {
                         
-                        completion(.failure(error))
+                        do {
+                            if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
+                                stepDatas.append(stepData)
+                            }
+                        } catch {
+                            
+                            completion(.failure(error))
+                        }
                     }
+                    completion(.success(stepDatas))
                 }
-                completion(.success(stepDatas))
             }
-        }
     }
     
     // fetch challengeRecord
     func fetchChallengeRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
+        guard let uid = UserManager.shared.uid else { return }
+        
         db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
             .whereField("screenshot", isNotEqualTo: "")
             .order(by: "screenshot")
             .order(by: "createdTime", descending: true)
-        .getDocuments { (querySnapshot, error) in
-            
-            if let error = error {
-                completion(.failure(error))
-            } else {
+            .getDocuments { (querySnapshot, error) in
                 
-                var stepDatas = [StepData]()
-                
-                guard let querySnapshot = querySnapshot else { return }
-                
-                for document in querySnapshot.documents {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
                     
-                    do {
-                        if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
-                            stepDatas.append(stepData)
-                        }
-                    } catch {
+                    var stepDatas = [StepData]()
+                    
+                    guard let querySnapshot = querySnapshot else { return }
+                    
+                    for document in querySnapshot.documents {
                         
-                        completion(.failure(error))
+                        do {
+                            if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
+                                stepDatas.append(stepData)
+                            }
+                        } catch {
+                            
+                            completion(.failure(error))
+                        }
                     }
+                    completion(.success(stepDatas))
                 }
-                completion(.success(stepDatas))
             }
-        }
     }
     
     // create
@@ -217,11 +239,13 @@ class RecordManager {
         
         let document = db.collection(Collections.stepData.rawValue).document()
         
+        guard let uid = UserManager.shared.uid else { return }
+        
         uploadScreenshot(imageView: screenshot, id: document.documentID) { url in
             
             document.setData([
                 
-                "id": document.documentID,
+                "id": uid,
                 "distanceOfWalk": "\(distanceWalk) km",
                 "durationOfTime": durationTime,
                 "createdTime": Date().millisecondsSince1970,
@@ -273,8 +297,20 @@ class RecordManager {
         }
     }
     // delete
-    func deleteRecord(stepData: StepData) {
+    func deleteRecord(createdTime: Int64) {
         
-        db.collection(Collections.stepData.rawValue).document(stepData.id).delete()
+        guard let uid = UserManager.shared.uid else { return }
+        
+        db.collection(Collections.stepData.rawValue)
+            .whereField("id", isEqualTo: uid)
+            .whereField("createdTime", isEqualTo: createdTime)
+            .getDocuments { snapshot, error in
+                
+                guard let snapshot = snapshot else { return }
+                
+                snapshot.documents.forEach { snapshot in
+                    snapshot.reference.delete()
+                }
+            }
     }
 }

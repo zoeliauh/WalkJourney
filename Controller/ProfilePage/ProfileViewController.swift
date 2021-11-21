@@ -7,26 +7,30 @@
 
 import UIKit
 import FirebaseAuth
-import Lottie
+import Firebase
 
 class ProfileViewController: UIViewController {
     
-    let invitation = ["Ed", "樂清", "Astrid"]
-    
-    lazy var nameLabel: UILabel = {
+    lazy var nameTextField: UITextField = {
         
-        let label = UILabel()
-        label.text = "Zoe"
-        label.font = UIFont.kleeOneRegular(ofSize: 30)
-        label.textColor = .black
-        label.textAlignment = .left
-       return label
+        let textfield = UITextField()
+        textfield.text = nil
+        textfield.placeholder = "輸入使用者名稱"
+        textfield.font = UIFont.kleeOneRegular(ofSize: 25)
+        textfield.textAlignment = .left
+        textfield.textColor = .black
+        textfield.layer.cornerRadius = 20
+        textfield.isUserInteractionEnabled = false
+        
+        return textfield
     }()
     
-    lazy var searchButton: UIButton = {
+    lazy var editButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(named: "magnifyingGlass"), for: .normal)
+        button.setImage(UIImage(systemName: "pencil"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageEdgeInsets = UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25)
         return button
     }()
     
@@ -37,109 +41,51 @@ class ProfileViewController: UIViewController {
         return button
     }()
     
-    lazy var profileBackGroundImageView: UIImageView = {
-        
-        let imageView = UIImageView()
-//        imageView.backgroundColor = .systemGray6
-        imageView.image = UIImage(named: "placeholder")
-        imageView.layer.cornerRadius = 20
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-       return imageView
-    }()
-    
     lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "profileImage")
-        imageView.layer.cornerRadius = 35
-        imageView.contentMode = .scaleAspectFit
+        imageView.loadImage(eventUrlString, placeHolder: UIImage(systemName: "plus.circle.fill"))
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.borderColor = UIColor.white.cgColor
-       return imageView
+        imageView.layer.borderWidth = 3
+        return imageView
     }()
     
-    // need to be stack view??
-    lazy var rankImageView: UIImageView = {
+    lazy var newPhotoButton: UIButton = {
+        let newPhotoButton = UIButton(type: .system)
+        newPhotoButton.setImage(UIImage(systemName: "camera.fill"), for: .normal)
+        newPhotoButton.tintColor = UIColor.C1
+        newPhotoButton.layer.masksToBounds = true
+        newPhotoButton.addTarget(self, action: #selector(newPhoto), for: .touchUpInside)
+        return newPhotoButton
+    }()
+
+    lazy var gpsArtLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "挑戰你我他"
+        label.textColor = .black
+        label.font = UIFont.kleeOneRegular(ofSize: 25)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    lazy var pinImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "star")
+        imageView.image = UIImage(named: "Icon_Pin")
         imageView.clipsToBounds = true
-       return imageView
+        return imageView
     }()
     
-    lazy var challengeButton: UIButton = {
-        
-        let button = UIButton()
-        button.setImage(UIImage(named: "friends_invitation"), for: .normal)
-        button.contentMode = .scaleAspectFill
-        button.addTarget(self, action: #selector(funnyMapGame(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var logoutButton: UIButton = {
-        
-        let button = UIButton()
-        let myAttribute: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.kleeOneRegular(ofSize: 24)
-        ]
-        let myAttributeString = NSAttributedString(string: "登出", attributes: myAttribute)
-        
-        button.backgroundColor = UIColor.C4
-        button.tintColor = UIColor.white
-        button.layer.cornerRadius = 10
-        button.setTitle("登出", for: .normal)
-        button.titleLabel?.attributedText = myAttributeString
-        button.layoutIfNeeded()
-        button.addTarget(self, action: #selector(logOutAction(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var animationView: AnimationView = {
-            
-            var animationView = AnimationView()
-            animationView = .init(name: "profile_lottie")
-            animationView.animationSpeed = 1
-            return animationView
-    }()
-    
-    lazy var rankLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = "本日排名"
-        label.font = UIFont.kleeOneRegular(ofSize: 20)
-        label.textColor = .lightGray
-        label.textAlignment = .center
-       return label
-    }()
-    
-    lazy var friendListLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = "好友名單"
-        label.font = UIFont.kleeOneRegular(ofSize: 20)
-        label.textColor = .lightGray
-        label.textAlignment = .center
-       return label
-    }()
-    
-    lazy var challengeLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = "挑戰邀請"
-        label.font = UIFont.kleeOneRegular(ofSize: 20)
-        label.textColor = .black
-        label.textAlignment = .center
-       return label
-    }()
-    
-    lazy var challengeInviteTableView: UITableView = {
+    lazy var gpsArtTableView: UITableView = {
         
         let table = UITableView()
         table.dataSource = self
         table.delegate = self
         table.rowHeight = UITableView.automaticDimension
-        table.register(ChallengeInvitationTableViewCell.self, forCellReuseIdentifier: ChallengeInvitationTableViewCell.identifier)
+        table.register(GPSArtTableViewCell.self, forCellReuseIdentifier: GPSArtTableViewCell.identifier)
         table.reloadData()
 
         return table
@@ -149,133 +95,286 @@ class ProfileViewController: UIViewController {
     
     var userInfo: User?
     
+    var eventUrlString = String()
+    
+    var profilePhoto = UIImage() {
+        
+        didSet {
+            
+            profileImageView.image = profilePhoto
+            
+            self.reloadInputViews()
+        }
+    }
+    
+    var nameTextFieldIsEnable: Bool = true {
+        
+        didSet {
+            nameTextField.isUserInteractionEnabled = nameTextFieldIsEnable ? true : false
+            nameTextField.backgroundColor = nameTextFieldIsEnable ? UIColor.systemGray6 : UIColor.clear
+        }
+    }
+    
+    let storage = Storage.storage().reference()
+    
+    var friendListsArray: [String] = []
+    
+    var blockListsArray: [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tabBarController?.tabBar.backgroundImage =  UIImage()
-        
-        self.navigationController?.isNavigationBarHidden = true
-        
-        setupNameLabel()
-        setupSearchButton()
-        setupSettingButton()
-        setupProfileBackGroundImageView()
-        setupProfileImageView()
-        setupRankImageView()
-//        setupChallengeButton()
-        setupLabels()
-        setupChallengeInvitationTableView()
+        let searchController = UISearchController(searchResultsController: UserSearchViewController())
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+        navigationItem.searchController?.searchBar.placeholder = "請搜尋使用者名稱"
         
         fetchUserInfo()
+        setupNameTextField()
+        setupEditButton()
+        setupSettingButton()
+        setupProfileImageView()
+        setupNewPhotoButton()
+        setupGPSArtLabel()
+        setupPinImageView()
+        setupgpsArtTableView()
     }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
         tabbarHeight = self.tabBarController?.tabBar.frame.height
-//        setupLogoutButton()
+        
+        profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
+        
+        profileImageView.layer.masksToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        self.navigationController?.isNavigationBarHidden = true
+                
+        fetchUserInfo()
     }
     
+    @objc func newPhoto() {
+        showImagePickerControllerActionSheet()
+    }
+    
+    // fetch certain user Data
     func fetchUserInfo() {
         
-//        guard let userInfo = userInfo else { return }
+        guard let uid = UserManager.shared.uid else { return }
         
-        UserManager.shared.fetchUserInfo(uesrID: "tB90KGSNRFc9YWwqyAKFbar6QW32") { [weak self] result in
+        UserManager.shared.fetchUserInfo(uesrID: uid) { [weak self] result in
             
             switch result {
                 
             case .success(let userInfo):
                 
                 self?.userInfo = userInfo
-                print(userInfo)
                 
-                self?.nameLabel.text = userInfo.username
+                self?.nameTextField.text = userInfo.username
+                
+                self?.profileImageView.loadImage(userInfo.userImageURL)
                 
             case .failure(let error):
                 
                 print("fetchStepsData.failure: \(error)")
             }
         }
-        
     }
-    
+
     @objc func settingButtonPressed(_ sender: UIButton) {
         
-        guard let settingVC = UIStoryboard.profile.instantiateViewController(withIdentifier: "SettingVC") as? SettingViewController else { return }
-                        
-        self.present(settingVC, animated: true, completion: nil)
+        guard let settingVC = UIStoryboard.profile.instantiateViewController(
+            withIdentifier: "SettingVC"
+        ) as? SettingViewController else { return }
         
-        print("done")
+        self.present(settingVC, animated: true, completion: nil)
     }
     
-    @objc func logOutAction(_ sender: UIButton) {
-                
-        let controller = UIAlertController(title: nil, message: "確定要登出嗎?", preferredStyle: .alert)
+    @objc private func setupEditNameTextField(_ sender: UITextField) {
+        
+        guard let userName = sender.text else { return }
+        
+        guard let uid = UserManager.shared.uid else { return }
+        
+        UserManager.shared.updateUserInfo(userID: uid, url: nil, username: userName)
+        
+        nameTextFieldIsEnable = false
+    }
+    
+    @objc func funnyMapGame(_ sender: UIButton!) {
+        guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
+            withIdentifier: "FunnyMapPage"
+        ) as? FunnyMapViewController else { return }
+        
+        self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
+    }
+}
 
-        let okAction = UIAlertAction(title: "確定", style: .default) { _ in
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func showImagePickerControllerActionSheet() {
+        let actionSheet = UIAlertController(
+            title: "Attach Photo",
+            message: "where would you like to attach a photo from",
+            preferredStyle: .actionSheet
+        )
+        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] _ in
             
-            do {
-                
-                try Auth.auth().signOut()
-                
-                guard let loginVC = UIStoryboard.position.instantiateViewController(
-                    withIdentifier: "LoginViewController"
-                ) as? LoginViewController else { return }
-                                
-                loginVC.modalPresentationStyle = .fullScreen
-
-                self.present(loginVC, animated: true, completion: nil)
-                
-                print("logout")
-                
-            } catch let signOutError as NSError {
-                
-               print("Error signing out: \(signOutError)")
-                
-            }
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            picker.delegate = self
+            picker.allowsEditing = true
+            self?.present(picker, animated: true)
+            
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { [weak self] _ in
+            
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.delegate = self
+            picker.allowsEditing = true
+            self?.present(picker, animated: true)
+            
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(actionSheet, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        
+        profilePhoto = editedImage
+        
+        guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        
+        profilePhoto = originalImage
+        
+        guard let imageData = editedImage.jpegData(compressionQuality: 0.25) else {
+            return
         }
         
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        let uniqueString = NSUUID().uuidString
         
-        controller.addAction(okAction)
-        
-        controller.addAction(cancelAction)
-        
-        present(controller, animated: true, completion: nil)
+        storage.child("profileImage/\(uniqueString)").putData(imageData, metadata: nil) { _, error in
+            guard error == nil else {
+                print("Failed to upload")
+                return
+            }
+            self.storage.child("profileImage/\(uniqueString)").downloadURL(completion: { url, error in
+                guard let url = url, error == nil else {
+                    return
+                }
+                let urlString = url.absoluteString
+                print("Download URL: \(urlString)")
+                self.eventUrlString = urlString
+                UserDefaults.standard.set(urlString, forKey: "url")
+                
+                guard let uid = UserManager.shared.uid else { return }
+                
+                UserManager.shared.updateUserInfo(userID: uid, url: urlString, username: nil)
+                
+            })
+        }
+    }
+}
+
+// MARK: - tableViewDelegate, tableViewDataSource
+extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
     }
     
-    // MARK: UI design
-    private func setupNameLabel() {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: GPSArtTableViewCell.identifier, for: indexPath
+        ) as? GPSArtTableViewCell else { fatalError("can not dequeue gpsAtrCell") }
         
-        view.addSubview(nameLabel)
+        let url = "https://firebasestorage.googleapis.com/v0/b/walkjourney-8eaaf.appspot.com/o/5ZjRhKR3qRqvvUSD4Yfu.jpg?alt=media&token=ef8b809f-1b99-498d-83c9-345c5199cbb9"
         
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        cell.gpsImageView.loadImage(url, placeHolder: nil)
+        
+        cell.pinImageView.image = UIImage(named: "Icon_Pin")
+        
+        cell.selectionStyle = .none
+        
+        return cell
+    }
+}
+
+// MARK: - UISearchResultsUpdating
+extension ProfileViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        guard let text = searchController.searchBar.text else { return }
+                
+        guard let resultsVC = searchController.searchResultsController as? UserSearchViewController else { return }
+        
+        resultsVC.shouldShowSearchResults = true
+        
+        resultsVC.filteredUserInfo = resultsVC.allUserInfo.filter({
+            
+            guard let username = $0.username else { return true }
+            
+            if username == userInfo?.username { return false }
+            
+            return username.lowercased().prefix(text.count) == text.lowercased()
+        })
+        
+        resultsVC.userSearchTableView.reloadData()
+    }
+}
+
+// MARK: - UI design
+extension ProfileViewController {
+    
+    private func setupNameTextField() {
+        
+        view.addSubview(nameTextField)
+        
+        nameTextField.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-            nameLabel.widthAnchor.constraint(equalToConstant: view.frame.width)
+            
+            nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
+            nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            nameTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 2)
         ])
+        
+        nameTextField.addTarget(self, action: #selector(setupEditNameTextField), for: .editingDidEnd)
     }
     
-    private func setupSearchButton() {
+    private func setupEditButton() {
         
-        view.addSubview(searchButton)
+        view.addSubview(editButton)
         
-        searchButton.translatesAutoresizingMaskIntoConstraints = false
+        editButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
-            searchButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-            searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
-            searchButton.widthAnchor.constraint(equalToConstant: 20),
-            searchButton.heightAnchor.constraint(equalToConstant: 20)
+            
+            editButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            editButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80)
         ])
+        
+        editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+    }
+    
+    @objc func editButtonPressed() {
+        
+        nameTextFieldIsEnable.toggle()
     }
     
     private func setupSettingButton() {
@@ -286,28 +385,13 @@ class ProfileViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            settingButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            settingButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
             settingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            settingButton.widthAnchor.constraint(equalToConstant: 20),
-            settingButton.heightAnchor.constraint(equalToConstant: 20)
+            settingButton.widthAnchor.constraint(equalToConstant: 25),
+            settingButton.heightAnchor.constraint(equalToConstant: 25)
         ])
         
         settingButton.addTarget(self, action: #selector(settingButtonPressed(_:)), for: .touchUpInside)
-    }
-    
-    private func setupProfileBackGroundImageView() {
-        
-        view.addSubview(profileBackGroundImageView)
-        
-        profileBackGroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            profileBackGroundImageView.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            profileBackGroundImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 30),
-            profileBackGroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            profileBackGroundImageView.heightAnchor.constraint(equalToConstant: 150)
-        ])
     }
     
     private func setupProfileImageView() {
@@ -317,143 +401,85 @@ class ProfileViewController: UIViewController {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            profileImageView.centerYAnchor.constraint(equalTo: profileBackGroundImageView.bottomAnchor),
+            profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            profileImageView.topAnchor.constraint(equalTo: nameTextField.topAnchor),
             profileImageView.widthAnchor.constraint(equalToConstant: 70),
             profileImageView.heightAnchor.constraint(equalToConstant: 70)
         ])
+        
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
     }
     
-    func setupRankImageView() {
+    private func setupNewPhotoButton() {
+        view.addSubview(newPhotoButton)
         
-        view.addSubview(rankImageView)
-        
-        rankImageView.translatesAutoresizingMaskIntoConstraints = false
+        newPhotoButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
-            rankImageView.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            rankImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
-            rankImageView.widthAnchor.constraint(equalToConstant: 24),
-            rankImageView.heightAnchor.constraint(equalToConstant: 24)
+            newPhotoButton.trailingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 6),
+            newPhotoButton.bottomAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 3),
+            newPhotoButton.widthAnchor.constraint(equalTo: profileImageView.widthAnchor, multiplier: 0.4),
+            newPhotoButton.heightAnchor.constraint(equalTo: profileImageView.heightAnchor, multiplier: 0.4)
         ])
     }
+//
+//    func setupRankImageView() {
+//
+//        view.addSubview(rankImageView)
+//
+//        rankImageView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        NSLayoutConstraint.activate([
+//
+//            rankImageView.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+//            rankImageView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 5),
+//            rankImageView.widthAnchor.constraint(equalToConstant: 24),
+//            rankImageView.heightAnchor.constraint(equalToConstant: 24)
+//        ])
+//    }
     
-    private func setupChallengeButton() {
+    private func setupGPSArtLabel() {
         
-        view.addSubview(challengeButton)
+        view.addSubview(gpsArtLabel)
         
-        challengeButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            challengeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 250),
-            challengeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -35),
-            challengeButton.widthAnchor.constraint(equalToConstant: 50),
-            challengeButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
-    }
-    
-    private func setupLabels() {
-        
-        view.addSubview(rankLabel)
-        view.addSubview(friendListLabel)
-        view.addSubview(challengeLabel)
-        
-        rankLabel.translatesAutoresizingMaskIntoConstraints = false
-        friendListLabel.translatesAutoresizingMaskIntoConstraints = false
-        challengeLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            rankLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            rankLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20),
-//            rankLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-            rankLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
-            
-            friendListLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            friendListLabel.topAnchor.constraint(equalTo: rankLabel.topAnchor),
-            friendListLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3),
-            
-            challengeLabel.topAnchor.constraint(equalTo: rankLabel.topAnchor),
-            challengeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            challengeLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 3)
-        ])
-    }
-        
-    private func setupChallengeInvitationTableView() {
-        
-        view.addSubview(challengeInviteTableView)
-        
-        challengeInviteTableView.translatesAutoresizingMaskIntoConstraints = false
+        gpsArtLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
-            challengeInviteTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            challengeInviteTableView.topAnchor.constraint(equalTo: rankLabel.bottomAnchor, constant: 20),
-            challengeInviteTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            challengeInviteTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//            gpsArtLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 44),
+            gpsArtLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            gpsArtLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5)
         ])
     }
     
-    private func setupLogoutButton() {
+    private func setupPinImageView() {
         
-        view.addSubview(logoutButton)
+        view.addSubview(pinImageView)
         
-        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        pinImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
-            logoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            logoutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabbarHeight ?? 49.0) - 10),
-            logoutButton.heightAnchor.constraint(equalToConstant: 40)
+            
+//            pinImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            pinImageView.trailingAnchor.constraint(equalTo: gpsArtLabel.leadingAnchor, constant: -10),
+            pinImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5),
+            pinImageView.widthAnchor.constraint(equalToConstant: 20),
+            pinImageView.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
     
-    private func setupLottie() {
+    private func setupgpsArtTableView() {
+        
+        view.addSubview(gpsArtTableView)
+        
+        gpsArtTableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
             
-            view.addSubview(animationView)
-            
-            animationView.translatesAutoresizingMaskIntoConstraints = false
-            
-            NSLayoutConstraint.activate([
-            
-                animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                animationView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20)
-            ])
-            animationView.loopMode = .loop
-            animationView.play()
-        }
-    
-    @objc func funnyMapGame(_ sender: UIButton!) {
-        guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
-            withIdentifier: "FunnyMapPage"
-        ) as? FunnyMapViewController else { return }
-
-        self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
-    }
-}
-
-// MARK: - TableViewDataSource, TableViewDelegate
-extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return invitation.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: ChallengeInvitationTableViewCell.identifier,
-            for: indexPath
-        ) as? ChallengeInvitationTableViewCell else { fatalError("can not dequeue settingTableViewCell") }
-        
-        cell.nameLabel.text = invitation[indexPath.row]
-        
-        cell.chellangeButton.addTarget(self, action: #selector(funnyMapGame(_:)), for: .touchUpInside)
-        
-        return cell
+            gpsArtTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            gpsArtTableView.topAnchor.constraint(equalTo: gpsArtLabel.bottomAnchor, constant: 10),
+            gpsArtTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            gpsArtTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+        ])
     }
 }

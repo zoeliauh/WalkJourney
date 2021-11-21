@@ -16,3 +16,5 @@ file_length:
 type_body_length:
   - 500 # warning
   - 700 # error
+opt_in_rules:
+  - force_unwrapping

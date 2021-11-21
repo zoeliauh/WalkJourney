@@ -3,7 +3,7 @@
 //  WalkJourney
 //
 //  Created by woanjwu liauh on 2021/11/4.
-//
+//  swiftlint:disable line_length
 
 import Foundation
 import Firebase
@@ -17,6 +17,8 @@ class UserManager {
     lazy var db = Firestore.firestore()
     
     let user = Auth.auth().currentUser
+    
+    let uid = Auth.auth().currentUser?.uid
     
     private init() {}
     
@@ -35,7 +37,7 @@ class UserManager {
             print(userName)
             return userName
         } else {
-            return "使用者"
+            return "設定使用者名稱"
         }
     }()
     
@@ -49,11 +51,13 @@ class UserManager {
         }
     }()
     
+    let userImageURL: String = "https://firebasestorage.googleapis.com/v0/b/walkjourney-8eaaf.appspot.com/o/profileImage%2F98DE3450-7B94-4548-9A52-1E45CBFAD4FD?alt=media&token=9e20bbb6-d39c-4027-b4f2-81f4cc03c55b"
+    
     // create
     func createUserInfo() {
         let user = User(userID: userid,
                         username: userDisplayName,
-                        email: userEmail, userImageURL: nil,
+                        email: userEmail, userImageURL: userImageURL,
                         providerID: "Apple", blockLists: nil,
                         friendLists: nil)
         
@@ -67,12 +71,44 @@ class UserManager {
         }
     }
     
-    // read
+    // fetch all user data
+    func fetchAllUserInfo(completion: @escaping (Result<[User], Error>) -> Void) {
+        
+        db.collection(Collections.user.rawValue).getDocuments { (querySnapshot, error) in
+            
+            if let error = error {
+                
+                completion(.failure(error))
+            } else {
+                
+                var allUserInfo = [User]()
+                
+                guard let querySnapshot = querySnapshot else { return }
+                
+                for document in querySnapshot.documents {
+                                        
+                    do {
+                        if let userInto = try document.data(as: User.self, decoder: Firestore.Decoder()) {
+                            allUserInfo.append(userInto)
+                        }
+                        
+                    } catch {
+                        
+                        completion(.failure(error))
+                    }
+                }
+    
+                completion(.success(allUserInfo))
+            }
+        }
+    }
+    
+    // fetch certain user Data
     func fetchUserInfo(uesrID: String, completion: @escaping (Result<User, Error>) -> Void) {
         
         let userRef = db.collection(Collections.user.rawValue)
         
-        userRef.document(userid).getDocument { document, error in
+        userRef.document(uesrID).getDocument { document, error in
             if let error = error {
                 completion(Result.failure(error))
             }
@@ -85,4 +121,30 @@ class UserManager {
         }
     }
     
+    // update userName or userImageURL
+    func updateUserInfo(userID: String, url: String?, username: String?) {
+        
+        if url == nil {
+        
+            db.collection(Collections.user.rawValue).document(userID).updateData([
+                "username": username as Any
+            ])
+        }
+        
+        if username == nil {
+            
+            db.collection(Collections.user.rawValue).document(userID).updateData([
+                "userImageURL": url as Any
+            ])
+        }
+    }
+    // update FriendList
+    func updateFriendList(friendLists: [String]) {
+        
+        guard let uid = uid else { return }
+        
+        db.collection(Collections.user.rawValue).document(uid).updateData([
+            "friendLists": friendLists as Any
+        ])
+    }
 }

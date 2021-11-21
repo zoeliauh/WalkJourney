@@ -14,8 +14,8 @@ struct User: Codable {
     var email: String?
     var userImageURL: String?
     var providerID: String?
-    var blockLists: [BlockLists]?
-    var friendLists: [FriendLists]?
+    var blockLists: [String]?
+    var friendLists: [String]?
 }
 
 struct BlockLists: Codable {
