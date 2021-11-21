@@ -16,4 +16,6 @@ enum Collections: String {
     case stepData = "stepData"
     
     case invitation = "invitation"
+    
+    case publicPost = "publicPost"
 }

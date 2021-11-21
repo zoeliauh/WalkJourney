@@ -54,7 +54,7 @@ class ChallengeShareViewController: UIViewController {
     @objc func popMore() {
         
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let names = ["儲存至相簿", "分享至塗鴉牆"]
+        let names = ["儲存至相簿", "分享至社群"]
         for name in names {
            let action = UIAlertAction(title: name, style: .default) { action in
                if name == "儲存至相簿" {
@@ -66,8 +66,9 @@ class ChallengeShareViewController: UIViewController {
                    self.popButton.isHidden = false
                    self.moreButton.isHidden = false
                } else {
+                   self.createNewPost()
                    Toast.showSuccess(text: "已分享")
-                   print("no action")
+                   print("createNewPost")
                }
            }
            controller.addAction(action)
@@ -75,6 +76,25 @@ class ChallengeShareViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         controller.addAction(cancelAction)
         present(controller, animated: true, completion: nil)
+    }
+    
+    private func createNewPost() {
+        
+        guard let screenshotURL = screenshotURL else { return }
+        
+        PublicPostManager.shared.createPublicPost(screenshotURL: screenshotURL) { result in
+            
+            switch result {
+                
+            case .success:
+                
+                print("success to create new location")
+                
+            case .failure(let error):
+                
+                print("create location.failure: \(error)")
+            }
+        }
     }
 }
 
