@@ -66,6 +66,13 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     
     var screenshotImageView = UIImageView()
     
+    lazy var dismissButton: UIButton = {
+        
+        let button = UIButton()
+        button.setImage(UIImage(named: "Icon_cross_mark"), for: .normal)
+        return button
+    }()
+    
     lazy var finishButton: UIButton = {
         
         let button = UIButton()
@@ -87,6 +94,8 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         super.viewDidLoad()
         
         setupFinishButton()
+        
+        setUpDismissButton()
         
         db = Firestore.firestore()
         
@@ -112,6 +121,11 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         createNewRecord()
         
         successMessage()
+    }
+    
+    @objc func dismissButtonPressed(_ sender: UIButton) {
+
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func timerCounter() {
@@ -207,22 +221,6 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         return timeString
     }
-    
-    func setupFinishButton() {
-        
-        view.addSubview(finishButton)
-        
-        finishButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            
-            finishButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
-            finishButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
-            finishButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40)
-        ])
-                
-        finishButton.addTarget(self, action: #selector(finishButtonPressed(_:)), for: .touchUpInside)
-    }
 }
 
 extension StartToWalkPageViewController: CLLocationManagerDelegate {
@@ -304,5 +302,42 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
         controller.addAction(okAction)
         
         present(controller, animated: true, completion: nil)
+    }
+}
+// MARK: - UI design
+extension StartToWalkPageViewController {
+    private func setUpDismissButton() {
+                        
+        guard let nav = navigationController?.navigationBar else { return }
+        
+        nav.addSubview(dismissButton)
+        
+        dismissButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            dismissButton.leadingAnchor.constraint(equalTo: nav.leadingAnchor, constant: 30),
+            dismissButton.topAnchor.constraint(equalTo: nav.topAnchor),
+            dismissButton.heightAnchor.constraint(equalToConstant: 40),
+            dismissButton.widthAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        dismissButton.addTarget(self, action: #selector(dismissButtonPressed), for: .touchUpInside)
+    }
+    
+    private func setupFinishButton() {
+        
+        view.addSubview(finishButton)
+        
+        finishButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            finishButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
+            finishButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
+            finishButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40)
+        ])
+                
+        finishButton.addTarget(self, action: #selector(finishButtonPressed(_:)), for: .touchUpInside)
     }
 }
