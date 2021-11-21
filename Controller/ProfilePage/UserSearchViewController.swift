@@ -100,7 +100,7 @@ class UserSearchViewController: UIViewController {
                 guard let friendLists = user.friendLists else { return }
                 
                 self.friendLists = friendLists
-                print("my friendLists is \(friendLists)")
+//                print("my friendLists is \(friendLists)")
                 
             case .failure(let error):
                 print("fetch friendList \(error)")
@@ -118,7 +118,6 @@ class UserSearchViewController: UIViewController {
                 self.userInvitation = userInvitation
                 
                 self.receiver = userInvitation.map{ $0.receiver }
-//                print("userInvitation is \(userInvitation)")
                 
             case .failure(let error):
                 print("fetchAllInvitation.failure: \(error)")
@@ -179,17 +178,6 @@ extension UserSearchViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.addFriendButton.addTarget(self, action: #selector(sendInvitation(_:)), for: .touchUpInside)
             }
         
-//        if receiver.contains(filteredUserInfo[indexPath.row].userID) {
-//
-//            cell.addFriendButton.isEnabled = false
-//            cell.addFriendButton.backgroundColor = .lightGray
-//        } else {
-//
-//            cell.addFriendButton.isEnabled = true
-//            cell.addFriendButton.backgroundColor = .C4
-//            cell.addFriendButton.addTarget(self, action: #selector(sendInvitation(_:)), for: .touchUpInside)
-//        }
-        
         return cell
     }
     
@@ -198,6 +186,7 @@ extension UserSearchViewController: UITableViewDelegate, UITableViewDataSource {
         InvitationManager.shared.createInvitationRequest(searchNameResult: filteredUserInfo[sender.tag].userID)
         sender.backgroundColor = .lightGray
         sender.isEnabled = false
+        Toast.showSuccess(text: "已送出邀請")
     }
 }
 // MARK: - UI design

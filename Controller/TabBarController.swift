@@ -26,12 +26,14 @@ class TabBarController: UITabBarController {
         
         setupvcTitle()
         setupTabBar()
+        tabBar.backgroundColor = .C3
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         setupTabBar()
+        tabBar.backgroundColor = .C3
     }
     
     func setupTabBar() {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class GalleryViewController: UIViewController {
     
@@ -16,8 +17,17 @@ class GalleryViewController: UIViewController {
         table.showsVerticalScrollIndicator = false
         table.register(GPSArtTableViewCell.self, forCellReuseIdentifier: GPSArtTableViewCell.identifier)
         table.reloadData()
-
+        
         return table
+    }()
+    
+    lazy var animationView: AnimationView = {
+        
+        var animationView = AnimationView()
+        animationView = .init(name: "loading")
+        animationView.animationSpeed = 1
+        animationView.layoutIfNeeded()
+        return animationView
     }()
     
     var publicPosts: [PublicPost] = [] {
@@ -28,22 +38,26 @@ class GalleryViewController: UIViewController {
         }
     }
     
+    var myID = UserManager.shared.uid
+    
     var posterLists: [String] = []
     
     var posterInfo: [String: User] = [:]
     
     var posterID: String = ""
-
+    
+    var blockLists: [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tabBarController?.tabBar.backgroundImage =  UIImage()
-                    
+        
         setNavigationBar()
         
-        fetchAllPublicPostInfo()
-
         setupgpsArtTableView()
+        
+        setupLottie()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,64 +67,85 @@ class GalleryViewController: UIViewController {
     }
     
     private func setNavigationBar() {
-            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-            navigationController?.navigationBar.shadowImage = UIImage()
-            navigationItem.title = "社群"
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationItem.title = "社群"
         navigationController?.navigationBar.barTintColor = UIColor.black
         let font = UIFont.boldSystemFont(ofSize: 25)
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: font,
-                                                                       NSAttributedString.Key.foregroundColor: UIColor.black]
-        }
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: UIColor.black
+        ]
+    }
     
     private func fetchAllPublicPostInfo() {
         
-        PublicPostManager.shared.fetchAllPublicPostInfo { [self] result in
+        guard let myID = myID else { return }
+                
+        UserManager.shared.fetchUserInfo(uesrID: myID) { [self] result in
             
             switch result {
-            
-            case .success(let publicPosts):
                 
-                let group = DispatchGroup()
-                                
-                self.publicPosts = publicPosts
+            case .success(let blockList):
                 
-                self.publicPosts.sort { $0.createdTime ?? 0 > $1.createdTime ?? 0 }
+                self.blockLists = blockList.blockLists ?? []
                 
-                for post in publicPosts {
+                PublicPostManager.shared.fetchAllPublicPostInfo { [self] result in
                     
-                    group.enter()
-                    
-                    UserManager.shared.fetchUserInfo(uesrID: post.uid) { result in
+                    switch result {
                         
-                        switch result {
+                    case .success(let publicPosts):
+                        
+                        let group = DispatchGroup()
+                                                
+                        self.publicPosts = []
+                        
+                        for index in publicPosts where blockLists.contains(index.uid) == false {
                             
-                        case .success(let posterInfo):
+                            self.publicPosts.append(index)
                             
-                            posterID = post.uid
-                            
-                            self.posterInfo[posterID] = posterInfo
-                                                        
-                            print("posterInfo is \(posterInfo)")
-                            
-                            group.leave()
-                            
-                        case .failure(let error):
-                            
-                            print("fetch sender info \(error)")
-                            
-                            group.leave()
+                            self.publicPosts.sort { $0.createdTime ?? 0 > $1.createdTime ?? 0 }
                         }
+                        
+                        for post in publicPosts {
+                            
+                            group.enter()
+                            
+                            UserManager.shared.fetchUserInfo(uesrID: post.uid) { result in
+                                
+                                switch result {
+                                    
+                                case .success(let posterInfo):
+                                    
+                                    posterID = post.uid
+                                    
+                                    self.posterInfo[posterID] = posterInfo
+                                    
+                                    group.leave()
+                                    
+                                case .failure(let error):
+                                    
+                                    print("fetch sender info \(error)")
+                                    
+                                    group.leave()
+                                }
+                            }
+                        }
+                        group.notify(queue: .main) {
+                            self.gpsArtTableView.dataSource = self
+                            self.gpsArtTableView.delegate = self
+                            self.gpsArtTableView.reloadData()
+                            self.animationView.removeFromSuperview()
+                        }
+                        
+                    case .failure(let error):
+                        
+                        print("fetcFriendData.failure: \(error)")
                     }
                 }
-                group.notify(queue: .main) {
-                    
-                    self.gpsArtTableView.dataSource = self
-                    self.gpsArtTableView.delegate = self
-                    self.gpsArtTableView.reloadData()
-                }
-            case .failure(let error):
                 
-                print("fetcFriendData.failure: \(error)")
+            case .failure(let error):
+                print("fetchBlockList.failure: \(error)")
             }
         }
     }
@@ -118,7 +153,7 @@ class GalleryViewController: UIViewController {
 
 // MARK: - tableViewDelegate, tableViewDataSource
 extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return publicPosts.count
@@ -139,10 +174,12 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
         guard let userInfo = posterInfo[posterID] else { return cell }
         
         cell.userNameLabel.text = userInfo.username
-                
+        
         cell.profileImageView.loadImage(userInfo.userImageURL, placeHolder: UIImage(systemName: "person.crop.circle"))
-                        
+        
         cell.selectionStyle = .none
+        
+        self.animationView.removeFromSuperview()
         
         return cell
     }
@@ -154,17 +191,14 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
         ) as? ZoomInViewController else { return }
         
         navZoomInvc.screenshotURL = publicPosts[indexPath.row].screenshotURL
-    
+        
         navigationController?.pushViewController(navZoomInvc, animated: true)
-        
-        print("navZoomInvc")
-        
     }
 }
 
 // MARK: - UI design
 extension GalleryViewController {
-
+    
     private func setupgpsArtTableView() {
         
         view.addSubview(gpsArtTableView)
@@ -178,5 +212,21 @@ extension GalleryViewController {
             gpsArtTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             gpsArtTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
         ])
+    }
+    
+    private func setupLottie() {
+        
+        view.addSubview(animationView)
+        
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            animationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animationView.topAnchor.constraint(equalTo: view.topAnchor),
+            animationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animationView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        animationView.play()
     }
 }

@@ -10,6 +10,16 @@ import Charts
 
 class MonthChartViewController: UIViewController {
     
+    lazy var dateLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "\(selectedYear)年  \(selectedMonth)月"
+        label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.textColor = .black
+        label.textAlignment = .left
+        return label
+    }()
+    
     lazy var popButton: UIButton = {
         
         let button = UIButton()
@@ -43,9 +53,17 @@ class MonthChartViewController: UIViewController {
         super.viewDidLoad()
 
         setUpBackButton()
+        self.navigationItem.setHidesBackButton(true, animated: true)
         setupMonthChartView()
         setupMonthChartDate(stepDataArr: stepDataArr)
         monthChartView.noDataText = "暫時沒有步行紀錄"
+        setupDateLabel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        setupDateLabel()
     }
     
     @objc func popBack() {
@@ -141,6 +159,20 @@ class MonthChartViewController: UIViewController {
 }
 
 extension MonthChartViewController {
+    
+    private func setupDateLabel() {
+        
+        view.addSubview(dateLabel)
+        
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            dateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dateLabel.topAnchor.constraint(equalTo: popButton.topAnchor, constant: 30)
+        ])
+    }
+    
     private func setUpBackButton() {
         
         view.addSubview(popButton)

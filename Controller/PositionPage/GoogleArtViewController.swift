@@ -25,6 +25,13 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
        return imageView
     }()
     
+    lazy var dismissButton: UIButton = {
+        
+        let button = UIButton()
+        button.setImage(UIImage(named: "Icon_cross_mark"), for: .normal)
+        return button
+    }()
+    
     @IBOutlet weak var coverImageView: UIImageView!
     
     @IBOutlet weak var timerlabel: UILabel!
@@ -91,21 +98,17 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
         countSteps()
                 
         setupRouteSampleImageView()
-                
-        self.tabBarController?.tabBar.isHidden = true
         
+        setUpDismissButton()
+                        
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        self.timer.invalidate()
     }
     
     @IBAction func doneButtonPressed(_ sender: UIButton!) {
         
         doneButton.isHidden = true
+        
+        dismissButton.isHidden = true
         
         let screenshotImage = self.view.takeScreenshot()
         
@@ -116,6 +119,11 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
         locationManager.stopUpdatingLocation()
         
         successMessage()
+    }
+    
+    @objc func dismissButtonPressed(_ sender: UIButton) {
+
+        self.navigationController?.popViewController(animated: true)
     }
     
     func countDownStart() {
@@ -182,30 +190,6 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
                 print("add new record failure \(error)")
             }
         }
-    }
-    
-    private func setupRouteSampleImageView() {
-        
-        view.addSubview(routeSampleImageView)
-        
-        routeSampleImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            routeSampleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            routeSampleImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
-            routeSampleImageView.widthAnchor.constraint(equalToConstant: 150),
-            routeSampleImageView.heightAnchor.constraint(equalToConstant: 150)
-        ])
-    }
-    
-    private func setupDoneButton() {
-        
-        doneButton.layer.cornerRadius = 20
-        doneButton.layer.shadowOpacity = 0.3
-        doneButton.layer.shadowRadius = 2.0
-        doneButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        doneButton.layer.shadowColor = UIColor.black.cgColor
     }
 
     func timerLabelAnimation() {
@@ -292,20 +276,68 @@ extension GoogleArtViewController: CLLocationManagerDelegate {
     
     func successMessage() {
         
-        let controller = UIAlertController(title: "成功儲存",
-                                           message: "請至 足跡 -> 挑戰地圖 查看或分享",
+        let controller = UIAlertController(title: "儲存成功",
+                                           message: nil,
                                            preferredStyle: .alert)
         let okAction = UIAlertAction(title: "確定",
                                      style: .default
         ) { (_: UIAlertAction) in
             
             self.navigationController?.popViewController(animated: true)
+            
+            self.tabBarController?.selectedIndex = 1
+                        
             self.tabBarController?.tabBar.isHidden = false
         }
         
         controller.addAction(okAction)
         
         present(controller, animated: true, completion: nil)
+    }
+}
+
+// MARK: UI design
+extension GoogleArtViewController {
+    
+    private func setupRouteSampleImageView() {
+        
+        view.addSubview(routeSampleImageView)
+        
+        routeSampleImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            routeSampleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            routeSampleImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
+            routeSampleImageView.widthAnchor.constraint(equalToConstant: 150),
+            routeSampleImageView.heightAnchor.constraint(equalToConstant: 150)
+        ])
+    }
+    
+    private func setupDoneButton() {
+        
+        doneButton.layer.cornerRadius = 20
+        doneButton.layer.shadowOpacity = 0.3
+        doneButton.layer.shadowRadius = 2.0
+        doneButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        doneButton.layer.shadowColor = UIColor.black.cgColor
+    }
+    
+    private func setUpDismissButton() {
+                                
+        view.addSubview(dismissButton)
+        
+        dismissButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            dismissButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            dismissButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            dismissButton.heightAnchor.constraint(equalToConstant: 40),
+            dismissButton.widthAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        dismissButton.addTarget(self, action: #selector(dismissButtonPressed), for: .touchUpInside)
     }
 }
 // MARK: - timer counter
