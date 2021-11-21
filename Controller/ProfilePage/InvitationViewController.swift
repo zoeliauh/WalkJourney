@@ -79,7 +79,7 @@ class InvitationViewController: UIViewController {
                         
         UserManager.shared.fetchUserInfo(uesrID: senderID) { result in
             
-            print(self.senderID)
+//            print(self.senderID)
             
             switch result {
                 
@@ -88,7 +88,7 @@ class InvitationViewController: UIViewController {
                         
                 self.senderFriendLists = lists
                 
-                print("senderFriendList is \(self.senderFriendLists)")
+//                print("senderFriendList is \(self.senderFriendLists)")
                                 
             case .failure(let error):
                 print("fetchSenderFriendLists.failure: \(error)")

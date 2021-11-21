@@ -48,7 +48,8 @@ class PublicPostManager {
     // fetch all publicPost data
     func fetchAllPublicPostInfo(completion: @escaping (Result<[PublicPost], Error>) -> Void) {
         
-        db.collection(Collections.publicPost.rawValue).getDocuments { (querySnapshot, error) in
+        db.collection(Collections.publicPost.rawValue)
+            .getDocuments { (querySnapshot, error) in
             
             if let error = error {
                 

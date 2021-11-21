@@ -261,7 +261,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                    let user = authResult?.user,
                    additionalUserInfo.isNewUser {
                     
-                    print("Nice! You are now signed in as \(user.uid), email: \(user.email)")
+                    print("Nice! You are now signed in as \(String(describing: user.email)), email: \(String(describing: user.email))")
                     
                     if let fullName = appleIDCredential.fullName,
                        let userName = fullName.givenName {
@@ -270,7 +270,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                         
                         changeRequest?.displayName = userName
                         changeRequest?.commitChanges { error in
-                            print("can not change userName")
+                            print("can not change userName \(String(describing: error))")
                         }
                     }
                     
@@ -307,7 +307,10 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
 extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return self.view.window!
+        
+        guard let window = self.view.window else { fatalError() }
+        
+        return window
     }
 }
 
