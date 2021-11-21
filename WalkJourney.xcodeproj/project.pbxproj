@@ -56,6 +56,7 @@
 		6B56D7C127469EDA00068E79 /* PublicPostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B56D7C027469EDA00068E79 /* PublicPostManager.swift */; };
 		6B56D7C32746CD5700068E79 /* ZoomInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B56D7C22746CD5700068E79 /* ZoomInViewController.swift */; };
 		6B56D7C52747549C00068E79 /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B56D7C42747549C00068E79 /* EULAViewController.swift */; };
+		6B56D7CB274A2BAC00068E79 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B56D7CA274A2BAC00068E79 /* loading.json */; };
 		6B5C09E72737AAB900E10EF5 /* RecordCatagoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09E62737AAB900E10EF5 /* RecordCatagoryViewController.swift */; };
 		6B5C09E92737B33300E10EF5 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09E82737B33300E10EF5 /* ChallengeViewController.swift */; };
 		6B5C09EB2737B39300E10EF5 /* ChallengeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C09EA2737B39300E10EF5 /* ChallengeTableViewCell.swift */; };
@@ -144,6 +145,7 @@
 		6B56D7C027469EDA00068E79 /* PublicPostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicPostManager.swift; sourceTree = "<group>"; };
 		6B56D7C22746CD5700068E79 /* ZoomInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomInViewController.swift; sourceTree = "<group>"; };
 		6B56D7C42747549C00068E79 /* EULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
+		6B56D7CA274A2BAC00068E79 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		6B5C09E62737AAB900E10EF5 /* RecordCatagoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCatagoryViewController.swift; sourceTree = "<group>"; };
 		6B5C09E82737B33300E10EF5 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
 		6B5C09EA2737B39300E10EF5 /* ChallengeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTableViewCell.swift; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 			children = (
 				6B0F3896272AF67A00F00448 /* profile_lottie.json */,
 				6B227DD627367E110067E51C /* walking_outside.json */,
+				6B56D7CA274A2BAC00068E79 /* loading.json */,
 				6B227DD82736CA030067E51C /* starry_background.json */,
 			);
 			path = Lottie;
@@ -532,6 +535,7 @@
 				6B0F3897272AF67A00F00448 /* profile_lottie.json in Resources */,
 				6BBFA13B2740A42600C92974 /* GoogleService-Info.plist in Resources */,
 				6B02216E271E74C400C61593 /* Position.storyboard in Resources */,
+				6B56D7CB274A2BAC00068E79 /* loading.json in Resources */,
 				6B868A64271D41BA00965075 /* Share.storyboard in Resources */,
 				6B227DD727367E140067E51C /* walking_outside.json in Resources */,
 				6B868A2C271B18B700965075 /* Assets.xcassets in Resources */,

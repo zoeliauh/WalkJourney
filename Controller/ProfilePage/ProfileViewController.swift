@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 import FirebaseAuth
 import Firebase
 
@@ -88,6 +89,15 @@ class ProfileViewController: UIViewController {
         return button
     }()
     
+    lazy var animationView: AnimationView = {
+        
+        var animationView = AnimationView()
+        animationView = .init(name: "loading")
+        animationView.animationSpeed = 1
+        animationView.layoutIfNeeded()
+        return animationView
+    }()
+    
     var tabbarHeight: CGFloat? = 0.0
     
     var userInfo: User?
@@ -134,6 +144,7 @@ class ProfileViewController: UIViewController {
         setupSettingButton()
         setupNewPhotoButton()
         setupButtons()
+        setupLottie()
     }
     
     override func viewDidLayoutSubviews() {
@@ -158,10 +169,14 @@ class ProfileViewController: UIViewController {
     
     // fetch certain user Data
     func fetchUserInfo() {
+                
+        let group = DispatchGroup()
         
         guard let uid = UserManager.shared.uid else { return }
         
         UserManager.shared.fetchUserInfo(uesrID: uid) { [weak self] result in
+            
+            group.enter()
             
             switch result {
                 
@@ -173,9 +188,18 @@ class ProfileViewController: UIViewController {
                 
                 self?.profileImageView.loadImage(userInfo.userImageURL)
                 
+                group.leave()
+                
             case .failure(let error):
                 
                 print("fetchStepsData.failure: \(error)")
+                
+                group.leave()
+            }
+
+            group.notify(queue: .main) {
+
+                self?.animationView.removeFromSuperview()
             }
         }
     }
@@ -324,28 +348,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 }
 
-// MARK: - tableViewDelegate, tableViewDataSource
-extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: GPSArtTableViewCell.identifier, for: indexPath
-        ) as? GPSArtTableViewCell else { fatalError("can not dequeue gpsAtrCell") }
-        
-        let url = "https://firebasestorage.googleapis.com/v0/b/walkjourney-8eaaf.appspot.com/o/5ZjRhKR3qRqvvUSD4Yfu.jpg?alt=media&token=ef8b809f-1b99-498d-83c9-345c5199cbb9"
-        
-        cell.gpsImageView.loadImage(url, placeHolder: nil)
-                
-        cell.selectionStyle = .none
-        
-        return cell
-    }
-}
-
 // MARK: - UISearchResultsUpdating
 extension ProfileViewController: UISearchResultsUpdating {
     
@@ -383,7 +385,6 @@ extension ProfileViewController {
             
             nameTextField.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
             nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-//            nameTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 3)
         ])
         
         nameTextField.addTarget(self, action: #selector(setupEditNameTextField), for: .editingDidEnd)
@@ -469,19 +470,35 @@ extension ProfileViewController {
             
             invitationButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             invitationButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            invitationButton.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 50),
+            invitationButton.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 40),
             invitationButton.heightAnchor.constraint(equalToConstant: 35),
             
             friendListsButton.widthAnchor.constraint(equalTo: invitationButton.widthAnchor),
             friendListsButton.heightAnchor.constraint(equalTo: invitationButton.heightAnchor),
             friendListsButton.centerXAnchor.constraint(equalTo: invitationButton.centerXAnchor),
-            friendListsButton.topAnchor.constraint(equalTo: invitationButton.bottomAnchor, constant: 30),
+            friendListsButton.topAnchor.constraint(equalTo: invitationButton.bottomAnchor, constant: 25),
 
             blockLishButton.widthAnchor.constraint(equalTo: invitationButton.widthAnchor),
             blockLishButton.heightAnchor.constraint(equalTo: invitationButton.heightAnchor),
             blockLishButton.centerXAnchor.constraint(equalTo: invitationButton.centerXAnchor),
-            blockLishButton.topAnchor.constraint(equalTo: friendListsButton.bottomAnchor, constant: 30)
+            blockLishButton.topAnchor.constraint(equalTo: friendListsButton.bottomAnchor, constant: 25)
             
             ])
+    }
+    
+    private func setupLottie() {
+        
+        view.addSubview(animationView)
+        
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            animationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animationView.topAnchor.constraint(equalTo: view.topAnchor),
+            animationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animationView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        animationView.play()
     }
 }

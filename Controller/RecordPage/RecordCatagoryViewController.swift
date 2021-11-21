@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class RecordCatagoryViewController: UIViewController {
     
@@ -45,13 +46,13 @@ class RecordCatagoryViewController: UIViewController {
             currentDate = "\(selectedYear) + . + \(selectedMonth)"
         }
     }
-        
+    
     let dateFormatDay = DateFormatter()
     
     var stepDataArr: [StepData] = []
     
     var numberOfDays: Int = 30
-
+    
     var stepAverage = 0 {
         didSet {
             stepsNumLabel.text = (stepAverage / numberOfDays).description
@@ -107,10 +108,10 @@ class RecordCatagoryViewController: UIViewController {
         view.clipsToBounds = true
         view.layer.masksToBounds = false
         view.layoutIfNeeded()
-   
+        
         return view
     }()
-
+    
     lazy var averageLabel: UILabel = {
         
         let label = UILabel()
@@ -169,9 +170,18 @@ class RecordCatagoryViewController: UIViewController {
         return segmentedControl
     }()
     
+    lazy var animationView: AnimationView = {
+        
+        var animationView = AnimationView()
+        animationView = .init(name: "loading")
+        animationView.animationSpeed = 1
+        animationView.layoutIfNeeded()
+        return animationView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-             
+        
         self.tabBarController?.tabBar.backgroundImage =  UIImage()
         
         self.navigationController?.navigationBar.isHidden = true
@@ -181,7 +191,7 @@ class RecordCatagoryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-                        
+        
         setupMonthTextField()
         setupPullImageView()
         setupBackgroundView()
@@ -189,7 +199,7 @@ class RecordCatagoryViewController: UIViewController {
         setupStepsNumLabel()
         setupStepLabel()
         setupPushButton()
-        setupChartSegmentedControl()        
+        setupChartSegmentedControl()
     }
     
     @objc func pushToMonthChartVC(_ sender: UIButton!) {
@@ -231,70 +241,65 @@ class RecordCatagoryViewController: UIViewController {
     // MARK: - fetch record steps data
     func fetchRecordStepsData() {
         
-//        stepAverage = 0
+        setupLottie()
         
         var tempStepAverage = 0
-
-//        print("calender is \(selectedYear + "." + selectedMonth)")
-//        print("currentDate is \(currentDate)")
-     
+        
         let group = DispatchGroup()
         
         RecordManager.shared.fetchMonthRecord(
             calenderDay: selectedYear + "." + selectedMonth
-//            calenderDay: currentDate
-
+            
         ) { [weak self] result in
             
             group.enter()
             
             switch result {
-                                
+                
             case .success(let stepData):
                 
                 self?.stepDataArr = stepData
-                
-//                print(stepData)
-                
+                                
                 for items in stepData {
                     
                     tempStepAverage += items.numberOfSteps
                 }
-//
+                
                 group.leave()
                 
             case .failure(let error):
                 
                 print("fetchStepsData.failure: \(error)")
-                                                
+                
                 group.leave()
             }
             
             group.notify(queue: .main) {
                 
-                    self?.stepAverage = tempStepAverage
+                self?.stepAverage = tempStepAverage
+                self?.animationView.removeFromSuperview()
             }
         }
         
         numberOfDays = TimeManager.shared.getDaysInMonth(month: Int(selectedMonth) ?? 0,
                                                          year: Int(selectedYear) ?? 0
-                           ) ?? 30
-        }
+        ) ?? 30
+    }
 }
-    
-    // MARK: - UI design
+
+// MARK: - UI design
 extension RecordCatagoryViewController {
     
     private func setupMonthTextField() {
         
         guard let nav = navigationController?.navigationBar else { return }
-                
+        
         nav.addSubview(monthPickerTextField)
         
         monthPickerTextField.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
-              
+            
             monthPickerTextField.leadingAnchor.constraint(
                 equalTo: (nav.leadingAnchor),
                 constant: 30),
@@ -315,14 +320,14 @@ extension RecordCatagoryViewController {
         NSLayoutConstraint.activate([
             
             pullImageView.leadingAnchor.constraint(
-            equalTo: (monthPickerTextField.trailingAnchor),
-            constant: -60),
+                equalTo: (monthPickerTextField.trailingAnchor),
+                constant: -60),
             pullImageView.topAnchor.constraint(
-            equalTo: monthPickerTextField.topAnchor),
+                equalTo: monthPickerTextField.topAnchor),
             pullImageView.heightAnchor.constraint(equalToConstant: 30),
             pullImageView.widthAnchor.constraint(equalToConstant: 30)
             
-            ])
+        ])
     }
     
     private func setupBackgroundView() {
@@ -332,7 +337,7 @@ extension RecordCatagoryViewController {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
+            
             backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             backgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
@@ -347,7 +352,7 @@ extension RecordCatagoryViewController {
         averageLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
+            
             averageLabel.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 30),
             averageLabel.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -15)
         ])
@@ -360,7 +365,7 @@ extension RecordCatagoryViewController {
         stepsNumLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
+            
             stepsNumLabel.leadingAnchor.constraint(equalTo: averageLabel.trailingAnchor, constant: 10),
             stepsNumLabel.lastBaselineAnchor.constraint(equalTo: averageLabel.lastBaselineAnchor)
         ])
@@ -373,7 +378,7 @@ extension RecordCatagoryViewController {
         stepLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
+            
             stepLabel.leadingAnchor.constraint(equalTo: stepsNumLabel.trailingAnchor, constant: 10),
             stepLabel.lastBaselineAnchor.constraint(equalTo: averageLabel.lastBaselineAnchor)
         ])
@@ -386,7 +391,7 @@ extension RecordCatagoryViewController {
         pushButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-        
+            
             pushButton.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -15),
             pushButton.bottomAnchor.constraint(equalTo: averageLabel.bottomAnchor),
             pushButton.heightAnchor.constraint(equalToConstant: 30),
@@ -407,5 +412,21 @@ extension RecordCatagoryViewController {
             recordSegmentedControl.heightAnchor.constraint(equalToConstant: 30),
             recordSegmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+    }
+    
+    private func setupLottie() {
+        
+        view.addSubview(animationView)
+        
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            animationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animationView.topAnchor.constraint(equalTo: view.topAnchor),
+            animationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animationView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        animationView.play()
     }
 }

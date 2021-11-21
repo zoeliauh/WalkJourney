@@ -107,7 +107,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         currentRouteMapView.layer.cornerRadius = 20
                 
-        defaultPosition()
+        defaultPosition()        
     }
     
     override func viewDidDisappear(_ animated: Bool) {

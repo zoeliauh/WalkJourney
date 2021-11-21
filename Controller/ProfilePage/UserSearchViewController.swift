@@ -118,7 +118,6 @@ class UserSearchViewController: UIViewController {
                 self.userInvitation = userInvitation
                 
                 self.receiver = userInvitation.map{ $0.receiver }
-//                print("userInvitation is \(userInvitation)")
                 
             case .failure(let error):
                 print("fetchAllInvitation.failure: \(error)")

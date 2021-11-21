@@ -108,6 +108,8 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
         
         doneButton.isHidden = true
         
+        dismissButton.isHidden = true
+        
         let screenshotImage = self.view.takeScreenshot()
         
         screenshotImageView.image = screenshotImage

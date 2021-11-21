@@ -134,7 +134,7 @@ class LoginViewController: UIViewController {
         andLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             andLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            andLabel.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -82)
+            andLabel.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -79)
         ])
     }
     
@@ -143,7 +143,7 @@ class LoginViewController: UIViewController {
         LAEUButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             LAEUButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            LAEUButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -75)
+            LAEUButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -70)
         ])
     }
     
@@ -277,6 +277,9 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     UserManager.shared.createUserInfo()
                     
                 } else {
+                    
+                    UserManager.shared.uid = authResult?.user.uid
+                
                     print("be a user already")
                 }
                         

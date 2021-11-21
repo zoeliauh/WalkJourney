@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class GalleryViewController: UIViewController {
     
@@ -18,6 +19,15 @@ class GalleryViewController: UIViewController {
         table.reloadData()
         
         return table
+    }()
+    
+    lazy var animationView: AnimationView = {
+        
+        var animationView = AnimationView()
+        animationView = .init(name: "loading")
+        animationView.animationSpeed = 1
+        animationView.layoutIfNeeded()
+        return animationView
     }()
     
     var publicPosts: [PublicPost] = [] {
@@ -46,6 +56,8 @@ class GalleryViewController: UIViewController {
         setNavigationBar()
         
         setupgpsArtTableView()
+        
+        setupLottie()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +81,7 @@ class GalleryViewController: UIViewController {
     private func fetchAllPublicPostInfo() {
         
         guard let myID = myID else { return }
-        
+                
         UserManager.shared.fetchUserInfo(uesrID: myID) { [self] result in
             
             switch result {
@@ -120,10 +132,10 @@ class GalleryViewController: UIViewController {
                             }
                         }
                         group.notify(queue: .main) {
-                            
                             self.gpsArtTableView.dataSource = self
                             self.gpsArtTableView.delegate = self
                             self.gpsArtTableView.reloadData()
+                            self.animationView.removeFromSuperview()
                         }
                         
                     case .failure(let error):
@@ -131,26 +143,6 @@ class GalleryViewController: UIViewController {
                         print("fetcFriendData.failure: \(error)")
                     }
                 }
-                
-            case .failure(let error):
-                print("fetchBlockList.failure: \(error)")
-            }
-        }
-    }
-    
-    func fetchBlockList() {
-        
-        guard let myID = myID else { return }
-        
-        UserManager.shared.fetchUserInfo(uesrID: myID) { [self] result in
-            
-            switch result {
-                
-            case .success(let blockList):
-                
-                guard let lists = blockList.blockLists else { return }
-                
-                self.blockLists = lists
                 
             case .failure(let error):
                 print("fetchBlockList.failure: \(error)")
@@ -187,6 +179,8 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.selectionStyle = .none
         
+        self.animationView.removeFromSuperview()
+        
         return cell
     }
     
@@ -218,5 +212,21 @@ extension GalleryViewController {
             gpsArtTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             gpsArtTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
         ])
+    }
+    
+    private func setupLottie() {
+        
+        view.addSubview(animationView)
+        
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            animationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animationView.topAnchor.constraint(equalTo: view.topAnchor),
+            animationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animationView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        animationView.play()
     }
 }
