@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
         let textfield = UITextField()
         textfield.text = nil
         textfield.placeholder = "輸入使用者名稱"
-        textfield.font = UIFont.kleeOneRegular(ofSize: 25)
+        textfield.font = UIFont.kleeOneRegular(ofSize: 22)
         textfield.textAlignment = .left
         textfield.textColor = .black
         textfield.layer.cornerRadius = 20
@@ -131,10 +131,10 @@ class ProfileViewController: UIViewController {
         navigationItem.searchController?.searchBar.placeholder = "請搜尋使用者名稱"
         
         fetchUserInfo()
+        setupProfileImageView()
         setupNameTextField()
         setupEditButton()
         setupSettingButton()
-        setupProfileImageView()
         setupNewPhotoButton()
         setupGPSArtLabel()
         setupPinImageView()
@@ -349,9 +349,9 @@ extension ProfileViewController {
         
         NSLayoutConstraint.activate([
             
-            nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
+            nameTextField.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
             nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            nameTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 2)
+            nameTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 3)
         ])
         
         nameTextField.addTarget(self, action: #selector(setupEditNameTextField), for: .editingDidEnd)
@@ -402,7 +402,7 @@ extension ProfileViewController {
         
         NSLayoutConstraint.activate([
             profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            profileImageView.topAnchor.constraint(equalTo: nameTextField.topAnchor),
+            profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             profileImageView.widthAnchor.constraint(equalToConstant: 70),
             profileImageView.heightAnchor.constraint(equalToConstant: 70)
         ])
@@ -422,21 +422,6 @@ extension ProfileViewController {
             newPhotoButton.heightAnchor.constraint(equalTo: profileImageView.heightAnchor, multiplier: 0.4)
         ])
     }
-//
-//    func setupRankImageView() {
-//
-//        view.addSubview(rankImageView)
-//
-//        rankImageView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        NSLayoutConstraint.activate([
-//
-//            rankImageView.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
-//            rankImageView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 5),
-//            rankImageView.widthAnchor.constraint(equalToConstant: 24),
-//            rankImageView.heightAnchor.constraint(equalToConstant: 24)
-//        ])
-//    }
     
     private func setupGPSArtLabel() {
         
@@ -446,7 +431,6 @@ extension ProfileViewController {
         
         NSLayoutConstraint.activate([
             
-//            gpsArtLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 44),
             gpsArtLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             gpsArtLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5)
         ])
@@ -460,7 +444,6 @@ extension ProfileViewController {
         
         NSLayoutConstraint.activate([
             
-//            pinImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             pinImageView.trailingAnchor.constraint(equalTo: gpsArtLabel.leadingAnchor, constant: -10),
             pinImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5),
             pinImageView.widthAnchor.constraint(equalToConstant: 20),

@@ -263,7 +263,7 @@ extension GoogleArtViewController: CLLocationManagerDelegate {
             
             polyline.strokeWidth = 2
             
-            polyline.strokeColor = (UIColor.C6 ?? .brown)
+            polyline.strokeColor = (UIColor.black)
                         
             polyline.geodesic = true
             

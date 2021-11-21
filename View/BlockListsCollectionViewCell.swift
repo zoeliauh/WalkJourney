@@ -1,15 +1,15 @@
 //
-//  FriendListsCollectionViewCell.swift
+//  BlockListsCollectionView.swift
 //  WalkJourney
 //
-//  Created by woanjwu liauh on 2021/11/13.
+//  Created by woanjwu liauh on 2021/11/16.
 //
 
 import UIKit
 
-class FriendListsCollectionViewCell: UICollectionViewCell {
+class BlockListsCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "FriendListsCollectionViewCell"
+    static let identifier = "BlockListsCollectionViewCell"
     
     lazy var profileImageView: UIImageView = {
         
@@ -30,15 +30,6 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    lazy var challengeButton: UIButton = {
-        
-        let button = UIButton()
-        
-        button.setTitle("發出挑戰", for: .normal)
-        buttonConfig(button)
-        return button
-    }()
-    
     override func awakeFromNib() {
         super.awakeFromNib()
     
@@ -49,11 +40,10 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
         
         setupProfileImageView()
         setupfriendNameLabel()
-        setupChallengeButton()
         
         profileImageView.layer.cornerRadius = 20
         
-        contentView.backgroundColor = .C1
+        contentView.backgroundColor = .D1
         contentView.layer.cornerRadius = 10
     }
     
@@ -121,20 +111,4 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
             friendName.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor)
         ])
     }
-    
-    private func setupChallengeButton() {
-        
-        contentView.addSubview(challengeButton)
-        
-        challengeButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            challengeButton.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor),
-            challengeButton.topAnchor.constraint(equalTo: friendName.bottomAnchor, constant: 10),
-            challengeButton.heightAnchor.constraint(equalToConstant: 30),
-            challengeButton.widthAnchor.constraint(equalToConstant: contentView.frame.width * 0.7)
-        ])
-    }
-    
 }

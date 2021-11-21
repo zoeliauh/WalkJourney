@@ -34,7 +34,7 @@ class RecordCatagoryViewController: UIViewController {
     
     lazy var recordSegmentedControl: UISegmentedControl = {
         
-        let items = ["歷史紀錄", "挑戰地圖"]
+        let items = ["漫遊足跡", "挑戰地圖"]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = UIColor.C1

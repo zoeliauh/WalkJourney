@@ -37,7 +37,8 @@ class UserManager {
             print(userName)
             return userName
         } else {
-            return "設定使用者名稱"
+//            return "設定使用者名稱"
+            return ""
         }
     }()
     
@@ -138,7 +139,7 @@ class UserManager {
             ])
         }
     }
-    // update FriendList
+    // update user FriendList
     func updateFriendList(friendLists: [String]) {
         
         guard let uid = uid else { return }
@@ -147,4 +148,33 @@ class UserManager {
             "friendLists": friendLists as Any
         ])
     }
+    
+    // update other user FriendList
+    func updateOtherUserFriendList(sender: String, friendLists: [String]) {
+                
+        db.collection(Collections.user.rawValue).document(sender).updateData([
+            "friendLists": friendLists as Any
+        ])
+    }
+    
+    // update user blockLists
+    func updateBlockList(blockLists: [String]) {
+        
+        guard let uid = uid else { return }
+        
+        db.collection(Collections.user.rawValue).document(uid).updateData([
+            "blockLists": blockLists as Any
+        ])
+    }
+    
+//    // delete certain friend from friendLists
+//    func deletefriend(friendID: String) {
+//        
+//        guard let uid = UserManager.shared.uid else { return }
+//        
+//        let documentRef = db.collection(Collections.invitation.rawValue)
+//            .document(uid)
+//        
+//        documentRef.delete()
+//    }
 }

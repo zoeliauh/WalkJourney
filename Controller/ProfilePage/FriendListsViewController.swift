@@ -28,11 +28,13 @@ class FriendListsViewController: UIViewController {
     
     var myID = UserManager.shared.uid
     
-    var friendLists: [String] = [] 
+    var friendLists: [String] = []
     
-    var friendName: [String] = []
+    var friendInfo: [String: User] = [:]
     
-    var friendProfileImage: [String] = [] 
+    var friendID: String = ""
+    
+    var blockLists: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,9 +56,15 @@ class FriendListsViewController: UIViewController {
                 
                 let group = DispatchGroup()
                 
-                guard let lists = friendList.friendLists else { return }
+//                guard let lists = friendList.friendLists else {
+//                    return }
+//
+//                guard let blockLists = friendList.blockLists else {
+//                    return }
+
+                self.friendLists = friendList.friendLists ?? []
                 
-                self.friendLists = lists
+                self.blockLists = friendList.blockLists ?? []
                 
                 for friend in self.friendLists {
                     
@@ -68,17 +76,12 @@ class FriendListsViewController: UIViewController {
                             
                         case .success(let friends):
                             
-                            guard let name = friends.username else { return }
-                            
-                            guard let profileURL = friends.userImageURL else { return }
-                            
-                            self.friendName.append(name)
-                            
-                            self.friendProfileImage.append(profileURL)
-                        
+                            self.friendInfo[friend] = friends
+                                                    
                             group.leave()
                             
                         case .failure(let error):
+                            
                             print("fetcFriendData.failure: \(error)")
                             
                             group.leave()
@@ -96,11 +99,17 @@ class FriendListsViewController: UIViewController {
             }
         }
     }
+    
+    @objc func challengeButtonPressed() {
+        
+        Toast.showSuccess(text: "已發出挑戰")
+    }
 }
 
 extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return friendLists.count
     }
     
@@ -115,12 +124,66 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
             fatalError("can not dequeue collectionViewCell")
         }
         
-        cell.profileImageView.loadImage(friendProfileImage[indexPath.row])
+        friendID = friendLists[indexPath.row]
+        
+        guard let userInfo = friendInfo[friendID] else { return cell }
 
-        cell.friendName.text = friendName[indexPath.row]
+        cell.profileImageView.loadImage(userInfo.userImageURL)
+        
+        cell.friendName.text = userInfo.username
+        
+        cell.challengeButton.addTarget(self, action: #selector(challengeButtonPressed), for: .touchUpInside)
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath,
+                        point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            
+            let blockAction = UIAction(
+                
+                title: "封鎖使用者", image: UIImage(systemName: "person.fill.xmark"),
+                
+                identifier: nil,
+                
+                discoverabilityTitle: nil, attributes: .destructive) { [self]_ in
+                    
+                    let controller = UIAlertController(title: "",
+                                                       message: "確定要將此人加入黑名單嗎?\n一但加入即無法取消唷",
+                                                       preferredStyle: .alert)
+                    
+                    let okAction = UIAlertAction(title: "確定", style: .default) { _ in
+                                                
+                        self.blockLists.append(friendLists[indexPath.row])
+                        
+                        UserManager.shared.updateBlockList(blockLists: blockLists)
+                        
+                        friendLists.remove(at: indexPath.row)
+                        
+                        UserManager.shared.updateFriendList(friendLists: friendLists)
+                        
+                        friendListsCollectionView.reloadData()
+                    }
+                    
+                    let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                    
+                    controller.addAction(okAction)
+                    
+                    controller.addAction(cancelAction)
+                    
+                    present(controller, animated: true, completion: nil)
+                }
+                    
+                    return UIMenu(title: "", image: nil, identifier: nil,
+                                  
+                                  options: UIMenu.Options.displayInline, children: [blockAction]
+                    )
+                }
+            
+            return config
+        }
     
     func setupCollectionView() {
         
