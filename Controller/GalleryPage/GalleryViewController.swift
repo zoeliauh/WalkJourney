@@ -184,6 +184,48 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            
+            let blockAction = UIAction(
+                
+                title: "封鎖使用者", image: UIImage(systemName: "person.fill.xmark"),
+                
+                identifier: nil,
+                
+                discoverabilityTitle: nil, attributes: .destructive) { [self]_ in
+                    
+                    let controller = UIAlertController(title: "",
+                                                       message: "確定要將此人加入黑名單嗎?\n一但加入即無法取消唷",
+                                                       preferredStyle: .alert)
+                    
+                    let okAction = UIAlertAction(title: "確定", style: .default) { _ in
+
+                        self.blockLists.append(publicPosts[indexPath.row].uid)
+
+                        UserManager.shared.updateBlockList(blockLists: blockLists)
+
+                        gpsArtTableView.reloadData()
+                    }
+                    
+                    let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
+                    
+                    controller.addAction(okAction)
+
+                    controller.addAction(cancelAction)
+                    
+                    present(controller, animated: true, completion: nil)
+                }
+            
+            return UIMenu(title: "", image: nil, identifier: nil,
+                          
+                          options: UIMenu.Options.displayInline, children: [blockAction]
+            )
+        }
+        
+        return config
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let navZoomInvc = UIStoryboard.gallery.instantiateViewController(
