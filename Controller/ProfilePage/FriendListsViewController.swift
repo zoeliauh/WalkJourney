@@ -56,12 +56,6 @@ class FriendListsViewController: UIViewController {
                 
                 let group = DispatchGroup()
                 
-//                guard let lists = friendList.friendLists else {
-//                    return }
-//
-//                guard let blockLists = friendList.blockLists else {
-//                    return }
-
                 self.friendLists = friendList.friendLists ?? []
                 
                 self.blockLists = friendList.blockLists ?? []
@@ -77,7 +71,7 @@ class FriendListsViewController: UIViewController {
                         case .success(let friends):
                             
                             self.friendInfo[friend] = friends
-                                                    
+                            
                             group.leave()
                             
                         case .failure(let error):
@@ -93,7 +87,7 @@ class FriendListsViewController: UIViewController {
                     friendListsCollectionView.delegate = self
                     friendListsCollectionView.reloadData()
                 }
-                    
+                
             case .failure(let error):
                 print("fetchFriendList.failure: \(error)")
             }
@@ -101,8 +95,8 @@ class FriendListsViewController: UIViewController {
     }
     
     @objc func challengeButtonPressed(_ sender: UIButton) {
-    
-        Toast.showSuccess(text: "已發出挑戰")
+        
+        Toast.showSuccess(text: "建置中")
         
         guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
             withIdentifier: "FunnyMapPage"
@@ -133,7 +127,7 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
         friendID = friendLists[indexPath.row]
         
         guard let userInfo = friendInfo[friendID] else { return cell }
-
+        
         cell.profileImageView.loadImage(userInfo.userImageURL)
         
         cell.friendName.text = userInfo.username
@@ -161,7 +155,7 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
                                                        preferredStyle: .alert)
                     
                     let okAction = UIAlertAction(title: "確定", style: .default) { _ in
-                                                
+                        
                         self.blockLists.append(friendLists[indexPath.row])
                         
                         UserManager.shared.updateBlockList(blockLists: blockLists)
@@ -181,15 +175,15 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
                     
                     present(controller, animated: true, completion: nil)
                 }
-                    
-                    return UIMenu(title: "", image: nil, identifier: nil,
-                                  
-                                  options: UIMenu.Options.displayInline, children: [blockAction]
-                    )
-                }
             
-            return config
+            return UIMenu(title: "", image: nil, identifier: nil,
+                          
+                          options: UIMenu.Options.displayInline, children: [blockAction]
+            )
         }
+        
+        return config
+    }
     
     func setupCollectionView() {
         
