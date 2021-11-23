@@ -7,6 +7,7 @@
 
 import UIKit
 import Lottie
+import Kingfisher
 
 class GalleryViewController: UIViewController {
     
@@ -78,10 +79,33 @@ class GalleryViewController: UIViewController {
         ]
     }
     
+    func deletePublicPost(indexPath: IndexPath) {
+        
+        guard let createdTime = publicPosts[indexPath.row].createdTime else { return }
+        
+        if UserManager.shared.uid == publicPosts[indexPath.row].uid {
+            
+            PublicPostManager.shared.deletePersonalPost(createdTime: createdTime)
+            publicPosts.remove(at: indexPath.row)
+            gpsArtTableView.deleteRows(at: [indexPath], with: .fade)
+        } else {
+            
+            let controller = UIAlertController(title: "",
+                                               message: "只能刪除自己的貼文",
+                                               preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "確定", style: .default)
+            
+            controller.addAction(okAction)
+            
+            present(controller, animated: true, completion: nil)
+        }
+    }
+    
     private func fetchAllPublicPostInfo() {
         
         guard let myID = myID else { return }
-                
+        
         UserManager.shared.fetchUserInfo(uesrID: myID) { [self] result in
             
             switch result {
@@ -97,7 +121,7 @@ class GalleryViewController: UIViewController {
                     case .success(let publicPosts):
                         
                         let group = DispatchGroup()
-                                                
+                        
                         self.publicPosts = []
                         
                         for index in publicPosts where blockLists.contains(index.uid) == false {
@@ -175,7 +199,8 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.userNameLabel.text = userInfo.username
         
-        cell.profileImageView.loadImage(userInfo.userImageURL, placeHolder: UIImage(systemName: "person.crop.circle"))
+        cell.profileImageView.loadImage(
+            userInfo.userImageURL, placeHolder: UIImage(systemName: "person.crop.circle"))
         
         cell.selectionStyle = .none
         
@@ -184,7 +209,28 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView,
+                   editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            tableView.beginUpdates()
+            
+            deletePublicPost(indexPath: indexPath)
+            
+            tableView.endUpdates()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
         let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             
             let blockAction = UIAction(
@@ -200,18 +246,18 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
                                                        preferredStyle: .alert)
                     
                     let okAction = UIAlertAction(title: "確定", style: .default) { _ in
-
+                        
                         self.blockLists.append(publicPosts[indexPath.row].uid)
-
+                        
                         UserManager.shared.updateBlockList(blockLists: blockLists)
-
+                        
                         gpsArtTableView.reloadData()
                     }
                     
                     let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
                     
                     controller.addAction(okAction)
-
+                    
                     controller.addAction(cancelAction)
                     
                     present(controller, animated: true, completion: nil)
