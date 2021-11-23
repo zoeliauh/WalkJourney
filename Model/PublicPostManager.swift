@@ -76,4 +76,21 @@ class PublicPostManager {
             }
         }
     }
+    // delete personal post
+    func deletePersonalPost(createdTime: Int64) {
+        
+        guard let uid = UserManager.shared.uid else { return }
+        
+        db.collection(Collections.publicPost.rawValue)
+            .whereField("uid", isEqualTo: uid)
+            .whereField("createdTime", isEqualTo: createdTime)
+            .getDocuments { snapshot, error in
+                
+                guard let snapshot = snapshot else { return }
+                
+                snapshot.documents.forEach { snapshot in
+                    snapshot.reference.delete()
+                }
+            }
+    }
 }
