@@ -33,6 +33,14 @@ class DetailRecordViewController: UIViewController {
         return button
     }()
 
+    lazy var coverImageView: UIImageView = {
+        
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 20
+        imageView.layer.backgroundColor = UIColor.systemGray5.cgColor
+        return imageView
+    }()
+    
     lazy var walkTimeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -102,6 +110,7 @@ class DetailRecordViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         tabbarHeight = self.tabBarController?.tabBar.frame.height
         setuptrackingMapView()
+        setupCoverImageView()
         setupLogoImageView()
         setupWalkDistanceLabel()
         setupWalkStepLabel()
@@ -201,6 +210,22 @@ extension DetailRecordViewController {
         moreButton.addTarget(self, action: #selector(popMore), for: .touchUpInside)
     }
     
+    private func setupCoverImageView() {
+        
+        view.addSubview(coverImageView)
+        
+        coverImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            coverImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            coverImageView.bottomAnchor.constraint(equalTo: trackingMapView.bottomAnchor, constant: -75),
+            coverImageView.heightAnchor.constraint(equalToConstant: 120),
+            coverImageView.widthAnchor.constraint(equalToConstant: 150)
+        
+        ])
+    }
+    
     private func setupLogoImageView() {
         
         view.addSubview(logoImageView)
@@ -210,7 +235,7 @@ extension DetailRecordViewController {
         NSLayoutConstraint.activate([
         
             logoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 90),
-            logoImageView.bottomAnchor.constraint(equalTo: trackingMapView.bottomAnchor, constant: -60),
+            logoImageView.bottomAnchor.constraint(equalTo: trackingMapView.bottomAnchor, constant: -80),
             logoImageView.heightAnchor.constraint(equalToConstant: 70),
             logoImageView.widthAnchor.constraint(equalToConstant: 70)
         
@@ -255,7 +280,7 @@ extension DetailRecordViewController {
         NSLayoutConstraint.activate([
             
             walkDistanceLabel.leadingAnchor.constraint(equalTo: trackingMapView.leadingAnchor, constant: 30),
-            walkDistanceLabel.bottomAnchor.constraint(equalTo: trackingMapView.bottomAnchor, constant: -80),
+            walkDistanceLabel.bottomAnchor.constraint(equalTo: trackingMapView.bottomAnchor, constant: -100),
             walkDistanceLabel.widthAnchor.constraint(equalToConstant: 200)
         ])
     }

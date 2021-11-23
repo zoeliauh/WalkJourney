@@ -307,8 +307,8 @@ extension GoogleArtViewController {
         
         NSLayoutConstraint.activate([
         
-            routeSampleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            routeSampleImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
+            routeSampleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -50),
+            routeSampleImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
             routeSampleImageView.widthAnchor.constraint(equalToConstant: 150),
             routeSampleImageView.heightAnchor.constraint(equalToConstant: 150)
         ])
