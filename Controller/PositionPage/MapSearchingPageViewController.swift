@@ -29,8 +29,8 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     lazy var startButton: UIButton = {
         
         let button = UIButton()
-        button.setTitle("開始囉", for: .normal)
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
+        button.setTitle(String.letsGo, for: .normal)
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
         button.backgroundColor = UIColor.C4
         button.layer.cornerRadius = 20
         button.layer.shadowOpacity = 0.3
@@ -60,7 +60,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     @objc func startButtonPressed(_ sender: UIButton) {
     
         guard let startToWalkPagevc = UIStoryboard.position.instantiateViewController(
-            withIdentifier: "StartToWalkPage"
+            withIdentifier: String(describing: StartToWalkPageViewController.self)
         ) as? StartToWalkPageViewController else { return }
 
         let navvc = UINavigationController(rootViewController: startToWalkPagevc)

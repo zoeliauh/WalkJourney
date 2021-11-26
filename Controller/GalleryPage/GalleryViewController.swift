@@ -25,7 +25,7 @@ class GalleryViewController: UIViewController {
     lazy var animationView: AnimationView = {
         
         var animationView = AnimationView()
-        animationView = .init(name: "loading")
+        animationView = .init(name: String.loading)
         animationView.animationSpeed = 1
         animationView.layoutIfNeeded()
         return animationView
@@ -106,7 +106,7 @@ class GalleryViewController: UIViewController {
         
         guard let myID = myID else { return }
         
-        UserManager.shared.fetchUserInfo(uesrID: myID) { [self] result in
+        UserManager.shared.fetchUserInfo(userID: myID) { [self] result in
             
             switch result {
                 
@@ -135,7 +135,7 @@ class GalleryViewController: UIViewController {
                             
                             group.enter()
                             
-                            UserManager.shared.fetchUserInfo(uesrID: post.uid) { result in
+                            UserManager.shared.fetchUserInfo(userID: post.uid) { result in
                                 
                                 switch result {
                                     
@@ -175,7 +175,6 @@ class GalleryViewController: UIViewController {
     }
 }
 
-// MARK: - tableViewDelegate, tableViewDataSource
 extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -229,7 +228,10 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint
+    ) -> UIContextMenuConfiguration? {
         
         let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             
@@ -275,7 +277,7 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let navZoomInvc = UIStoryboard.gallery.instantiateViewController(
-            withIdentifier: "ZoomIn"
+            withIdentifier: String(describing: ZoomInViewController.self)
         ) as? ZoomInViewController else { return }
         
         navZoomInvc.screenshotURL = publicPosts[indexPath.row].screenshotURL

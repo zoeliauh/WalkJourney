@@ -7,17 +7,27 @@
 
 import UIKit
 
+private enum WJFontName: String {
+
+    case regular = "KleeOne-Regular"
+    
+    case semiBold = "KleeOne-SemiBold"
+}
+
 extension UIFont {
 
-    class func yomogiRegular(ofSize size: CGFloat) -> UIFont {
-        return UIFont(name: "Yomogi-Regular", size: size)!
+    static func regular(size: CGFloat) -> UIFont? {
+
+        return WJFont(.regular, size: size)
     }
     
-    class func kleeOneRegular(ofSize size: CGFloat) -> UIFont {
-        return UIFont(name: "KleeOne-Regular", size: size)!
+    static func semiBold(size: CGFloat) -> UIFont? {
+        
+        return WJFont(.semiBold, size: size)
     }
     
-    class func kleeOneSemiBold(ofSize size: CGFloat) -> UIFont {
-        return UIFont(name: "KleeOne-SemiBold", size: size)!
+    private static func WJFont(_ font: WJFontName, size: CGFloat) -> UIFont? {
+
+        return UIFont(name: font.rawValue, size: size)
     }
 }

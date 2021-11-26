@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8TT-SO-JXO">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -79,7 +79,7 @@
         <!--Map Searching Page View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="MapSearchingPage" id="Y6W-OH-hqX" customClass="MapSearchingPageViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapSearchingPageViewController" id="Y6W-OH-hqX" customClass="MapSearchingPageViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -128,7 +128,7 @@
         <!--Funny Map View Controller-->
         <scene sceneID="7FC-bM-xcy">
             <objects>
-                <viewController storyboardIdentifier="FunnyMapPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kIq-hR-ij9" customClass="FunnyMapViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FunnyMapViewController" id="kIq-hR-ij9" customClass="FunnyMapViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dbJ-5G-yaE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -143,7 +143,7 @@
         <!--Google Art View Controller-->
         <scene sceneID="umQ-tf-Lxg">
             <objects>
-                <viewController storyboardIdentifier="GoogleArtPage" id="DSy-jc-EUC" customClass="GoogleArtViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GoogleArtViewController" id="DSy-jc-EUC" customClass="GoogleArtViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nhh-WS-C7L">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -265,7 +265,7 @@
         <!--Start To Walk Page View Controller-->
         <scene sceneID="IEr-bq-59k">
             <objects>
-                <viewController storyboardIdentifier="StartToWalkPage" id="4fA-nj-M0o" customClass="StartToWalkPageViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StartToWalkPageViewController" id="4fA-nj-M0o" customClass="StartToWalkPageViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oub-Co-knQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -469,9 +469,6 @@
             <point key="canvasLocation" x="1173.913043478261" y="54.910714285714285"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="WWD-Va-x7a"/>
-    </designables>
     <resources>
         <image name="loginIcon" width="220.5" height="221.5"/>
         <namedColor name="C1">

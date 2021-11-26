@@ -90,7 +90,7 @@ class RecordCatagoryViewController: UIViewController {
     lazy var pullImageView: UIImageView = {
         
         var imageView = UIImageView()
-        imageView.image = UIImage(named: "Icon_pull")
+        imageView.image = UIImage.asset(.pullIcon)
         
         return imageView
     }()
@@ -145,7 +145,7 @@ class RecordCatagoryViewController: UIViewController {
     lazy var pushButton: UIButton = {
         
         var button = UIButton()
-        button.setImage(UIImage(named: "Icon_push"), for: .normal)
+        button.setImage(UIImage.asset(.pushIcon), for: .normal)
         button.addTarget(self, action: #selector(pushToMonthChartVC(_:)), for: .touchUpInside)
         
         return button
@@ -153,7 +153,7 @@ class RecordCatagoryViewController: UIViewController {
     
     lazy var recordSegmentedControl: UISegmentedControl = {
         
-        let items = ["漫遊足跡", "挑戰地圖"]
+        let items = [String.freeWalk, String.challengeMap]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = UIColor.systemGray6
@@ -173,7 +173,7 @@ class RecordCatagoryViewController: UIViewController {
     lazy var animationView: AnimationView = {
         
         var animationView = AnimationView()
-        animationView = .init(name: "loading")
+        animationView = .init(name: String.loading)
         animationView.animationSpeed = 1
         animationView.layoutIfNeeded()
         return animationView
@@ -205,7 +205,7 @@ class RecordCatagoryViewController: UIViewController {
     @objc func pushToMonthChartVC(_ sender: UIButton!) {
         
         guard let monthChartViewController = UIStoryboard.record.instantiateViewController(
-            withIdentifier: "MonthChartViewController"
+            withIdentifier: String(describing: MonthChartViewController.self)
         ) as? MonthChartViewController else { return }
         
         monthChartViewController.selectedYear = selectedYear
@@ -238,7 +238,6 @@ class RecordCatagoryViewController: UIViewController {
         }
     }
     
-    // MARK: - fetch record steps data
     func fetchRecordStepsData() {
         
         setupLottie()

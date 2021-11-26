@@ -13,7 +13,7 @@ class DetailRecordViewController: UIViewController {
     lazy var logoImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "loginIcon")
+        imageView.image = UIImage.asset(.loginIcon)
         imageView.layer.cornerRadius = 30
         imageView.transform.rotated(by: 130)
         return imageView
@@ -22,14 +22,14 @@ class DetailRecordViewController: UIViewController {
     lazy var popButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(named: "backIcon"), for: .normal)
+        button.setImage(UIImage.asset(.backIcon), for: .normal)
         return button
     }()
     
     lazy var moreButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(named: "more2"), for: .normal)
+        button.setImage(UIImage.asset(.moreIcon), for: .normal)
         return button
     }()
 
@@ -44,7 +44,7 @@ class DetailRecordViewController: UIViewController {
     lazy var walkTimeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneSemiBold(ofSize: 20)
+        label.font = UIFont.semiBold(size: 20)
         label.text = walkTime
         label.textAlignment = .left
         label.layoutIfNeeded()
@@ -54,7 +54,7 @@ class DetailRecordViewController: UIViewController {
     lazy var walkStepLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneSemiBold(ofSize: 20)
+        label.font = UIFont.semiBold(size: 20)
         label.text = "走了 \(walkStep ?? 0) 步"
         label.textAlignment = .left
         label.layoutIfNeeded()
@@ -64,7 +64,7 @@ class DetailRecordViewController: UIViewController {
     lazy var walkDistanceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneSemiBold(ofSize: 20)
+        label.font = UIFont.semiBold(size: 20)
         label.text = walkDistance
         label.textAlignment = .left
         label.layoutIfNeeded()
@@ -136,6 +136,16 @@ class DetailRecordViewController: UIViewController {
             self.popButton.isHidden = false
             self.moreButton.isHidden = false
         }
+        
+        if let popoverController = controller.popoverPresentationController {
+
+                    popoverController.sourceView = self.view
+                    popoverController.sourceRect = CGRect(
+                        x: self.view.bounds.midX, y: self.view.bounds.midY,
+                        width: 0, height: 0
+                    )
+                    popoverController.permittedArrowDirections = []
+                }
         
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         controller.addAction(downloadAction)

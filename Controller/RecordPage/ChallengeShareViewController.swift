@@ -12,14 +12,14 @@ class ChallengeShareViewController: UIViewController {
     lazy var popButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(named: "backIcon"), for: .normal)
+        button.setImage(UIImage.asset(.backIcon), for: .normal)
         return button
     }()
     
-    lazy var moreButton: UIButton = {
+    lazy var shareButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(named: "share"), for: .normal)
+        button.setImage(UIImage.asset(.share), for: .normal)
         return button
     }()
     
@@ -43,7 +43,7 @@ class ChallengeShareViewController: UIViewController {
                 
         setupScreenshotImageView()
         setUpBackButton()
-        setUpMoreButton()
+        setUpShareButton()
     }
     
     @objc func popBack() {
@@ -55,16 +55,27 @@ class ChallengeShareViewController: UIViewController {
         
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let names = ["儲存至相簿", "分享至社群"]
+        
+        if let popoverController = controller.popoverPresentationController {
+
+                    popoverController.sourceView = self.view
+                    popoverController.sourceRect = CGRect(
+                        x: self.view.bounds.midX, y: self.view.bounds.midY,
+                        width: 0, height: 0
+                    )
+                    popoverController.permittedArrowDirections = []
+                }
+        
         for name in names {
-           let action = UIAlertAction(title: name, style: .default) { action in
+           let action = UIAlertAction(title: name, style: .default) { _ in
                if name == "儲存至相簿" {
                    self.popButton.isHidden = true
-                   self.moreButton.isHidden = true
+                   self.shareButton.isHidden = true
                    let screenshotImage = self.view.takeScreenshot()
                    UIImageWriteToSavedPhotosAlbum(screenshotImage, nil, nil, nil)
                    Toast.showSuccess(text: "已下載")
                    self.popButton.isHidden = false
-                   self.moreButton.isHidden = false
+                   self.shareButton.isHidden = false
                } else {
                    self.createNewPost()
                    Toast.showSuccess(text: "已分享")
@@ -117,21 +128,21 @@ extension ChallengeShareViewController {
         popButton.addTarget(self, action: #selector(popBack), for: .touchUpInside)
     }
     
-    private func setUpMoreButton() {
+    private func setUpShareButton() {
                 
-        view.addSubview(moreButton)
+        view.addSubview(shareButton)
         
-        moreButton.translatesAutoresizingMaskIntoConstraints = false
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
-            moreButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-            moreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            moreButton.heightAnchor.constraint(equalToConstant: 40),
-            moreButton.widthAnchor.constraint(equalToConstant: 40)
+            shareButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            shareButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            shareButton.heightAnchor.constraint(equalToConstant: 40),
+            shareButton.widthAnchor.constraint(equalToConstant: 40)
         ])
         
-        moreButton.addTarget(self, action: #selector(popMore), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(popMore), for: .touchUpInside)
     }
 
     private func setupScreenshotImageView() {

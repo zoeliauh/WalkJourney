@@ -23,7 +23,7 @@ class MonthChartViewController: UIViewController {
     lazy var popButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(named: "backIcon"), for: .normal)
+        button.setImage(UIImage.asset(.backIcon), for: .normal)
         return button
     }()
     
@@ -103,9 +103,7 @@ class MonthChartViewController: UIViewController {
             for items in stepDataArr {
                 
                 let walkDay = dateFormatDay.string(from: Date.init(milliseconds: items.createdTime ?? Int64(0.0)))
-                
-                //            print("\(items.date) walk \(items.numberOfSteps) at \(walkDay)" )
-                
+                                
                 stepsDic[walkDay, default: 0] += items.numberOfSteps
             }
             

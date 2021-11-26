@@ -55,7 +55,7 @@ class ChallengeViewController: UIViewController {
     @objc func navDetailRecordVC(_ sender: UIButton) {
 
         guard let challengeShareVC = UIStoryboard.record.instantiateViewController(
-            withIdentifier: "ChallengeShare"
+            withIdentifier: String(describing: ChallengeShareViewController.self)
         ) as? ChallengeShareViewController else { return }
         
         challengeShareVC.screenshotURL = stepData[sender.tag].screenshot
@@ -121,7 +121,7 @@ class ChallengeViewController: UIViewController {
         ])
     }
 }
-// MARK: - UITableViewDelegate, UITableViewDataSource
+
 extension ChallengeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -159,7 +159,7 @@ extension ChallengeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let challengeShareVC = UIStoryboard.record.instantiateViewController(
-            withIdentifier: "ChallengeShare"
+            withIdentifier: String(describing: ChallengeShareViewController.self)
         ) as? ChallengeShareViewController else { return }
         
         challengeShareVC.screenshotURL = stepData[indexPath.row].screenshot

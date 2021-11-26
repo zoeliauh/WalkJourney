@@ -48,7 +48,7 @@ class FriendListsViewController: UIViewController {
         
         guard let myID = myID else { return }
         
-        UserManager.shared.fetchUserInfo(uesrID: myID) { [self] result in
+        UserManager.shared.fetchUserInfo(userID: myID) { [self] result in
             
             switch result {
                 
@@ -64,7 +64,7 @@ class FriendListsViewController: UIViewController {
                     
                     group.enter()
                     
-                    UserManager.shared.fetchUserInfo(uesrID: friend) { result in
+                    UserManager.shared.fetchUserInfo(userID: friend) { result in
                         
                         switch result {
                             
@@ -99,7 +99,7 @@ class FriendListsViewController: UIViewController {
         Toast.showSuccess(text: "建置中")
         
         guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
-            withIdentifier: "FunnyMapPage"
+            withIdentifier: String(describing: FunnyMapViewController.self)
         ) as? FunnyMapViewController else { return }
         
         self.navigationController?.pushViewController(funnyMapPagevc, animated: true)

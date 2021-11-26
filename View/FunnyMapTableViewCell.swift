@@ -19,8 +19,8 @@ class FunnyMapTableViewCell: UITableViewCell {
     lazy var goButton: UIButton = {
         
         let button = UIButton()
-        button.setTitle("挑戰開始", for: .normal)
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
+        button.setTitle(String.challengeStart, for: .normal)
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
         button.backgroundColor = UIColor.C4
         button.layer.cornerRadius = 20
         button.layer.shadowOpacity = 0.3

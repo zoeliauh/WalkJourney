@@ -4,8 +4,6 @@
 //
 //  Created by woanjwu liauh on 2021/10/22.
 //
-// swiftlint:disable line_length
-// swiftlint:disable function_parameter_count
 
 import Foundation
 import Firebase
@@ -19,7 +17,6 @@ class RecordManager {
     
     lazy var db = Firestore.firestore()
     
-    // read
     func fetchRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
         guard let uid = UserManager.shared.uid else { return }
@@ -54,7 +51,6 @@ class RecordManager {
             }
     }
     
-    // read certain day data
     func fetchDateRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
         guard let uid = UserManager.shared.uid else { return }
@@ -88,7 +84,6 @@ class RecordManager {
             }
     }
     
-    // read certain month data
     func fetchMonthRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
         guard let uid = UserManager.shared.uid else { return }
@@ -109,9 +104,9 @@ class RecordManager {
                     for document in querySnapshot.documents {
                         
                         do {
+                            
                             if let stepData = try document.data(as: StepData.self, decoder: Firestore.Decoder()) {
                                 stepDatas.append(stepData)
-                                //                            print(stepDatas)
                             }
                         } catch {
                             
@@ -122,7 +117,7 @@ class RecordManager {
                 }
             }
     }
-    // read certain year data
+
     func fetchYearRecord(calenderDay: String, completion: @escaping(Result<[StepData], Error>) -> Void) {
         
         guard let uid = UserManager.shared.uid else { return }
@@ -155,7 +150,7 @@ class RecordManager {
                 }
             }
     }
-    // fetch walkbyselfRecord
+
     func fetchWalkBySelfRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
         guard let uid = UserManager.shared.uid else { return }
@@ -190,7 +185,6 @@ class RecordManager {
             }
     }
     
-    // fetch challengeRecord
     func fetchChallengeRecord(completion: @escaping(Result<[StepData], Error>) -> Void) {
         
         guard let uid = UserManager.shared.uid else { return }
@@ -226,8 +220,12 @@ class RecordManager {
             }
     }
     
-    // create
-    func addNewRecord(distanceWalk: String, durationTime: String, numStep: Int, latitude: [CLLocationDegrees], longitude: [CLLocationDegrees], date: String, year: String, month: String, screenshot: UIImageView, completion: @escaping(Result<String, Error>) -> Void) {
+    func addNewRecord(
+        distanceWalk: String, durationTime: String, numStep: Int,
+        latitude: [CLLocationDegrees], longitude: [CLLocationDegrees],
+        date: String, year: String, month: String, screenshot: UIImageView,
+        completion: @escaping(Result<String, Error>) -> Void
+    ) {
         
         let today = Date()
         let formatterDate = DateFormatter()
@@ -275,14 +273,14 @@ class RecordManager {
         
         if let uploadData = imageView.image?.jpegData(compressionQuality: 0.5) {
             
-            storageRef.putData(uploadData, metadata: nil) { (metadata, error) in
+            storageRef.putData(uploadData, metadata: nil) { (metadata, _) in
                 
-                guard let metadata = metadata else {
+                guard metadata != nil else {
                     completion("")
                     return
                 }
                 
-                storageRef.downloadURL(completion: { (url, error) in
+                storageRef.downloadURL(completion: { (url, _) in
                     
                     guard let downloadURL = url else {
                         completion("")
@@ -296,7 +294,7 @@ class RecordManager {
             completion("")
         }
     }
-    // delete
+
     func deleteRecord(createdTime: Int64) {
         
         guard let uid = UserManager.shared.uid else { return }
@@ -304,7 +302,7 @@ class RecordManager {
         db.collection(Collections.stepData.rawValue)
             .whereField("id", isEqualTo: uid)
             .whereField("createdTime", isEqualTo: createdTime)
-            .getDocuments { snapshot, error in
+            .getDocuments { snapshot, _ in
                 
                 guard let snapshot = snapshot else { return }
                 

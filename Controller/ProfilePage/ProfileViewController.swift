@@ -16,8 +16,8 @@ class ProfileViewController: UIViewController {
         
         let textfield = UITextField()
         textfield.text = nil
-        textfield.placeholder = "輸入使用者名稱"
-        textfield.font = UIFont.kleeOneRegular(ofSize: 22)
+        textfield.placeholder = String.enterTextFieldPlaceholder
+        textfield.font = UIFont.regular(size: 22)
         textfield.textAlignment = .left
         textfield.textColor = .black
         textfield.layer.cornerRadius = 20
@@ -29,7 +29,7 @@ class ProfileViewController: UIViewController {
     lazy var editButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(systemName: "pencil"), for: .normal)
+        button.setImage(UIImage.system(.pencil), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.imageEdgeInsets = UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25)
         return button
@@ -38,14 +38,14 @@ class ProfileViewController: UIViewController {
     lazy var settingButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(named: "settingIcon"), for: .normal)
+        button.setImage(UIImage.asset(.settingIcon), for: .normal)
         return button
     }()
     
     lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.loadImage(eventUrlString, placeHolder: UIImage(systemName: "plus.circle.fill"))
+        imageView.loadImage(eventUrlString, placeHolder: UIImage.system(.personPlacehloder))
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.borderColor = UIColor.white.cgColor
@@ -55,7 +55,7 @@ class ProfileViewController: UIViewController {
     
     lazy var newPhotoButton: UIButton = {
         let newPhotoButton = UIButton(type: .system)
-        newPhotoButton.setImage(UIImage(systemName: "camera.fill"), for: .normal)
+        newPhotoButton.setImage(UIImage.system(.cameraFill), for: .normal)
         newPhotoButton.tintColor = UIColor.C1
         newPhotoButton.layer.masksToBounds = true
         newPhotoButton.addTarget(self, action: #selector(newPhoto), for: .touchUpInside)
@@ -66,7 +66,7 @@ class ProfileViewController: UIViewController {
         
         let button = UIButton()
         configButton(button)
-        button.setTitle("好友邀請", for: .normal)
+        button.setTitle(String.friendInvited, for: .normal)
         button.addTarget(self, action: #selector(invitedPressed(_:)), for: .touchUpInside)
         return button
     }()
@@ -75,7 +75,7 @@ class ProfileViewController: UIViewController {
         
         let button = UIButton()
         configButton(button)
-        button.setTitle("好友名單", for: .normal)
+        button.setTitle(String.friendLists, for: .normal)
         button.addTarget(self, action: #selector(firendListsPressed(_:)), for: .touchUpInside)
         return button
     }()
@@ -84,7 +84,7 @@ class ProfileViewController: UIViewController {
         
         let button = UIButton()
         configButton(button)
-        button.setTitle("黑名單", for: .normal)
+        button.setTitle(String.blockLists, for: .normal)
         button.addTarget(self, action: #selector(blockListsPressed(_:)), for: .touchUpInside)
         return button
     }()
@@ -92,14 +92,12 @@ class ProfileViewController: UIViewController {
     lazy var animationView: AnimationView = {
         
         var animationView = AnimationView()
-        animationView = .init(name: "loading")
+        animationView = .init(name: String.loading)
         animationView.animationSpeed = 1
         animationView.layoutIfNeeded()
         return animationView
     }()
-    
-    var tabbarHeight: CGFloat? = 0.0
-    
+        
     var userInfo: User?
     
     var eventUrlString = String()
@@ -124,10 +122,6 @@ class ProfileViewController: UIViewController {
     
     let storage = Storage.storage().reference()
     
-    var friendListsArray: [String] = []
-    
-    var blockListsArray: [String] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -135,7 +129,7 @@ class ProfileViewController: UIViewController {
         let searchController = UISearchController(searchResultsController: UserSearchViewController())
         searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
-        navigationItem.searchController?.searchBar.placeholder = "請搜尋好友名稱"
+        navigationItem.searchController?.searchBar.placeholder = String.searchFriendName
         
         fetchUserInfo()
         setupProfileImageView()
@@ -149,9 +143,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        tabbarHeight = self.tabBarController?.tabBar.frame.height
-        
+                
         profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
         
         profileImageView.layer.masksToBounds = true
@@ -167,14 +159,13 @@ class ProfileViewController: UIViewController {
         showImagePickerControllerActionSheet()
     }
     
-    // fetch certain user Data
     func fetchUserInfo() {
                 
         let group = DispatchGroup()
         
         guard let uid = UserManager.shared.uid else { return }
         
-        UserManager.shared.fetchUserInfo(uesrID: uid) { [weak self] result in
+        UserManager.shared.fetchUserInfo(userID: uid) { [weak self] result in
             
             group.enter()
             
@@ -205,7 +196,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func configButton(_ button: UIButton) {
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
         button.backgroundColor = UIColor.C4
         button.tintColor = UIColor.white
         button.clipsToBounds = true
@@ -219,7 +210,7 @@ class ProfileViewController: UIViewController {
     @objc func settingButtonPressed(_ sender: UIButton) {
         
         guard let settingVC = UIStoryboard.profile.instantiateViewController(
-            withIdentifier: "SettingVC"
+            withIdentifier: String(describing: SettingViewController.self)
         ) as? SettingViewController else { return }
         
         self.present(settingVC, animated: true, completion: nil)
@@ -239,7 +230,7 @@ class ProfileViewController: UIViewController {
     @objc func invitedPressed(_ sender: UIButton) {
         
         guard let invitationVC = UIStoryboard.profile.instantiateViewController(
-            withIdentifier: "InvitationViewController"
+            withIdentifier: String(describing: InvitationViewController.self)
         ) as? InvitationViewController else { return }
 
         self.present(invitationVC, animated: true, completion: nil)
@@ -248,7 +239,7 @@ class ProfileViewController: UIViewController {
     @objc func firendListsPressed(_ sender: UIButton) {
         
         guard let firendListsVC = UIStoryboard.profile.instantiateViewController(
-            withIdentifier: "FriendListsViewController"
+            withIdentifier: String(describing: FriendListsViewController.self)
         ) as? FriendListsViewController else { return }
 
         self.present(firendListsVC, animated: true, completion: nil)
@@ -257,7 +248,7 @@ class ProfileViewController: UIViewController {
     @objc func blockListsPressed(_ sender: UIButton) {
         
         guard let blockListsVC = UIStoryboard.profile.instantiateViewController(
-            withIdentifier: "BlockListsViewController"
+            withIdentifier: String(describing: BlockListsViewController.self)
         ) as? BlockListsViewController else { return }
 
         self.present(blockListsVC, animated: true, completion: nil)
@@ -265,7 +256,7 @@ class ProfileViewController: UIViewController {
     
     @objc func funnyMapGame(_ sender: UIButton!) {
         guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
-            withIdentifier: "FunnyMapPage"
+            withIdentifier: String(describing: FunnyMapViewController.self)
         ) as? FunnyMapViewController else { return }
         
         self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
@@ -276,11 +267,11 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     
     func showImagePickerControllerActionSheet() {
         let actionSheet = UIAlertController(
-            title: "Attach Photo",
-            message: "where would you like to attach a photo from",
+            title: String.cameraTitle,
+            message: String.cameraMessage,
             preferredStyle: .actionSheet
         )
-        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: String.camera, style: .default, handler: { [weak self] _ in
             
             let picker = UIImagePickerController()
             picker.sourceType = .camera
@@ -290,7 +281,18 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { [weak self] _ in
+        if let popoverController = actionSheet.popoverPresentationController {
+
+                    popoverController.sourceView = self.view
+                    popoverController.sourceRect = CGRect(
+                        x: self.view.bounds.midX, y: self.view.bounds.midY,
+                        width: 0, height: 0
+                    )
+            
+                    popoverController.permittedArrowDirections = []
+                }
+        
+        actionSheet.addAction(UIAlertAction(title: String.photoLibrary, style: .default, handler: { [weak self] _ in
             
             let picker = UIImagePickerController()
             picker.sourceType = .photoLibrary
@@ -300,7 +302,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: String.cancel, style: .cancel, handler: nil))
         
         present(actionSheet, animated: true)
     }
@@ -348,7 +350,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 }
 
-// MARK: - UISearchResultsUpdating
 extension ProfileViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {

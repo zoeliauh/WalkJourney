@@ -14,7 +14,7 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
     lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "person.crop.circle")
+        imageView.image = UIImage.system(.personPlacehloder)
         imageView.layer.cornerRadius = 10
         return imageView
     }()
@@ -24,7 +24,7 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "who are you"
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 17)
+        label.font = UIFont.regular(size: 17)
         label.textAlignment = .left
         label.numberOfLines = 3
         return label
@@ -71,7 +71,7 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
 
     private func buttonConfig(_ button: UIButton) {
         
-        button.titleLabel?.font = UIFont.kleeOneRegular(ofSize: 15)
+        button.titleLabel?.font = UIFont.regular(size: 15)
         button.backgroundColor = UIColor.C4
         button.layer.cornerRadius = 10
         button.layer.shadowOpacity = 0.3

@@ -65,7 +65,8 @@ extension FunnyMapViewController: UITableViewDelegate, UITableViewDataSource {
   
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = funnyMapTableView.dequeueReusableCell(
-            withIdentifier: "FunnyMapTableViewCell", for: indexPath
+            withIdentifier: FunnyMapTableViewCell.identifier,
+            for: indexPath
         ) as? FunnyMapTableViewCell else { fatalError("can not dequeue cell") }
         
         cell.shapeImageView.image = shapeMapExample.shapeArr[indexPath.row]
@@ -81,7 +82,7 @@ extension FunnyMapViewController: UITableViewDelegate, UITableViewDataSource {
     
     @objc func goButtonPressed(_ sender: UIButton!) {
         guard let googleArtPagevc = UIStoryboard.position.instantiateViewController(
-            withIdentifier: "GoogleArtPage"
+            withIdentifier: String(describing: GoogleArtViewController.self)
         ) as? GoogleArtViewController else { return }
         
         googleArtPagevc.routeSampleImageView.image = shapeMapExample.lineArr[sender.tag]

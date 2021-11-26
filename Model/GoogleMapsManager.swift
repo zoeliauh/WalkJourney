@@ -38,7 +38,9 @@ struct GoogleMapsManager {
         
         guard let lastLocation: CLLocation = locations.last else { return }
                     
-        let zoomLevel = locationManager.accuracyAuthorization == .fullAccuracy ? preciseLocationZoomLevel : approximateLocationZoomLevel
+        let zoomLevel = locationManager.accuracyAuthorization ==
+            
+            .fullAccuracy ? preciseLocationZoomLevel : approximateLocationZoomLevel
         
         let camera = GMSCameraPosition.camera(withLatitude: lastLocation.coordinate.latitude,
                                               longitude: lastLocation.coordinate.longitude,

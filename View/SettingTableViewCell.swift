@@ -15,7 +15,7 @@ class SettingTableViewCell: UITableViewCell {
         let label = UILabel()
         
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 20)
+        label.font = UIFont.regular(size: 20)
         label.textAlignment = .left
         label.numberOfLines = 0
         label.isUserInteractionEnabled = true

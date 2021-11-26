@@ -12,7 +12,6 @@ class UserSearchViewController: UIViewController {
     lazy var userSearchTableView: UITableView = {
         
         let table = UITableView()
-//        table.dataSource = self
         table.delegate = self
         table.rowHeight = UITableView.automaticDimension
         table.register(UserSearchTableViewCell.self, forCellReuseIdentifier: UserSearchTableViewCell.identifier)
@@ -25,7 +24,6 @@ class UserSearchViewController: UIViewController {
         
         didSet {
             userSearchTableView.dataSource = self
-//            userSearchTableView.reloadData()
         }
     }
     
@@ -33,7 +31,6 @@ class UserSearchViewController: UIViewController {
         
         didSet {
             userSearchTableView.dataSource = self
-//            userSearchTableView.reloadData()
         }
     }
     
@@ -51,9 +48,7 @@ class UserSearchViewController: UIViewController {
         fetchAllUserInfo()
         
         setupTableView()
-        
-//        fetchuserFriendLists()
-        
+                
         fetchUserInvitationInfo()        
     }
     
@@ -78,7 +73,6 @@ class UserSearchViewController: UIViewController {
             case .success(let allUserInfo):
                 
                 self.allUserInfo = allUserInfo
-//                print("aluserInfof is \(allUserInfo)")
                                 
             case .failure(let error):
                 
@@ -91,7 +85,7 @@ class UserSearchViewController: UIViewController {
         
         guard let uid = UserManager.shared.uid else { return }
         
-        UserManager.shared.fetchUserInfo(uesrID: uid) { result in
+        UserManager.shared.fetchUserInfo(userID: uid) { result in
             
             switch result {
                 
@@ -100,7 +94,6 @@ class UserSearchViewController: UIViewController {
                 guard let friendLists = user.friendLists else { return }
                 
                 self.friendLists = friendLists
-//                print("my friendLists is \(friendLists)")
                 
             case .failure(let error):
                 print("fetch friendList \(error)")
@@ -117,7 +110,7 @@ class UserSearchViewController: UIViewController {
             case .success(let userInvitation):
                 self.userInvitation = userInvitation
                 
-                self.receiver = userInvitation.map{ $0.receiver }
+                self.receiver = userInvitation.map { $0.receiver }
                 
             case .failure(let error):
                 print("fetchAllInvitation.failure: \(error)")
@@ -167,7 +160,9 @@ extension UserSearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.selectionStyle = .none
         
-        if friendLists.contains(filteredUserInfo[indexPath.row].userID) || receiver.contains(filteredUserInfo[indexPath.row].userID) {
+        let filteredUserID = filteredUserInfo[indexPath.row].userID
+        
+        if friendLists.contains(filteredUserID) || receiver.contains(filteredUserID) {
             
                 cell.addFriendButton.isEnabled = false
                 cell.addFriendButton.backgroundColor = .lightGray

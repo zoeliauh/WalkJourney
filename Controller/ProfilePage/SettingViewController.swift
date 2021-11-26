@@ -55,7 +55,7 @@ class SettingViewController: UIViewController {
     }
     
     private func configButton(_ button: UIButton) {
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
         button.backgroundColor = UIColor.C4
         button.tintColor = UIColor.white
         button.clipsToBounds = true
@@ -100,7 +100,7 @@ class SettingViewController: UIViewController {
                 try Auth.auth().signOut()
                 
                 guard let loginVC = UIStoryboard.position.instantiateViewController(
-                    withIdentifier: "LoginViewController"
+                    withIdentifier: String(describing: LoginViewController.self)
                 ) as? LoginViewController else { return }
                                 
                 loginVC.modalPresentationStyle = .fullScreen

@@ -28,7 +28,7 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     lazy var dismissButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(named: "Icon_cross_mark"), for: .normal)
+        button.setImage(UIImage.asset(.crossMark), for: .normal)
         return button
     }()
     
@@ -209,7 +209,6 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     }
 }
 
-// MARK: - draw route
 extension GoogleArtViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -276,10 +275,10 @@ extension GoogleArtViewController: CLLocationManagerDelegate {
     
     func successMessage() {
         
-        let controller = UIAlertController(title: "儲存成功",
+        let controller = UIAlertController(title: String.successfulSave,
                                            message: nil,
                                            preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "確定",
+        let okAction = UIAlertAction(title: String.confirmed,
                                      style: .default
         ) { (_: UIAlertAction) in
             
@@ -340,16 +339,16 @@ extension GoogleArtViewController {
         dismissButton.addTarget(self, action: #selector(dismissButtonPressed), for: .touchUpInside)
     }
 }
-// MARK: - timer counter
+
 extension GoogleArtViewController {
     
     @objc func timerCounter() {
         
         count += 1
         
-        let time = secondToSecMinHour(seconds: count)
+        let time = TimeManager.shared.secondToSecMinHour(seconds: count)
         
-        timeString = makeTimeString(hour: time.0, min: time.1, sec: time.2)
+        timeString = TimeManager.shared.makeTimeString(hour: time.0, min: time.1, sec: time.2)
         
         timeLabel.text = timeString
     }
@@ -378,30 +377,5 @@ extension GoogleArtViewController {
                 }
             }
         }
-    }
-    
-    func secondToSecMinHour(seconds: Int) -> (Int, Int, Int) {
-        
-        return ((seconds / 3600), ((seconds % 3600) / 60), ((seconds % 3600) % 60))
-    }
-    
-    func makeTimeString(hour: Int, min: Int, sec: Int) -> String {
-        
-        var timeString: String = ""
-        
-        if hour == 0 {
-            
-            timeString += String(format: "%02d", min)
-            timeString += " : "
-            timeString += String(format: "%02d", sec)
-        } else {
-            
-            timeString += String(format: "%02d", hour)
-            timeString += " : "
-            timeString += String(format: "%02d", min)
-            timeString += " : "
-            timeString += String(format: "%02d", sec)
-        }
-        return timeString
     }
 }

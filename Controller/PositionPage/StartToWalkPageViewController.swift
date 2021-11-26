@@ -13,7 +13,7 @@ import CoreMotion
 import CoreLocation
 
 class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
-            
+    
     @IBOutlet weak var stepTitleLabel: UILabel!
     
     @IBOutlet weak var stepsLabel: UILabel!
@@ -33,7 +33,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     var camera = GMSCameraPosition()
     
     var currentLocation = [Double]()
-        
+    
     let activityManager = CMMotionActivityManager()
     
     let pedometer = CMPedometer()
@@ -45,11 +45,11 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     var timeString: String = ""
     
     var lastLocation: CLLocation?
-        
+    
     var distanceSum: Double = 0
     
     var newRecord: (() -> Void)?
-        
+    
     var eachLatitude: [CLLocationDegrees] = []
     
     var eachLongitude: [CLLocationDegrees] = []
@@ -69,15 +69,15 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     lazy var dismissButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(named: "Icon_cross_mark"), for: .normal)
+        button.setImage(UIImage.asset(.crossMark), for: .normal)
         return button
     }()
     
     lazy var finishButton: UIButton = {
         
         let button = UIButton()
-        button.setTitle("完成囉", for: .normal)
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
+        button.setTitle(String.finish, for: .normal)
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
         button.backgroundColor = UIColor.C4
         button.layer.cornerRadius = 20
         button.layer.shadowOpacity = 0.3
@@ -89,7 +89,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         button.layoutIfNeeded()
         return button
     }()
-            
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -106,7 +106,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         GoogleMapsManager.initLocationManager(locationManager, delegate: self)
         
         currentRouteMapView.layer.cornerRadius = 20
-                
+        
         defaultPosition()        
     }
     
@@ -117,14 +117,14 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     }
     
     @objc func finishButtonPressed(_ sender: UIButton!) {
-                                        
+        
         createNewRecord()
         
         successMessage()
     }
     
     @objc func dismissButtonPressed(_ sender: UIButton) {
-
+        
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -132,9 +132,9 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         
         count += 1
         
-        let time = secondToSecMinHour(seconds: count)
+        let time = TimeManager.shared.secondToSecMinHour(seconds: count)
         
-        timeString = makeTimeString(hour: time.0, min: time.1, sec: time.2)
+        timeString = TimeManager.shared.makeTimeString(hour: time.0, min: time.1, sec: time.2)
         
         durationLabel.text = timeString
     }
@@ -142,20 +142,20 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     func defaultPosition() {
         
         currentRouteMapView.delegate = self
-                
+        
         currentRouteMapView.settings.myLocationButton = true
         
         currentRouteMapView.isMyLocationEnabled = true
     }
-
+    
     func createNewRecord() {
-
-            guard let curDist = distanceLabel.text,
-                    let curdur = durationLabel.text,
-                    let currentSteps = stepsLabel.text else { return }
+        
+        guard let curDist = distanceLabel.text,
+              let curdur = durationLabel.text,
+              let currentSteps = stepsLabel.text else { return }
         
         guard let numStep = Int(currentSteps) else { return }
-
+        
         RecordManager.shared.addNewRecord(distanceWalk: curDist,
                                           durationTime: curdur,
                                           numStep: numStep,
@@ -203,30 +203,12 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
             }
         }
     }
-    
-    func secondToSecMinHour(seconds: Int) -> (Int, Int, Int) {
-        
-        return ((seconds / 3600), ((seconds % 3600) / 60), ((seconds % 3600) % 60))
-    }
-    
-    func makeTimeString(hour: Int, min: Int, sec: Int) -> String {
-        
-        var timeString: String = ""
-        
-        timeString += String(format: "%02d", hour)
-        timeString += " : "
-        timeString += String(format: "%02d", min)
-        timeString += " : "
-        timeString += String(format: "%02d", sec)
-        
-        return timeString
-    }
 }
 
 extension StartToWalkPageViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-                
+        
         if let location = locations.last {
             
             currentRouteMapView.camera = GMSCameraPosition.camera(
@@ -248,14 +230,14 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
                 
                 certainLong.append(location.coordinate.longitude)
             }
-                        
+            
             if eachLatitude.count % 8 == 0 {
                 
                 certainLat.append(location.coordinate.latitude)
                 
                 certainLong.append(location.coordinate.longitude)
             }
-                                    
+            
             let polyline = GMSPolyline(path: path)
             
             polyline.strokeWidth = 2
@@ -289,10 +271,10 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
     
     func successMessage() {
         
-        let controller = UIAlertController(title: "儲存成功",
+        let controller = UIAlertController(title: String.successfulSave,
                                            message: nil,
                                            preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "確定",
+        let okAction = UIAlertAction(title: String.confirmed,
                                      style: .default
         ) { (_: UIAlertAction) in
             
@@ -307,7 +289,7 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
 // MARK: - UI design
 extension StartToWalkPageViewController {
     private func setUpDismissButton() {
-                        
+        
         guard let nav = navigationController?.navigationBar else { return }
         
         nav.addSubview(dismissButton)
@@ -337,7 +319,7 @@ extension StartToWalkPageViewController {
             finishButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
             finishButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40)
         ])
-                
+        
         finishButton.addTarget(self, action: #selector(finishButtonPressed(_:)), for: .touchUpInside)
     }
 }

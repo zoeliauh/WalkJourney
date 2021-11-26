@@ -64,7 +64,7 @@ class RecordViewController: UIViewController {
     @objc func navDetailRecordVC(_ sender: UIButton) {
 
         guard let detailRecordVC = UIStoryboard.record.instantiateViewController(
-            withIdentifier: "DetailRecord"
+            withIdentifier: String(describing: DetailRecordViewController.self)
         ) as? DetailRecordViewController else { return }
         
         detailRecordVC.latitudeArr = stepData[sender.tag].latitude
@@ -141,7 +141,7 @@ class RecordViewController: UIViewController {
         ])
     }
 }
-// MARK: - UITableViewDelegate, UITableViewDataSource
+
 extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -179,7 +179,7 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let detailRecordVC = UIStoryboard.record.instantiateViewController(
-            withIdentifier: "DetailRecord"
+            withIdentifier: String(describing: DetailRecordViewController.self)
         ) as? DetailRecordViewController else { return }
         
         detailRecordVC.latitudeArr = stepData[indexPath.row].latitude

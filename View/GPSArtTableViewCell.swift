@@ -12,7 +12,7 @@ class GPSArtTableViewCell: UITableViewCell {
     lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "photo")
+        imageView.image = UIImage.system(.photo)
         imageView.layer.cornerRadius = 10
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -40,11 +40,11 @@ class GPSArtTableViewCell: UITableViewCell {
     lazy var gpsImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "photo")
+        imageView.image = UIImage.system(.photo)
         imageView.layer.cornerRadius = 16
         imageView.contentMode = .scaleAspectFill
         var blurEffectView: UIVisualEffectView!
-        blurEffectView = BlurViewHelper.addBlurView(imageView)
+        blurEffectView = BlurViewHelper.shared.addBlurView(imageView)
         imageView.addSubview(blurEffectView)
         imageView.clipsToBounds = true
         return imageView

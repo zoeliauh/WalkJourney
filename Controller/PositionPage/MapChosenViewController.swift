@@ -19,7 +19,7 @@ class MapChosenViewController: UIViewController {
         
         let button = UIButton()
         button.setTitle("漫遊", for: .normal)
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 30)
+        button.titleLabel?.font = UIFont.semiBold(size: 30)
         button.backgroundColor = UIColor.C4
         button.clipsToBounds = true
         button.layer.shadowOpacity = 0.4
@@ -35,7 +35,7 @@ class MapChosenViewController: UIViewController {
         
         let button = UIButton()
         button.setTitle("挑戰", for: .normal)
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 24)
+        button.titleLabel?.font = UIFont.semiBold(size: 24)
         button.backgroundColor = UIColor.C2
         button.layer.cornerRadius = 20
         button.layer.shadowOpacity = 0.3
@@ -51,7 +51,7 @@ class MapChosenViewController: UIViewController {
     lazy var animationView: AnimationView = {
         
         var animationView = AnimationView()
-        animationView = .init(name: "walking_outside")
+        animationView = .init(name: String.walkingOutside)
         animationView.animationSpeed = 1
         animationView.layoutIfNeeded()
         return animationView
@@ -65,6 +65,8 @@ class MapChosenViewController: UIViewController {
         GoogleMapsManager.initLocationManager(locationManager, delegate: self)
                 
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        self.tabBarController?.tabBar.backgroundImage =  UIImage()
 
         setupWalkYourselfButton()
 
@@ -97,7 +99,7 @@ class MapChosenViewController: UIViewController {
     
     @objc func walkYourselfButtonPressed(_ sender: UIButton) {
         guard let mapSearchingPagevc = UIStoryboard.position.instantiateViewController(
-            withIdentifier: "MapSearchingPage"
+            withIdentifier: String(describing: MapSearchingPageViewController.self)
         ) as? MapSearchingPageViewController else { return }
         
         self.navigationController?.pushViewController(mapSearchingPagevc, animated: true)
@@ -105,7 +107,7 @@ class MapChosenViewController: UIViewController {
     
     @objc func walkFunButtonPressed(_ sender: UIButton) {
         guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
-            withIdentifier: "FunnyMapPage"
+            withIdentifier: String(describing: FunnyMapViewController.self)
         ) as? FunnyMapViewController else { return }
         
         self.navigationController?.pushViewController(funnyMapPagevc, animated: true)

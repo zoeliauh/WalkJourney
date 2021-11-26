@@ -12,7 +12,7 @@ class UserSearchTableViewCell: UITableViewCell {
     lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.loadImage(UserManager.shared.uid, placeHolder: UIImage(systemName: "person.crop.circle"))
+        imageView.loadImage(UserManager.shared.uid, placeHolder: UIImage.system(.personPlacehloder))
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
@@ -22,7 +22,7 @@ class UserSearchTableViewCell: UITableViewCell {
         
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 18)
+        label.font = UIFont.regular(size: 18)
         label.textAlignment = .left
         label.numberOfLines = 0
         return label
@@ -31,8 +31,8 @@ class UserSearchTableViewCell: UITableViewCell {
     lazy var addFriendButton: UIButton = {
         
         let button = UIButton()
-        button.setTitle("加入好友", for: .normal)
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
+        button.setTitle(String.addFriend, for: .normal)
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
         button.backgroundColor = UIColor.C4
         button.layer.cornerRadius = 10
         button.layer.shadowOpacity = 0.3

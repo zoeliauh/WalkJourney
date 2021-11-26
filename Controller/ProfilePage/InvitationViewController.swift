@@ -59,7 +59,7 @@ class InvitationViewController: UIViewController {
         
         guard let myID = myID else { return }
         
-        UserManager.shared.fetchUserInfo(uesrID: myID) { result in
+        UserManager.shared.fetchUserInfo(userID: myID) { result in
             
             switch result {
                 
@@ -77,7 +77,7 @@ class InvitationViewController: UIViewController {
     
     func fetchSenderFriendList() {
                         
-        UserManager.shared.fetchUserInfo(uesrID: senderID) { result in
+        UserManager.shared.fetchUserInfo(userID: senderID) { result in
                         
             switch result {
                 
@@ -116,7 +116,7 @@ class InvitationViewController: UIViewController {
                     
                     group.enter()
                     
-                    UserManager.shared.fetchUserInfo(uesrID: sender.sender) { result in
+                    UserManager.shared.fetchUserInfo(userID: sender.sender) { result in
                         
                         switch result {
                             
@@ -176,7 +176,6 @@ class InvitationViewController: UIViewController {
     }
 }
 
-// MARK: - tableViewDelegate / tableViewDataSource
 extension InvitationViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

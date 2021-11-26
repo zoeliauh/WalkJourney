@@ -9,18 +9,24 @@ import UIKit
 import FirebaseAuth
 
 class TabBarController: UITabBarController {
-        
-    let mapChosenvc = UIStoryboard.position.instantiateViewController(withIdentifier: "MapChosenViewController")
+    
+    let mapChosenvc = UIStoryboard.position.instantiateViewController(
+        withIdentifier: String(describing: MapChosenViewController.self)
+    )
     
     let recordCatagoryvc =
-    UIStoryboard.record.instantiateViewController(withIdentifier: "RecordCatagoryvc")
-
-//    let barChartvc = UIStoryboard.barChart.instantiateViewController(withIdentifier: "BarChart")
-
-    let profilevc = UIStoryboard.profile.instantiateViewController(withIdentifier: "Profile")
+    UIStoryboard.record.instantiateViewController(
+        withIdentifier: String(describing: RecordCatagoryViewController.self)
+    )
     
-    let galleryvc = UIStoryboard.gallery.instantiateViewController(withIdentifier: "Gallery")
-
+    let profilevc = UIStoryboard.profile.instantiateViewController(
+        withIdentifier: String(describing: ProfileViewController.self)
+    )
+    
+    let galleryvc = UIStoryboard.gallery.instantiateViewController(
+        withIdentifier: String(describing: GalleryViewController.self)
+    )
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,10 +45,8 @@ class TabBarController: UITabBarController {
     func setupTabBar() {
         
         let mapChosenvc = UINavigationController(rootViewController: mapChosenvc)
-                
-        let recordvc = UINavigationController(rootViewController: recordCatagoryvc)
         
-//        let barChartvc = UINavigationController(rootViewController: barChartvc)
+        let recordvc = UINavigationController(rootViewController: recordCatagoryvc)
         
         let profilevc = UINavigationController(rootViewController: profilevc)
         
@@ -57,28 +61,28 @@ class TabBarController: UITabBarController {
     
     func setupvcTitle() {
         
-        mapChosenvc.tabBarItem.image = UIImage(systemName: "map")
+        mapChosenvc.tabBarItem.image = UIImage.system(.map)
         
-        mapChosenvc.tabBarItem.selectedImage = UIImage(systemName: "map.fill")
+        mapChosenvc.tabBarItem.selectedImage = UIImage.system(.mapFill)
         
-        mapChosenvc.tabBarItem.title = "首頁"
+        mapChosenvc.tabBarItem.title = String.positionPage
         
-        recordCatagoryvc.tabBarItem.image = UIImage(named: "pawprint")
-                
-        recordCatagoryvc.tabBarItem.selectedImage = UIImage(named: "pawprint_fill")
+        recordCatagoryvc.tabBarItem.image = UIImage.asset(.pawprint)
         
-        recordCatagoryvc.tabBarItem.title = "足跡"
+        recordCatagoryvc.tabBarItem.selectedImage = UIImage.asset(.pawprint_Fill)
         
-        galleryvc.tabBarItem.image = UIImage(systemName: "person.3")
+        recordCatagoryvc.tabBarItem.title = String.recordPage
         
-        galleryvc.tabBarItem.selectedImage = UIImage(systemName: "person.3.fill")
+        galleryvc.tabBarItem.image = UIImage.system(.socialGroup)
         
-        galleryvc.tabBarItem.title = "社群"
+        galleryvc.tabBarItem.selectedImage = UIImage.system(.socialGroupFill)
         
-        profilevc.tabBarItem.image = UIImage(systemName: "person.circle")
+        galleryvc.tabBarItem.title = String.galleryPage
         
-        profilevc.tabBarItem.selectedImage = UIImage(systemName: "person.circle.fill")
-         
-        profilevc.tabBarItem.title = "會員"
+        profilevc.tabBarItem.image = UIImage.system(.profile)
+        
+        profilevc.tabBarItem.selectedImage = UIImage.system(.profileFill)
+        
+        profilevc.tabBarItem.title = String.profilePage
     }
 }

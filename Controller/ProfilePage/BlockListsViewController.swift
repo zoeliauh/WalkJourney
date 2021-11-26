@@ -47,7 +47,7 @@ class BlockListsViewController: UIViewController {
         
         guard let myID = myID else { return }
         
-        UserManager.shared.fetchUserInfo(uesrID: myID) { [self] result in
+        UserManager.shared.fetchUserInfo(userID: myID) { [self] result in
             
             switch result {
                 
@@ -63,7 +63,7 @@ class BlockListsViewController: UIViewController {
                     
                     group.enter()
                     
-                    UserManager.shared.fetchUserInfo(uesrID: block) { result in
+                    UserManager.shared.fetchUserInfo(userID: block) { result in
                         
                         switch result {
                             

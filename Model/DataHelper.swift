@@ -23,6 +23,5 @@ extension Date {
         formatter.dateFormat = "yyyy.MM.dd HH:mm"
                 
         return formatter
-        
     }
 }

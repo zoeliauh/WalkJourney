@@ -12,7 +12,7 @@
         <!--Record Catagory View Controller-->
         <scene sceneID="QHq-CI-IZJ">
             <objects>
-                <viewController storyboardIdentifier="RecordCatagoryvc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aeJ-yS-3eB" customClass="RecordCatagoryViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RecordCatagoryViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aeJ-yS-3eB" customClass="RecordCatagoryViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6ja-zw-SrU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -55,7 +55,7 @@
         <!--Detail Record View Controller-->
         <scene sceneID="ntt-9F-0D0">
             <objects>
-                <viewController storyboardIdentifier="DetailRecord" id="LaH-2l-Jdt" customClass="DetailRecordViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailRecordViewController" id="LaH-2l-Jdt" customClass="DetailRecordViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ilV-N5-RC8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -101,7 +101,7 @@
         <!--Challenge Share View Controller-->
         <scene sceneID="gwR-Up-yuU">
             <objects>
-                <viewController storyboardIdentifier="ChallengeShare" id="qXA-rc-Sby" customClass="ChallengeShareViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChallengeShareViewController" id="qXA-rc-Sby" customClass="ChallengeShareViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wJn-xa-lGw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

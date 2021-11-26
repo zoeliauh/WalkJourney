@@ -12,8 +12,7 @@ class InvitedTableViewCell: UITableViewCell {
     lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "person.crop.circle")
-//        imageView.layer.cornerRadius = imageView.frame.width / 2
+        imageView.image = UIImage.system(.personPlacehloder)
         return imageView
     }()
     
@@ -21,7 +20,7 @@ class InvitedTableViewCell: UITableViewCell {
         
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 20)
+        label.font = UIFont.regular(size: 20)
         label.textAlignment = .left
         return label
     }()
@@ -66,7 +65,7 @@ class InvitedTableViewCell: UITableViewCell {
     
     private func buttonConfig(_ button: UIButton) {
         
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
         button.backgroundColor = UIColor.C4
         button.layer.cornerRadius = 10
         button.layer.shadowOpacity = 0.3
