@@ -8,6 +8,66 @@
 import UIKit
 
 class ChallengeShareViewController: UIViewController {
+        
+    var screenshotURL: String?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.navigationItem.setHidesBackButton(true, animated: true)
+                
+        setupScreenshotImageView()
+        setUpBackButton()
+        setUpShareButton()
+    }
+    
+    @objc func popBack() {
+
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func popMore() {
+        
+        present(.confirmationAlert(
+            title: nil, message: nil,
+            preferredStyle: .actionSheet,
+            actions: [
+                UIAlertAction.addAction(
+                    title: "儲存至相簿", style: .default,
+                    handler: { [weak self] _ in
+                        
+                        self?.popMoreHandle()
+                    }
+                ), UIAlertAction.addAction(
+                    title: "分享至社群", style: .default,
+                    handler: { [weak self] _ in
+                        self?.createNewPost()
+                        Toast.showSuccess(text: "已分享")
+                        print("createNewPost")
+                    }
+                ), UIAlertAction.addAction(title: String.cancelMandarin, style: .cancel, handler: nil)
+            ]
+        ), animated: true, completion: nil)
+    }
+    
+    private func createNewPost() {
+        
+        guard let screenshotURL = screenshotURL else { return }
+        
+        PublicPostManager.shared.createPublicPost(screenshotURL: screenshotURL) { result in
+            
+            switch result {
+                
+            case .success:
+                
+                print("success to create new location")
+                
+            case .failure(let error):
+                
+                print("create location.failure: \(error)")
+            }
+        }
+    }
     
     lazy var popButton: UIButton = {
         
@@ -33,79 +93,16 @@ class ChallengeShareViewController: UIViewController {
         imageView.layer.cornerRadius = 10
         return imageView
     }()
-        
-    var screenshotURL: String?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    func popMoreHandle() {
         
-        self.navigationItem.setHidesBackButton(true, animated: true)
-                
-        setupScreenshotImageView()
-        setUpBackButton()
-        setUpShareButton()
-    }
-    
-    @objc func popBack() {
-
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func popMore() {
-        
-        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let names = ["儲存至相簿", "分享至社群"]
-        
-        if let popoverController = controller.popoverPresentationController {
-
-                    popoverController.sourceView = self.view
-                    popoverController.sourceRect = CGRect(
-                        x: self.view.bounds.midX, y: self.view.bounds.midY,
-                        width: 0, height: 0
-                    )
-                    popoverController.permittedArrowDirections = []
-                }
-        
-        for name in names {
-           let action = UIAlertAction(title: name, style: .default) { _ in
-               if name == "儲存至相簿" {
-                   self.popButton.isHidden = true
-                   self.shareButton.isHidden = true
-                   let screenshotImage = self.view.takeScreenshot()
-                   UIImageWriteToSavedPhotosAlbum(screenshotImage, nil, nil, nil)
-                   Toast.showSuccess(text: "已下載")
-                   self.popButton.isHidden = false
-                   self.shareButton.isHidden = false
-               } else {
-                   self.createNewPost()
-                   Toast.showSuccess(text: "已分享")
-                   print("createNewPost")
-               }
-           }
-           controller.addAction(action)
-        }
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        controller.addAction(cancelAction)
-        present(controller, animated: true, completion: nil)
-    }
-    
-    private func createNewPost() {
-        
-        guard let screenshotURL = screenshotURL else { return }
-        
-        PublicPostManager.shared.createPublicPost(screenshotURL: screenshotURL) { result in
-            
-            switch result {
-                
-            case .success:
-                
-                print("success to create new location")
-                
-            case .failure(let error):
-                
-                print("create location.failure: \(error)")
-            }
-        }
+        self.popButton.isHidden = true
+        self.shareButton.isHidden = true
+        let screenshotImage = self.view.takeScreenshot()
+        UIImageWriteToSavedPhotosAlbum(screenshotImage, nil, nil, nil)
+        Toast.showSuccess(text: "已下載")
+        self.popButton.isHidden = false
+        self.shareButton.isHidden = false
     }
 }
 

@@ -87,6 +87,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7bq-FY-xyx" customClass="GMSMapView">
                                 <rect key="frame" x="20" y="54" width="374" height="708"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kiq-0D-SFQ">
                                 <rect key="frame" x="70" y="782" width="274" height="40"/>
@@ -469,6 +474,9 @@
             <point key="canvasLocation" x="1173.913043478261" y="54.910714285714285"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="WWD-Va-x7a"/>
+    </designables>
     <resources>
         <image name="loginIcon" width="220.5" height="221.5"/>
         <namedColor name="C1">

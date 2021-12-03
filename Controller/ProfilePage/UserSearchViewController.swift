@@ -11,13 +11,13 @@ class UserSearchViewController: UIViewController {
         
     lazy var userSearchTableView: UITableView = {
         
-        let table = UITableView()
-        table.delegate = self
-        table.rowHeight = UITableView.automaticDimension
-        table.register(UserSearchTableViewCell.self, forCellReuseIdentifier: UserSearchTableViewCell.identifier)
-        table.reloadData()
+        let tableView = UITableView()
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.register(UserSearchTableViewCell.self, forCellReuseIdentifier: UserSearchTableViewCell.identifier)
+        tableView.reloadData()
 
-        return table
+        return tableView
     }()
     
     var allUserInfo: [User] = [] {
@@ -142,7 +142,7 @@ extension UserSearchViewController: UITableViewDelegate, UITableViewDataSource {
             
             if filteredUserInfo[indexPath.row].userImageURL == nil {
                 
-                cell.profileImageView.image = UIImage(systemName: "person.crop.circle")
+                cell.profileImageView.image = UIImage.system(.personPlacehloder)
             } else {
                 
                 cell.profileImageView.loadImage(filteredUserInfo[indexPath.row].userImageURL)

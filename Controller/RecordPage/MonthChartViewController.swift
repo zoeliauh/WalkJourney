@@ -10,38 +10,13 @@ import Charts
 
 class MonthChartViewController: UIViewController {
     
-    lazy var dateLabel: UILabel = {
+    var selectedYear: String = ""
         
-        let label = UILabel()
-        label.text = "\(selectedYear)年  \(selectedMonth)月"
-        label.font = UIFont.boldSystemFont(ofSize: 25)
-        label.textColor = .black
-        label.textAlignment = .left
-        return label
-    }()
+    var selectedMonth: String = ""
+            
+    var journeyRecords: [StepData] = []
     
-    lazy var popButton: UIButton = {
-        
-        let button = UIButton()
-        button.setImage(UIImage.asset(.backIcon), for: .normal)
-        return button
-    }()
-    
-    lazy var monthChartView: BarChartView = {
-        
-        let monthChartView = BarChartView()
-        return monthChartView
-    }()
-    
-    var selectedYear: String = "2021"
-        
-    var selectedMonth: String = "11"
-        
-    let dateFormatDay = DateFormatter()
-    
-    var stepDataArr: [StepData] = []
-    
-    var numberOfDays: Int = 30
+    var monthOfDays: Int = 30
     
     var stepSum = 0 {
         didSet {
@@ -55,7 +30,7 @@ class MonthChartViewController: UIViewController {
         setUpBackButton()
         self.navigationItem.setHidesBackButton(true, animated: true)
         setupMonthChartView()
-        setupMonthChartDate(stepDataArr: stepDataArr)
+        setupMonthChartDate(journeyRecords: journeyRecords)
         monthChartView.noDataText = "暫時沒有步行紀錄"
         setupDateLabel()
     }
@@ -71,16 +46,18 @@ class MonthChartViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    private func setupMonthChartDate(stepDataArr: [StepData]) {
+    private func setupMonthChartDate(journeyRecords: [StepData]) {
         
-        if stepDataArr.count == 0 {
+        let dateFormatDay = DateFormatter()
+        
+        if journeyRecords.count == 0 {
             
             monthChartView.noDataText = "暫時沒有步行紀錄"
         } else {
             
             chartAsixSetup()
             
-            numberOfDays = TimeManager.shared.getDaysInMonth(
+            monthOfDays = TimeManager.shared.getDaysInMonth(
                 month: Int(selectedMonth) ?? 0,
                 year: Int(selectedYear) ?? 0
             ) ?? 30
@@ -91,7 +68,7 @@ class MonthChartViewController: UIViewController {
                 
                 var dict: [String: Int] = [:]
                 
-                for index in 1...numberOfDays {
+                for index in 1...monthOfDays {
                     dict["\(index)"] = 0
                 }
                 
@@ -100,7 +77,7 @@ class MonthChartViewController: UIViewController {
             
             var dataEntries: [BarChartDataEntry] = []
             
-            for items in stepDataArr {
+            for items in journeyRecords {
                 
                 let walkDay = dateFormatDay.string(from: Date.init(milliseconds: items.createdTime ?? Int64(0.0)))
                                 
@@ -109,7 +86,7 @@ class MonthChartViewController: UIViewController {
             
             var xValues: [String] = []
             
-            for index in 1...numberOfDays {
+            for index in 1...monthOfDays {
                 xValues.append(String(format: "%02d", index))
             }
             
@@ -154,6 +131,30 @@ class MonthChartViewController: UIViewController {
         
         monthChartView.rightAxis.enabled = false
     }
+    
+    lazy var dateLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "\(selectedYear)年  \(selectedMonth)月"
+        label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.textColor = .black
+        label.textAlignment = .left
+        return label
+    }()
+    
+    lazy var popButton: UIButton = {
+        
+        let button = UIButton()
+        button.setImage(UIImage.asset(.backIcon), for: .normal)
+        return button
+    }()
+    
+    lazy var monthChartView: BarChartView = {
+        
+        let monthChartView = BarChartView()
+        return monthChartView
+    }()
+    
 }
 
 extension MonthChartViewController {

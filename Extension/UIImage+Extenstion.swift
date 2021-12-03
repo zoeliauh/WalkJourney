@@ -51,6 +51,8 @@ enum SystemImage: String {
     case photo
     case pencil
     case cameraFill = "camera.fill"
+    case xMark = "xmark"
+    case personFillXMark = "person.fill.xmark"
 }
 
 // swiftlint:enable identifier_name

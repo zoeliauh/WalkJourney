@@ -11,14 +11,14 @@ class FunnyMapViewController: UIViewController {
         
     lazy var funnyMapTableView: UITableView = {
         
-        let table = UITableView()
-        table.dataSource = self
-        table.delegate = self
-        table.rowHeight = UITableView.automaticDimension
-        table.register(FunnyMapTableViewCell.self, forCellReuseIdentifier: FunnyMapTableViewCell.identifier)
-        table.reloadData()
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.register(FunnyMapTableViewCell.self, forCellReuseIdentifier: FunnyMapTableViewCell.identifier)
+        tableView.reloadData()
 
-        return table
+        return tableView
     }()
     
     var shapeMapExample = ShapeMapExample()
@@ -28,10 +28,6 @@ class FunnyMapViewController: UIViewController {
         
         setupFunnyMapTableView()
         
-        funnyMapTableView.delegate = self
-        
-        funnyMapTableView.dataSource = self
-        
         self.tabBarController?.tabBar.backgroundImage =  UIImage()
     }
     
@@ -39,21 +35,6 @@ class FunnyMapViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
-    func setupFunnyMapTableView() {
-        
-        view.addSubview(funnyMapTableView)
-        
-        funnyMapTableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            funnyMapTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            funnyMapTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            funnyMapTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            funnyMapTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
     }
 }
 
@@ -81,12 +62,31 @@ extension FunnyMapViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func goButtonPressed(_ sender: UIButton!) {
-        guard let googleArtPagevc = UIStoryboard.position.instantiateViewController(
+        guard let googleArtPageVC = UIStoryboard.position.instantiateViewController(
             withIdentifier: String(describing: GoogleArtViewController.self)
         ) as? GoogleArtViewController else { return }
         
-        googleArtPagevc.routeSampleImageView.image = shapeMapExample.lineArr[sender.tag]
+        googleArtPageVC.routeSampleImageView.image = shapeMapExample.lineArr[sender.tag]
         
-        self.navigationController?.pushViewController(googleArtPagevc, animated: true)
+        self.navigationController?.pushViewController(googleArtPageVC, animated: true)
+    }
+}
+
+// MARK: - UI design
+extension FunnyMapViewController {
+    
+    func setupFunnyMapTableView() {
+        
+        view.addSubview(funnyMapTableView)
+        
+        funnyMapTableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            funnyMapTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            funnyMapTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            funnyMapTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            funnyMapTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }

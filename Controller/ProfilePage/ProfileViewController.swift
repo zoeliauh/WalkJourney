@@ -11,92 +11,6 @@ import FirebaseAuth
 import Firebase
 
 class ProfileViewController: UIViewController {
-    
-    lazy var nameTextField: UITextField = {
-        
-        let textfield = UITextField()
-        textfield.text = nil
-        textfield.placeholder = String.enterTextFieldPlaceholder
-        textfield.font = UIFont.regular(size: 22)
-        textfield.textAlignment = .left
-        textfield.textColor = .black
-        textfield.layer.cornerRadius = 20
-        textfield.isUserInteractionEnabled = false
-        
-        return textfield
-    }()
-    
-    lazy var editButton: UIButton = {
-        
-        let button = UIButton()
-        button.setImage(UIImage.system(.pencil), for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
-        button.imageEdgeInsets = UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25)
-        return button
-    }()
-    
-    lazy var settingButton: UIButton = {
-        
-        let button = UIButton()
-        button.setImage(UIImage.asset(.settingIcon), for: .normal)
-        return button
-    }()
-    
-    lazy var profileImageView: UIImageView = {
-        
-        let imageView = UIImageView()
-        imageView.loadImage(eventUrlString, placeHolder: UIImage.system(.personPlacehloder))
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.borderColor = UIColor.white.cgColor
-        imageView.layer.borderWidth = 3
-        return imageView
-    }()
-    
-    lazy var newPhotoButton: UIButton = {
-        let newPhotoButton = UIButton(type: .system)
-        newPhotoButton.setImage(UIImage.system(.cameraFill), for: .normal)
-        newPhotoButton.tintColor = UIColor.C1
-        newPhotoButton.layer.masksToBounds = true
-        newPhotoButton.addTarget(self, action: #selector(newPhoto), for: .touchUpInside)
-        return newPhotoButton
-    }()
-    
-    lazy var invitationButton: UIButton = {
-        
-        let button = UIButton()
-        configButton(button)
-        button.setTitle(String.friendInvited, for: .normal)
-        button.addTarget(self, action: #selector(invitedPressed(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var friendListsButton: UIButton = {
-        
-        let button = UIButton()
-        configButton(button)
-        button.setTitle(String.friendLists, for: .normal)
-        button.addTarget(self, action: #selector(firendListsPressed(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var blockLishButton: UIButton = {
-        
-        let button = UIButton()
-        configButton(button)
-        button.setTitle(String.blockLists, for: .normal)
-        button.addTarget(self, action: #selector(blockListsPressed(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var animationView: AnimationView = {
-        
-        var animationView = AnimationView()
-        animationView = .init(name: String.loading)
-        animationView.animationSpeed = 1
-        animationView.layoutIfNeeded()
-        return animationView
-    }()
         
     var userInfo: User?
     
@@ -194,18 +108,6 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-    
-    private func configButton(_ button: UIButton) {
-        button.titleLabel?.font = UIFont.semiBold(size: 18)
-        button.backgroundColor = UIColor.C4
-        button.tintColor = UIColor.white
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 10
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 5.0)
-        button.layoutIfNeeded()
-    }
 
     @objc func settingButtonPressed(_ sender: UIButton) {
         
@@ -261,50 +163,132 @@ class ProfileViewController: UIViewController {
         
         self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
     }
+    
+    lazy var nameTextField: UITextField = {
+        
+        let textfield = UITextField()
+        textfield.text = nil
+        textfield.placeholder = String.enterTextFieldPlaceholder
+        textfield.font = UIFont.regular(size: 22)
+        textfield.textAlignment = .left
+        textfield.textColor = .black
+        textfield.layer.cornerRadius = 20
+        textfield.isUserInteractionEnabled = false
+        
+        return textfield
+    }()
+    
+    lazy var editButton: UIButton = {
+        
+        let button = UIButton()
+        button.setImage(UIImage.system(.pencil), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageEdgeInsets = UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25)
+        return button
+    }()
+    
+    lazy var settingButton: UIButton = {
+        
+        let button = UIButton()
+        button.setImage(UIImage.asset(.settingIcon), for: .normal)
+        return button
+    }()
+    
+    lazy var profileImageView: UIImageView = {
+        
+        let imageView = UIImageView()
+        imageView.loadImage(eventUrlString, placeHolder: UIImage.system(.personPlacehloder))
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderWidth = 3
+        return imageView
+    }()
+    
+    lazy var newPhotoButton: UIButton = {
+        let newPhotoButton = UIButton(type: .system)
+        newPhotoButton.setImage(UIImage.system(.cameraFill), for: .normal)
+        newPhotoButton.tintColor = UIColor.C1
+        newPhotoButton.layer.masksToBounds = true
+        newPhotoButton.addTarget(self, action: #selector(newPhoto), for: .touchUpInside)
+        return newPhotoButton
+    }()
+    
+    lazy var invitationButton: UIButton = {
+        
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
+        button.buttonConfig(button, cornerRadius: 10)
+        button.setTitle(String.friendInvited, for: .normal)
+        button.addTarget(self, action: #selector(invitedPressed(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var friendListsButton: UIButton = {
+        
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
+        button.buttonConfig(button, cornerRadius: 10)
+        button.setTitle(String.friendLists, for: .normal)
+        button.addTarget(self, action: #selector(firendListsPressed(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var blockLishButton: UIButton = {
+        
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
+        button.buttonConfig(button, cornerRadius: 10)
+        button.setTitle(String.blockLists, for: .normal)
+        button.addTarget(self, action: #selector(blockListsPressed(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var animationView: AnimationView = {
+        
+        var animationView = AnimationView()
+        animationView = .init(name: String.loading)
+        animationView.animationSpeed = 1
+        animationView.layoutIfNeeded()
+        return animationView
+    }()
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func showImagePickerControllerActionSheet() {
-        let actionSheet = UIAlertController(
-            title: String.cameraTitle,
-            message: String.cameraMessage,
-            preferredStyle: .actionSheet
-        )
-        actionSheet.addAction(UIAlertAction(title: String.camera, style: .default, handler: { [weak self] _ in
-            
-            let picker = UIImagePickerController()
-            picker.sourceType = .camera
-            picker.delegate = self
-            picker.allowsEditing = true
-            self?.present(picker, animated: true)
-            
-        }))
         
-        if let popoverController = actionSheet.popoverPresentationController {
-
-                    popoverController.sourceView = self.view
-                    popoverController.sourceRect = CGRect(
-                        x: self.view.bounds.midX, y: self.view.bounds.midY,
-                        width: 0, height: 0
-                    )
+        present(.confirmationAlert(
             
-                    popoverController.permittedArrowDirections = []
-                }
-        
-        actionSheet.addAction(UIAlertAction(title: String.photoLibrary, style: .default, handler: { [weak self] _ in
+            title: String.cameraTitle, message: String.cameraMessage,
             
-            let picker = UIImagePickerController()
-            picker.sourceType = .photoLibrary
-            picker.delegate = self
-            picker.allowsEditing = true
-            self?.present(picker, animated: true)
+            preferredStyle: .actionSheet,
             
-        }))
-        
-        actionSheet.addAction(UIAlertAction(title: String.cancel, style: .cancel, handler: nil))
-        
-        present(actionSheet, animated: true)
+            actions: [UIAlertAction.addAction(
+                
+                title: String.camera, style: .default,
+                
+                handler: { [weak self] _ in
+                
+                let picker = UIImagePickerController()
+                picker.sourceType = .camera
+                picker.delegate = self
+                picker.allowsEditing = true
+                self?.present(picker, animated: true)
+            }), UIAlertAction.addAction(
+                
+                title: String.photoLibrary, style: .default,
+                
+                handler: { [weak self] _ in
+                
+                let picker = UIImagePickerController()
+                picker.sourceType = .photoLibrary
+                picker.delegate = self
+                picker.allowsEditing = true
+                self?.present(picker, animated: true)
+            }), UIAlertAction.addAction(title: String.cancel, style: .default, handler: nil)
+                      
+                     ]), animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController,
@@ -483,7 +467,6 @@ extension ProfileViewController {
             blockLishButton.heightAnchor.constraint(equalTo: invitationButton.heightAnchor),
             blockLishButton.centerXAnchor.constraint(equalTo: invitationButton.centerXAnchor),
             blockLishButton.topAnchor.constraint(equalTo: friendListsButton.bottomAnchor, constant: 25)
-            
             ])
     }
     

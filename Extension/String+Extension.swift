@@ -49,6 +49,8 @@ extension String {
     
     static let confirmed = "確定"
     
+    static let cancelMandarin = "取消"
+    
     static let freeWalk = "漫遊足跡"
     
     static let challengeMap = "挑戰地圖"

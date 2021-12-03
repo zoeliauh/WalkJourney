@@ -10,6 +10,65 @@ import GoogleMaps
 
 class DetailRecordViewController: UIViewController {
     
+    let locationManager = CLLocationManager()
+        
+    var latitudeArr: [CLLocationDegrees] = []
+    
+    var longitudeArr: [CLLocationDegrees] = []
+    
+    var indexPath: IndexPath?
+    
+    var path = GMSMutablePath()
+        
+    var walkDate: String?
+    
+    var walkTime: String?
+    
+    var walkStep: Int?
+    
+    var walkDistance: String?
+    
+    var tabbarHeight: CGFloat? = 0.0
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.navigationItem.setHidesBackButton(true, animated: true)
+
+        locationManager(locationManager, latitude: latitudeArr, longitude: longitudeArr)
+    }
+
+    override func viewDidLayoutSubviews() {
+        tabbarHeight = self.tabBarController?.tabBar.frame.height
+        setuptrackingMapView()
+        setupCoverImageView()
+        setupLogoImageView()
+        setupWalkDistanceLabel()
+        setupWalkStepLabel()
+        setupWalkTimeLabel()
+        setUpBackButton()
+        setUpMoreButton()
+    }
+    
+    @objc func popBack() {
+
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func popMore() {
+        
+        present(.confirmationAlert(
+            title: nil, message: nil, preferredStyle: .actionSheet,
+            actions: [UIAlertAction.addAction(
+                title: "儲存至相簿", style: .default,
+                handler: { [weak self] _ in
+                    
+                    self?.popMoreHandler()
+                }), UIAlertAction.addAction(
+                    title: String.cancelMandarin, style: .cancel, handler: nil)]
+        ), animated: true, completion: nil)
+    }
+    
     lazy var logoImageView: UIImageView = {
         
         let imageView = UIImageView()
@@ -78,80 +137,6 @@ class DetailRecordViewController: UIViewController {
         GMSMapView.layoutIfNeeded()
         return GMSMapView
     }()
-        
-    let locationManager = CLLocationManager()
-        
-    var latitudeArr: [CLLocationDegrees] = []
-    
-    var longitudeArr: [CLLocationDegrees] = []
-    
-    var indexPath: IndexPath?
-    
-    var path = GMSMutablePath()
-        
-    var walkDate: String?
-    
-    var walkTime: String?
-    
-    var walkStep: Int?
-    
-    var walkDistance: String?
-    
-    var tabbarHeight: CGFloat? = 0.0
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        self.navigationItem.setHidesBackButton(true, animated: true)
-
-        locationManager(locationManager, latitude: latitudeArr, longitude: longitudeArr)
-    }
-
-    override func viewDidLayoutSubviews() {
-        tabbarHeight = self.tabBarController?.tabBar.frame.height
-        setuptrackingMapView()
-        setupCoverImageView()
-        setupLogoImageView()
-        setupWalkDistanceLabel()
-        setupWalkStepLabel()
-        setupWalkTimeLabel()
-        setUpBackButton()
-        setUpMoreButton()
-    }
-    
-    @objc func popBack() {
-
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func popMore() {
-        
-        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let downloadAction = UIAlertAction(title: "儲存至相簿", style: .default) { _ in
-            self.popButton.isHidden = true
-            self.moreButton.isHidden = true
-            let screenshotImage = self.view.takeScreenshot()
-            UIImageWriteToSavedPhotosAlbum(screenshotImage, nil, nil, nil)
-            Toast.showSuccess(text: "已下載")
-            self.popButton.isHidden = false
-            self.moreButton.isHidden = false
-        }
-        
-        if let popoverController = controller.popoverPresentationController {
-
-                    popoverController.sourceView = self.view
-                    popoverController.sourceRect = CGRect(
-                        x: self.view.bounds.midX, y: self.view.bounds.midY,
-                        width: 0, height: 0
-                    )
-                    popoverController.permittedArrowDirections = []
-                }
-        
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        controller.addAction(downloadAction)
-        controller.addAction(cancelAction)
-        present(controller, animated: true, completion: nil)
-    }
 }
 
 extension DetailRecordViewController: CLLocationManagerDelegate {
@@ -181,6 +166,17 @@ extension DetailRecordViewController: CLLocationManagerDelegate {
         manager.stopUpdatingLocation()
         
         print("Error: \(error)")
+    }
+    
+    func popMoreHandler() {
+        
+        self.popButton.isHidden = true
+        self.moreButton.isHidden = true
+        let screenshotImage = self.view.takeScreenshot()
+        UIImageWriteToSavedPhotosAlbum(screenshotImage, nil, nil, nil)
+        Toast.showSuccess(text: "已下載")
+        self.popButton.isHidden = false
+        self.moreButton.isHidden = false
     }
 }
 
@@ -232,7 +228,6 @@ extension DetailRecordViewController {
             coverImageView.bottomAnchor.constraint(equalTo: trackingMapView.bottomAnchor, constant: -75),
             coverImageView.heightAnchor.constraint(equalToConstant: 120),
             coverImageView.widthAnchor.constraint(equalToConstant: 150)
-        
         ])
     }
     
@@ -248,7 +243,6 @@ extension DetailRecordViewController {
             logoImageView.bottomAnchor.constraint(equalTo: trackingMapView.bottomAnchor, constant: -80),
             logoImageView.heightAnchor.constraint(equalToConstant: 70),
             logoImageView.widthAnchor.constraint(equalToConstant: 70)
-        
         ])
         
     }

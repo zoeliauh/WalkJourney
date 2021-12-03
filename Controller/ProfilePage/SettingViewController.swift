@@ -10,42 +10,6 @@ import FirebaseAuth
 
 class SettingViewController: UIViewController {
     
-    lazy var deleteAccountButton: UIButton = {
-        
-        let button = UIButton()
-        configButton(button)
-        button.setTitle("刪除帳戶", for: .normal)
-        button.addTarget(self, action: #selector(deleteAccount(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var policyButton: UIButton = {
-        
-        let button = UIButton()
-        configButton(button)
-        button.setTitle("隱私權條款", for: .normal)
-        button.addTarget(self, action: #selector(presentPolicy(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var logoutButton: UIButton = {
-        
-        let button = UIButton()
-        configButton(button)
-        button.setTitle("登出", for: .normal)
-        button.addTarget(self, action: #selector(logOutAction(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var closeButton: UIButton = {
-        
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = UIColor.black
-        button.addTarget(self, action: #selector(closeButtonPress(_:)), for: .touchUpInside)
-        return button
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
                         
@@ -54,25 +18,14 @@ class SettingViewController: UIViewController {
         setupButtons()
     }
     
-    private func configButton(_ button: UIButton) {
-        button.titleLabel?.font = UIFont.semiBold(size: 18)
-        button.backgroundColor = UIColor.C4
-        button.tintColor = UIColor.white
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 10
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 5.0)
-        button.layoutIfNeeded()
-    }
-    
     @objc func deleteAccount(_ sender: UIButton) {
         
-        let alert = UIAlertController(title: "請聯絡我們幫您刪除帳戶", message: "woanjwuliauh@gmail.com", preferredStyle: .alert )
-        let okButton = UIAlertAction(title: "ok", style: .default)
-        
-        alert.addAction(okButton)
-        present(alert, animated: true, completion: nil)
+        present(.confirmationAlert(
+            title: "請聯絡我們幫您刪除帳戶", message: "woanjwuliauh@gmail.com",
+            preferredStyle: .alert,
+            actions: [UIAlertAction.addAction(
+                title: "ok", style: .default, handler: nil)
+                     ]), animated: true, completion: nil)
     }
     
     @objc func presentPolicy(_ sender: UIButton) {
@@ -90,40 +43,78 @@ class SettingViewController: UIViewController {
     }
     
     @objc func logOutAction(_ sender: UIButton) {
-                
-        let controller = UIAlertController(title: nil, message: "確定要登出嗎?", preferredStyle: .alert)
-
-        let okAction = UIAlertAction(title: "確定", style: .default) { _ in
-            
-            do {
-                
-                try Auth.auth().signOut()
-                
-                guard let loginVC = UIStoryboard.position.instantiateViewController(
-                    withIdentifier: String(describing: LoginViewController.self)
-                ) as? LoginViewController else { return }
-                                
-                loginVC.modalPresentationStyle = .fullScreen
-
-                self.present(loginVC, animated: true, completion: nil)
-                
-                print("logout")
-                
-            } catch let signOutError as NSError {
-                
-               print("Error signing out: \(signOutError)")
-                
-            }
-        }
         
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        
-        controller.addAction(okAction)
-        
-        controller.addAction(cancelAction)
-        
-        present(controller, animated: true, completion: nil)
+        present(.confirmationAlert(
+            title: nil, message: "確定要登出嗎?",
+            preferredStyle: .alert,
+            actions: [UIAlertAction.addAction(title: String.confirmed, style: .default, handler: { [weak self] _ in
+                
+                do {
+                    
+                    try Auth.auth().signOut()
+                    
+                    guard let loginVC = UIStoryboard.position.instantiateViewController(
+                        withIdentifier: String(describing: LoginViewController.self)
+                    ) as? LoginViewController else { return }
+                    
+                    loginVC.modalPresentationStyle = .fullScreen
+                    
+                    self?.present(loginVC, animated: true, completion: nil)
+                    
+                    print("logout")
+                    
+                } catch let signOutError as NSError {
+                    
+                    print("Error signing out: \(signOutError)")
+                    
+                }
+            }), UIAlertAction.addAction(title: String.cancel, style: .destructive, handler: nil)
+                     ]
+        ), animated: true, completion: nil)
     }
+    
+    lazy var deleteAccountButton: UIButton = {
+        
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
+        button.buttonConfig(button, cornerRadius: 10)
+        button.setTitle("刪除帳戶", for: .normal)
+        button.addTarget(self, action: #selector(deleteAccount(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var policyButton: UIButton = {
+        
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
+        button.buttonConfig(button, cornerRadius: 10)
+        button.setTitle("隱私權條款", for: .normal)
+        button.addTarget(self, action: #selector(presentPolicy(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var logoutButton: UIButton = {
+        
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
+        button.buttonConfig(button, cornerRadius: 10)
+        button.setTitle("登出", for: .normal)
+        button.addTarget(self, action: #selector(logOutAction(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var closeButton: UIButton = {
+        
+        let button = UIButton()
+        button.setImage(UIImage.system(.xMark), for: .normal)
+        button.tintColor = UIColor.black
+        button.addTarget(self, action: #selector(closeButtonPress(_:)), for: .touchUpInside)
+        return button
+    }()
+}
+
+// MARK: - UI design
+extension SettingViewController {
     
     private func setupButtons() {
         

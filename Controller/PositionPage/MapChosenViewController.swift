@@ -20,14 +20,7 @@ class MapChosenViewController: UIViewController {
         let button = UIButton()
         button.setTitle("漫遊", for: .normal)
         button.titleLabel?.font = UIFont.semiBold(size: 30)
-        button.backgroundColor = UIColor.C4
-        button.clipsToBounds = true
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 5.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.masksToBounds = false
-        button.layoutIfNeeded()
+        button.buttonConfig(button, cornerRadius: 0)
         return button
     }()
     
@@ -36,13 +29,7 @@ class MapChosenViewController: UIViewController {
         let button = UIButton()
         button.setTitle("挑戰", for: .normal)
         button.titleLabel?.font = UIFont.semiBold(size: 24)
-        button.backgroundColor = UIColor.C2
-        button.layer.cornerRadius = 20
-        button.layer.shadowOpacity = 0.3
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layoutIfNeeded()
+        button.buttonConfig(button, cornerRadius: 0)
         return button
     }()
     
@@ -98,20 +85,24 @@ class MapChosenViewController: UIViewController {
    }
     
     @objc func walkYourselfButtonPressed(_ sender: UIButton) {
-        guard let mapSearchingPagevc = UIStoryboard.position.instantiateViewController(
+        guard let mapSearchingPageVC = UIStoryboard.position.instantiateViewController(
             withIdentifier: String(describing: MapSearchingPageViewController.self)
         ) as? MapSearchingPageViewController else { return }
         
-        self.navigationController?.pushViewController(mapSearchingPagevc, animated: true)
+        self.navigationController?.pushViewController(mapSearchingPageVC, animated: true)
     }
     
     @objc func walkFunButtonPressed(_ sender: UIButton) {
-        guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
+        guard let funnyMapPageVC = UIStoryboard.position.instantiateViewController(
             withIdentifier: String(describing: FunnyMapViewController.self)
         ) as? FunnyMapViewController else { return }
         
-        self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
+        self.navigationController?.pushViewController(funnyMapPageVC, animated: true)
     }
+}
+
+// MARK: - UI design
+extension MapChosenViewController {
     
     private func setupLottie() {
         

@@ -28,7 +28,6 @@ class PrivacyPolicyViewController: UIViewController {
     }
     
     // MARK: - method
-    
     private func loadURL() {
         
         let privacyPolicyURL = "https://www.privacypolicies.com/live/cda04ddc-5190-47a5-bc77-d1f2c37754d4"
@@ -39,7 +38,6 @@ class PrivacyPolicyViewController: UIViewController {
     }
      
     // MARK: - UI properties
-    
     private lazy var webView: WKWebView = {
         let web = WKWebView()
         web.navigationDelegate = self
@@ -48,7 +46,6 @@ class PrivacyPolicyViewController: UIViewController {
 }
 
 // MARK: - conform to WKNavigationDelegate
-
 extension PrivacyPolicyViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
@@ -66,7 +63,6 @@ extension PrivacyPolicyViewController: WKNavigationDelegate {
 }
 
 // MARK: - config UI method
-
 extension PrivacyPolicyViewController {
     
     private func setWebView() {
