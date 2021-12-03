@@ -12,7 +12,7 @@ class ChallengeTableViewCell: UITableViewCell {
     lazy var challengeImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "challengeIcon")
+        imageView.image = UIImage.asset(.challengeIcon)
         imageView.layer.cornerRadius = 30
         return imageView
     }()
@@ -21,7 +21,7 @@ class ChallengeTableViewCell: UITableViewCell {
         
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 16)
+        label.font = UIFont.regular(size: 16)
         label.textAlignment = .left
         return label
     }()
@@ -30,7 +30,7 @@ class ChallengeTableViewCell: UITableViewCell {
         
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 16)
+        label.font = UIFont.regular(size: 16)
         label.textAlignment = .left
         label.numberOfLines = 0
         return label
@@ -40,7 +40,7 @@ class ChallengeTableViewCell: UITableViewCell {
         
         let button = UIButton()
         
-        button.setImage(UIImage(named: "Icon_next_24px"), for: .normal)
+        button.setImage(UIImage.asset(.nextIcon), for: .normal)
         button.contentMode = .scaleAspectFill
         return button
     }()
@@ -62,6 +62,10 @@ class ChallengeTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not beed implemented")
     }
+}
+
+// MARK: - UI design
+extension ChallengeTableViewCell {
     
     private func setupLogoImageView() {
         

@@ -81,11 +81,6 @@ class LoginViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -95,75 +90,20 @@ class LoginViewController: UIViewController {
     // MARK: - presentPolicy
     @objc func presentPolicy() {
         let storyboard = UIStoryboard(name: "Position", bundle: nil)
-        guard let policyVc = storyboard.instantiateViewController(
+        guard let policyVC = storyboard.instantiateViewController(
             withIdentifier: String(describing: PrivacyPolicyViewController.self)
         ) as? PrivacyPolicyViewController else { return }
         
-        present(policyVc, animated: true, completion: nil)
+        present(policyVC, animated: true, completion: nil)
     }
     
     @objc func presentLAEU() {
         let storyboard = UIStoryboard(name: "Position", bundle: nil)
-        guard let LAEUvc = storyboard.instantiateViewController(
+        guard let LAEUVC = storyboard.instantiateViewController(
             withIdentifier: String(describing: LAEUViewController.self)
         ) as? LAEUViewController else { return }
         
-        present(LAEUvc, animated: true, completion: nil)
-    }
-    
-    private func setPolicySettingLabel() {
-        view.addSubview(policySettingLabel)
-        policySettingLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            policySettingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            policySettingLabel.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -110)
-        ])
-    }
-    
-    private func setPolicySettingButton() {
-        view.addSubview(policySettingButton)
-        policySettingButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            policySettingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            policySettingButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
-        ])
-    }
-    
-    private func setAndLabel() {
-        view.addSubview(andLabel)
-        andLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            andLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            andLabel.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -79)
-        ])
-    }
-    
-    private func setLAEUButton() {
-        view.addSubview(LAEUButton)
-        LAEUButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            LAEUButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            LAEUButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -70)
-        ])
-    }
-    
-    func setUpSignInButton() {
-        
-        let button = ASAuthorizationAppleIDButton()
-        
-        view.addSubview(button)
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            
-            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            button.topAnchor.constraint(equalTo: appEnglishNameLabel.bottomAnchor, constant: 80),
-            button.heightAnchor.constraint(equalToConstant: 45)
-        ])
-        
-        button.addTarget(self, action: #selector(handleSignInWithAppleTapped), for: .touchUpInside)
+        present(LAEUVC, animated: true, completion: nil)
     }
     
     @objc func handleSignInWithAppleTapped() {
@@ -245,13 +185,10 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                       idToken: idTokenString,
                                                       rawNonce: nonce)
-            // sign in with Firebase
+            
             Auth.auth().signIn(with: credential) { (authResult, error) in
                 
                 if let error = error {
-                    // Error. If error.code == .MissingOrInvalidNonce, make sure
-                    // you're sending the SHA256-hashed nonce as a hex string with
-                    // your request to Apple.
                     print("登入失敗")
                     print(error.localizedDescription)
                     return
@@ -261,50 +198,43 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                    let user = authResult?.user,
                    additionalUserInfo.isNewUser {
                     
-                    print("Nice! You are now signed in as \(String(describing: user.email)), email: \(String(describing: user.email))")
+                    print("signed in as \(String(describing: user.uid)), email: \(String(describing: user.email))")
                     
-                    if let fullName = appleIDCredential.fullName,
-                       let userName = fullName.givenName {
-                        
-                        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                        
-                        changeRequest?.displayName = userName
-                        changeRequest?.commitChanges { error in
-                            print("can not change userName \(String(describing: error))")
-                        }
-                    }
+                    let email = user.email ?? ""
                     
-                    UserManager.shared.createUserInfo()
+                    UserManager.shared.createUserInfo(userID: user.uid, email: email)
+                    
+                    UserManager.shared.uid = authResult?.user.uid
                     
                 } else {
                     
                     UserManager.shared.uid = authResult?.user.uid
-                
+                    
                     print("be a user already")
                 }
-                        
-                    guard let window = self.sceneDelegate?.window else {
-                        fatalError("Cannot get window")
-                    }
-                    
-                    guard let tabBarVC = UIStoryboard
-                            .main
-                            .instantiateViewController(
-                                withIdentifier: String(describing: TabBarController.self)
-                            ) as? TabBarController else {
-                                
-                                return
-                            }
-                    
-                    window.rootViewController = tabBarVC
+                
+                guard let window = self.sceneDelegate?.window else {
+                    fatalError("Cannot get window")
                 }
+                
+                guard let tabBarVC = UIStoryboard
+                        .main
+                        .instantiateViewController(
+                            withIdentifier: String(describing: TabBarController.self)
+                        ) as? TabBarController else {
+                            
+                            return
+                        }
+                
+                window.rootViewController = tabBarVC
             }
         }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         
-        func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-            
-            print("Sign in with Apple errored: \(error)")
-        }
+        print("Sign in with Apple errored: \(error)")
+    }
 }
 
 extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
@@ -348,4 +278,62 @@ private func randomNonceString(length: Int = 32) -> String {
         }
     }
     return result
+}
+
+// MARK: - UI design
+extension LoginViewController {
+    private func setPolicySettingLabel() {
+        view.addSubview(policySettingLabel)
+        policySettingLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            policySettingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            policySettingLabel.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -110)
+        ])
+    }
+    
+    private func setPolicySettingButton() {
+        view.addSubview(policySettingButton)
+        policySettingButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            policySettingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            policySettingButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
+        ])
+    }
+    
+    private func setAndLabel() {
+        view.addSubview(andLabel)
+        andLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            andLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            andLabel.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -79)
+        ])
+    }
+    
+    private func setLAEUButton() {
+        view.addSubview(LAEUButton)
+        LAEUButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            LAEUButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            LAEUButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -70)
+        ])
+    }
+    
+    func setUpSignInButton() {
+        
+        let button = ASAuthorizationAppleIDButton()
+        
+        view.addSubview(button)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            button.topAnchor.constraint(equalTo: appEnglishNameLabel.bottomAnchor, constant: 80),
+            button.heightAnchor.constraint(equalToConstant: 45)
+        ])
+        
+        button.addTarget(self, action: #selector(handleSignInWithAppleTapped), for: .touchUpInside)
+    }
 }

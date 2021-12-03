@@ -14,7 +14,7 @@ import CoreLocation
 struct Location: Codable {
     
     var id: String
-    var location: Geopoint
+    var location: GeoPoint
     var createdTime: Int64?
     
     enum CodingKeys: String, CodingKey {
@@ -24,7 +24,7 @@ struct Location: Codable {
     }
 }
 
-struct Geopoint: Codable {
+struct GeoPoint: Codable {
 
     var longitude: Double
     var latitude: Double

@@ -14,18 +14,12 @@ enum FirebaseError: Error {
     case documentError
 }
 
-enum MasterError: Error {
-    case youKnowNothingError(String)
-}
-
-// read
 class CountingStepManager {
     
     static let shared = CountingStepManager()
     
     lazy var db = Firestore.firestore()
     
-    // read
     func fetchSteps(completion: @escaping (Result<[Location], Error>) -> Void) {
         
         db.collection(Collections.location.rawValue).order(
@@ -60,7 +54,6 @@ class CountingStepManager {
         }
     }
     
-    // create
     func addNewLocation(latitude: CLLocationDegrees,
                         longitude: CLLocationDegrees,
                         completion: @escaping (Result<String, Error>) -> Void) {
@@ -85,7 +78,6 @@ class CountingStepManager {
         }
     }
     
-    // delete
     func deleteLocation(location: Location, completion: @escaping (Result<String, Error>) -> Void) {
         
         db.collection(Collections.location.rawValue).document(location.id).delete { error in
@@ -100,7 +92,6 @@ class CountingStepManager {
         }
     }
     
-    // update
     func updateLocation(location: Location, completion: @escaping (Result<String, Error>) -> Void) {
         
         db.collection(Collections.location.rawValue).document(location.id).updateData([

@@ -13,11 +13,7 @@ private struct StoryboardCategory {
 
     static let position = "Position"
 
-    static let barChart = "BarChart"
-
     static let record = "Record"
-
-    static let share = "Share"
 
     static let profile = "Profile"
     
@@ -30,11 +26,7 @@ extension UIStoryboard {
 
     static var position: UIStoryboard { return stStoryboard(name: StoryboardCategory.position) }
 
-    static var barChart: UIStoryboard { return stStoryboard(name: StoryboardCategory.barChart) }
-
     static var record: UIStoryboard { return stStoryboard(name: StoryboardCategory.record) }
-
-    static var share: UIStoryboard { return stStoryboard(name: StoryboardCategory.share) }
 
     static var profile: UIStoryboard { return stStoryboard(name: StoryboardCategory.profile) }
     

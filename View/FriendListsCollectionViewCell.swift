@@ -14,7 +14,8 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
     lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "person.crop.circle")
+        imageView.image = UIImage.system(.personPlacehloder)
+        imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
         return imageView
     }()
@@ -24,7 +25,7 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "who are you"
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 17)
+        label.font = UIFont.regular(size: 17)
         label.textAlignment = .left
         label.numberOfLines = 3
         return label
@@ -35,7 +36,8 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         
         button.setTitle("發出挑戰", for: .normal)
-        buttonConfig(button)
+        button.titleLabel?.font = UIFont.regular(size: 15)
+        button.buttonConfig(button, cornerRadius: 10)
         return button
     }()
     
@@ -50,9 +52,7 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
         setupProfileImageView()
         setupfriendNameLabel()
         setupChallengeButton()
-        
-        profileImageView.layer.cornerRadius = 20
-        
+                
         contentView.backgroundColor = .C1
         contentView.layer.cornerRadius = 10
     }
@@ -65,22 +65,6 @@ class FriendListsCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         contentViewConfig()
-        
-        profileImageView.clipsToBounds = true
-    }
-
-    private func buttonConfig(_ button: UIButton) {
-        
-        button.titleLabel?.font = UIFont.kleeOneRegular(ofSize: 15)
-        button.backgroundColor = UIColor.C4
-        button.layer.cornerRadius = 10
-        button.layer.shadowOpacity = 0.3
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.clipsToBounds = true
-        button.layer.masksToBounds = false
-        button.layoutIfNeeded()
     }
     
     private func contentViewConfig() {

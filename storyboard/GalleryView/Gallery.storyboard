@@ -12,7 +12,7 @@
         <!--Gallery View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="Gallery" id="Y6W-OH-hqX" customClass="GalleryViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GalleryViewController" id="Y6W-OH-hqX" customClass="GalleryViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -27,7 +27,7 @@
         <!--Zoom In View Controller-->
         <scene sceneID="n3F-Sb-L2g">
             <objects>
-                <viewController storyboardIdentifier="ZoomIn" id="Cyg-NS-abK" customClass="ZoomInViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ZoomInViewController" id="Cyg-NS-abK" customClass="ZoomInViewController" customModule="WalkJourney" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="E3d-xc-NZx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

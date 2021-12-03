@@ -11,7 +11,7 @@ import CoreLocation
 
 struct GoogleMapsManager {
     
-    static let AppWorks = CLLocation(latitude: 25.043, longitude: 121.565)
+    static let appWorks = CLLocation(latitude: 25.043, longitude: 121.565)
     
     static var preciseLocationZoomLevel: Float = 15.0
     
@@ -34,11 +34,20 @@ struct GoogleMapsManager {
         locationManager.delegate = delegate as? CLLocationManagerDelegate
     }
     
+    static func defaultPostion(_ map: GMSMapView) {
+                
+        map.settings.myLocationButton = true
+        
+        map.isMyLocationEnabled = true
+    }
+    
     static func didUpdateLocations(_ locations: [CLLocation], locationManager: CLLocationManager, mapView: GMSMapView) {
         
         guard let lastLocation: CLLocation = locations.last else { return }
                     
-        let zoomLevel = locationManager.accuracyAuthorization == .fullAccuracy ? preciseLocationZoomLevel : approximateLocationZoomLevel
+        let zoomLevel = locationManager.accuracyAuthorization ==
+            
+            .fullAccuracy ? preciseLocationZoomLevel : approximateLocationZoomLevel
         
         let camera = GMSCameraPosition.camera(withLatitude: lastLocation.coordinate.latitude,
                                               longitude: lastLocation.coordinate.longitude,
