@@ -17,7 +17,7 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     lazy var routeSampleImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "bubble_tea_line")
+        imageView.image = UIImage.asset(.bubbleTeaLine)
         imageView.layer.cornerRadius = 35
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -28,7 +28,7 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     lazy var dismissButton: UIButton = {
         
         let button = UIButton()
-        button.setImage(UIImage(named: "Icon_cross_mark"), for: .normal)
+        button.setImage(UIImage.asset(.crossMark), for: .normal)
         return button
     }()
     
@@ -36,7 +36,13 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     
     @IBOutlet weak var timerlabel: UILabel!
     
-    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var doneButton: UIButton! {
+        
+        didSet {
+            
+            doneButton.buttonConfig(doneButton, cornerRadius: 20)
+        }
+    }
     
     @IBOutlet weak var paceLabel: UILabel!
     
@@ -55,28 +61,28 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     var currentLocation = [Double]()
     
     var newLocation: (() -> Void)?
-    
-    var downCountTimer = 4
-    
+        
     var path = GMSMutablePath()
     
     var timer = Timer()
-    
-    let activityManager = CMMotionActivityManager()
-    
+        
     let pedometer = CMPedometer()
     
     var count: Int = 0
     
-    var timeString: String = ""
+    var timeString: String = "" {
+        
+        didSet {
+            
+            timeLabel.text = timeString
+        }
+    }
     
     var lastLocation: CLLocation?
         
     var distanceSum: Double = 0
     
-    var eachLatitude: [CLLocationDegrees] = []
-    
-    var eachLongitude: [CLLocationDegrees] = []
+    var eachLocation: [CLLocationDegrees: CLLocationDegrees] = [:]
     
     var certainLat: [CLLocationDegrees] = []
     
@@ -86,13 +92,11 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupDoneButton()
-        
+                
         GoogleMapsManager.initLocationManager(locationManager, delegate: self)
         
-        defaultPosition()
-        
+        GoogleMapsManager.defaultPostion(googleArtMapView)
+                
         countDownStart()
 
         countSteps()
@@ -128,38 +132,24 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     
     func countDownStart() {
         
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] (timer) in
-            self.downCountTimer -= 1
-            timerlabel.text = String(self.downCountTimer)
-            if self.downCountTimer == 3 {
-                timerlabel.isHidden = false
-                timerLabelAnimation()
-            }
-            if self.downCountTimer == 2 {
-                timerlabel.isHidden = false
-                timerLabelAnimation()
-            }
-            if self.downCountTimer == 1 {
-                timerlabel.isHidden = false
-                timerLabelAnimation()
-            }
-            if self.downCountTimer == 0 {
+        var downCountTimer = 4
+        
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] (timer) in
+            
+            downCountTimer -= 1
+            
+            self?.timerlabel.text = String(downCountTimer)
+            self?.timerlabel.isHidden = false
+            self?.timerLabelAnimation()
+            
+            if downCountTimer == 0 {
                 timer.invalidate()
-                timerlabel.isHidden = true
-                fadeOut()
-                routeSampleImageView.isHidden = false
-                countTimer()
+                self?.timerlabel.isHidden = true
+                self?.fadeOut()
+                self?.routeSampleImageView.isHidden = false
+                self?.countTimer()
             }
         }
-    }
-    
-    func defaultPosition() {
-        
-        googleArtMapView.delegate = self
-        
-        googleArtMapView.settings.myLocationButton = true
-        
-        googleArtMapView.isMyLocationEnabled = true
     }
     
     func createNewRecord() {
@@ -175,14 +165,12 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
                                           numStep: numStep,
                                           latitude: certainLat,
                                           longitude: certainLong,
-                                          date: "", year: "", month: "",
                                           screenshot: screenshotImageView) { result in
             
             switch result {
                 
             case .success:
                 
-                print("successful to upload the new record")
                 self.newRecord?()
                 
             case .failure(let error):
@@ -209,7 +197,6 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
     }
 }
 
-// MARK: - draw route
 extension GoogleArtViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -222,21 +209,17 @@ extension GoogleArtViewController: CLLocationManagerDelegate {
                 zoom: 15)
                             
             path.addLatitude(location.coordinate.latitude, longitude: location.coordinate.longitude)
+
+            eachLocation[location.coordinate.latitude] = location.coordinate.longitude
             
-            eachLatitude.append(location.coordinate.latitude)
-            
-            eachLongitude.append(location.coordinate.longitude)
-            
-            print(eachLongitude.count)
-            
-            if eachLatitude.count == 1 {
+            if eachLocation.count == 1 {
                 
                 certainLat.append(location.coordinate.latitude)
                 
                 certainLong.append(location.coordinate.longitude)
             }
                         
-            if eachLatitude.count % 5 == 0 {
+            if eachLocation.count % 5 == 0 {
                 
                 certainLat.append(location.coordinate.latitude)
                 
@@ -276,82 +259,27 @@ extension GoogleArtViewController: CLLocationManagerDelegate {
     
     func successMessage() {
         
-        let controller = UIAlertController(title: "儲存成功",
-                                           message: nil,
-                                           preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "確定",
-                                     style: .default
-        ) { (_: UIAlertAction) in
-            
-            self.navigationController?.popViewController(animated: true)
-            
-            self.tabBarController?.selectedIndex = 1
-                        
-            self.tabBarController?.tabBar.isHidden = false
-        }
-        
-        controller.addAction(okAction)
-        
-        present(controller, animated: true, completion: nil)
+        present(.confirmationAlert(
+            title: String.successfulSave, message: nil, preferredStyle: .alert,
+            actions: [UIAlertAction.addAction(title: String.confirmed, style: .default, handler: { _ in
+                    
+                    self.navigationController?.popViewController(animated: true)
+                    self.tabBarController?.selectedIndex = 1
+                    self.tabBarController?.tabBar.isHidden = false
+                })]
+        ), animated: true, completion: nil)
     }
 }
 
-// MARK: UI design
-extension GoogleArtViewController {
-    
-    private func setupRouteSampleImageView() {
-        
-        view.addSubview(routeSampleImageView)
-        
-        routeSampleImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-        
-            routeSampleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -50),
-            routeSampleImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
-            routeSampleImageView.widthAnchor.constraint(equalToConstant: 150),
-            routeSampleImageView.heightAnchor.constraint(equalToConstant: 150)
-        ])
-    }
-    
-    private func setupDoneButton() {
-        
-        doneButton.layer.cornerRadius = 20
-        doneButton.layer.shadowOpacity = 0.3
-        doneButton.layer.shadowRadius = 2.0
-        doneButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        doneButton.layer.shadowColor = UIColor.black.cgColor
-    }
-    
-    private func setUpDismissButton() {
-                                
-        view.addSubview(dismissButton)
-        
-        dismissButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            
-            dismissButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            dismissButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-            dismissButton.heightAnchor.constraint(equalToConstant: 40),
-            dismissButton.widthAnchor.constraint(equalToConstant: 40)
-        ])
-        
-        dismissButton.addTarget(self, action: #selector(dismissButtonPressed), for: .touchUpInside)
-    }
-}
-// MARK: - timer counter
 extension GoogleArtViewController {
     
     @objc func timerCounter() {
         
         count += 1
         
-        let time = secondToSecMinHour(seconds: count)
+        let time = TimeManager.shared.secondToSecMinHour(seconds: count)
         
-        timeString = makeTimeString(hour: time.0, min: time.1, sec: time.2)
-        
-        timeLabel.text = timeString
+        timeString = TimeManager.shared.makeTimeString(hour: time.0, min: time.1, sec: time.2)
     }
     
     func countTimer() {
@@ -379,29 +307,40 @@ extension GoogleArtViewController {
             }
         }
     }
+}
+
+// MARK: UI design
+extension GoogleArtViewController {
     
-    func secondToSecMinHour(seconds: Int) -> (Int, Int, Int) {
+    private func setupRouteSampleImageView() {
         
-        return ((seconds / 3600), ((seconds % 3600) / 60), ((seconds % 3600) % 60))
+        view.addSubview(routeSampleImageView)
+        
+        routeSampleImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            routeSampleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -50),
+            routeSampleImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+            routeSampleImageView.widthAnchor.constraint(equalToConstant: 150),
+            routeSampleImageView.heightAnchor.constraint(equalToConstant: 150)
+        ])
     }
-    
-    func makeTimeString(hour: Int, min: Int, sec: Int) -> String {
+
+    private func setUpDismissButton() {
+                                
+        view.addSubview(dismissButton)
         
-        var timeString: String = ""
+        dismissButton.translatesAutoresizingMaskIntoConstraints = false
         
-        if hour == 0 {
+        NSLayoutConstraint.activate([
             
-            timeString += String(format: "%02d", min)
-            timeString += " : "
-            timeString += String(format: "%02d", sec)
-        } else {
-            
-            timeString += String(format: "%02d", hour)
-            timeString += " : "
-            timeString += String(format: "%02d", min)
-            timeString += " : "
-            timeString += String(format: "%02d", sec)
-        }
-        return timeString
+            dismissButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            dismissButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            dismissButton.heightAnchor.constraint(equalToConstant: 40),
+            dismissButton.widthAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        dismissButton.addTarget(self, action: #selector(dismissButtonPressed), for: .touchUpInside)
     }
 }

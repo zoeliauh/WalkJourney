@@ -19,15 +19,8 @@ class MapChosenViewController: UIViewController {
         
         let button = UIButton()
         button.setTitle("漫遊", for: .normal)
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 30)
-        button.backgroundColor = UIColor.C4
-        button.clipsToBounds = true
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 5.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.masksToBounds = false
-        button.layoutIfNeeded()
+        button.titleLabel?.font = UIFont.semiBold(size: 30)
+        button.buttonConfig(button, cornerRadius: 0)
         return button
     }()
     
@@ -35,14 +28,8 @@ class MapChosenViewController: UIViewController {
         
         let button = UIButton()
         button.setTitle("挑戰", for: .normal)
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 24)
-        button.backgroundColor = UIColor.C2
-        button.layer.cornerRadius = 20
-        button.layer.shadowOpacity = 0.3
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layoutIfNeeded()
+        button.titleLabel?.font = UIFont.semiBold(size: 24)
+        button.buttonConfig(button, cornerRadius: 0)
         return button
     }()
     
@@ -51,7 +38,7 @@ class MapChosenViewController: UIViewController {
     lazy var animationView: AnimationView = {
         
         var animationView = AnimationView()
-        animationView = .init(name: "walking_outside")
+        animationView = .init(name: String.walkingOutside)
         animationView.animationSpeed = 1
         animationView.layoutIfNeeded()
         return animationView
@@ -65,6 +52,8 @@ class MapChosenViewController: UIViewController {
         GoogleMapsManager.initLocationManager(locationManager, delegate: self)
                 
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        self.tabBarController?.tabBar.backgroundImage =  UIImage()
 
         setupWalkYourselfButton()
 
@@ -96,20 +85,24 @@ class MapChosenViewController: UIViewController {
    }
     
     @objc func walkYourselfButtonPressed(_ sender: UIButton) {
-        guard let mapSearchingPagevc = UIStoryboard.position.instantiateViewController(
-            withIdentifier: "MapSearchingPage"
+        guard let mapSearchingPageVC = UIStoryboard.position.instantiateViewController(
+            withIdentifier: String(describing: MapSearchingPageViewController.self)
         ) as? MapSearchingPageViewController else { return }
         
-        self.navigationController?.pushViewController(mapSearchingPagevc, animated: true)
+        self.navigationController?.pushViewController(mapSearchingPageVC, animated: true)
     }
     
     @objc func walkFunButtonPressed(_ sender: UIButton) {
-        guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
-            withIdentifier: "FunnyMapPage"
+        guard let funnyMapPageVC = UIStoryboard.position.instantiateViewController(
+            withIdentifier: String(describing: FunnyMapViewController.self)
         ) as? FunnyMapViewController else { return }
         
-        self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
+        self.navigationController?.pushViewController(funnyMapPageVC, animated: true)
     }
+}
+
+// MARK: - UI design
+extension MapChosenViewController {
     
     private func setupLottie() {
         

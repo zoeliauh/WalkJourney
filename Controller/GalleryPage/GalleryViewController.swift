@@ -25,7 +25,7 @@ class GalleryViewController: UIViewController {
     lazy var animationView: AnimationView = {
         
         var animationView = AnimationView()
-        animationView = .init(name: "loading")
+        animationView = .init(name: String.loading)
         animationView.animationSpeed = 1
         animationView.layoutIfNeeded()
         return animationView
@@ -90,15 +90,11 @@ class GalleryViewController: UIViewController {
             gpsArtTableView.deleteRows(at: [indexPath], with: .fade)
         } else {
             
-            let controller = UIAlertController(title: "",
-                                               message: "只能刪除自己的貼文",
-                                               preferredStyle: .alert)
-            
-            let okAction = UIAlertAction(title: "確定", style: .default)
-            
-            controller.addAction(okAction)
-            
-            present(controller, animated: true, completion: nil)
+            present(.confirmationAlert(
+                title: "", message: "只能刪除自己的貼文",
+                preferredStyle: .alert,
+                actions: [UIAlertAction.addAction(
+                    title: String.confirmed, style: .default, handler: nil)]), animated: true, completion: nil)
         }
     }
     
@@ -106,15 +102,15 @@ class GalleryViewController: UIViewController {
         
         guard let myID = myID else { return }
         
-        UserManager.shared.fetchUserInfo(uesrID: myID) { [self] result in
+        UserManager.shared.fetchUserInfo(userID: myID) { [weak self] result in
             
             switch result {
                 
             case .success(let blockList):
                 
-                self.blockLists = blockList.blockLists ?? []
+                self?.blockLists = blockList.blockLists ?? []
                 
-                PublicPostManager.shared.fetchAllPublicPostInfo { [self] result in
+                PublicPostManager.shared.fetchAllPublicPostInfo { [weak self] result in
                     
                     switch result {
                         
@@ -122,28 +118,28 @@ class GalleryViewController: UIViewController {
                         
                         let group = DispatchGroup()
                         
-                        self.publicPosts = []
+                        self?.publicPosts = []
                         
-                        for index in publicPosts where blockLists.contains(index.uid) == false {
+                        for index in publicPosts where self?.blockLists.contains(index.uid) == false {
                             
-                            self.publicPosts.append(index)
+                            self?.publicPosts.append(index)
                             
-                            self.publicPosts.sort { $0.createdTime ?? 0 > $1.createdTime ?? 0 }
+                            self?.publicPosts.sort { $0.createdTime ?? 0 > $1.createdTime ?? 0 }
                         }
                         
                         for post in publicPosts {
                             
                             group.enter()
                             
-                            UserManager.shared.fetchUserInfo(uesrID: post.uid) { result in
+                            UserManager.shared.fetchUserInfo(userID: post.uid) { [weak self] result in
                                 
                                 switch result {
                                     
                                 case .success(let posterInfo):
                                     
-                                    posterID = post.uid
+                                    self?.posterID = post.uid
                                     
-                                    self.posterInfo[posterID] = posterInfo
+                                    self?.posterInfo[post.uid] = posterInfo
                                     
                                     group.leave()
                                     
@@ -156,10 +152,10 @@ class GalleryViewController: UIViewController {
                             }
                         }
                         group.notify(queue: .main) {
-                            self.gpsArtTableView.dataSource = self
-                            self.gpsArtTableView.delegate = self
-                            self.gpsArtTableView.reloadData()
-                            self.animationView.removeFromSuperview()
+                            self?.gpsArtTableView.dataSource = self
+                            self?.gpsArtTableView.delegate = self
+                            self?.gpsArtTableView.reloadData()
+                            self?.animationView.removeFromSuperview()
                         }
                         
                     case .failure(let error):
@@ -175,7 +171,6 @@ class GalleryViewController: UIViewController {
     }
 }
 
-// MARK: - tableViewDelegate, tableViewDataSource
 extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -229,38 +224,35 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint
+    ) -> UIContextMenuConfiguration? {
         
         let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             
             let blockAction = UIAction(
                 
-                title: "封鎖使用者", image: UIImage(systemName: "person.fill.xmark"),
+                title: "封鎖使用者", image: UIImage.system(.personFillXMark),
                 
                 identifier: nil,
                 
-                discoverabilityTitle: nil, attributes: .destructive) { [self]_ in
+                discoverabilityTitle: nil, attributes: .destructive) { [weak self]_ in
                     
-                    let controller = UIAlertController(title: "",
-                                                       message: "確定要將此人加入黑名單嗎?\n一但加入即無法取消唷",
-                                                       preferredStyle: .alert)
-                    
-                    let okAction = UIAlertAction(title: "確定", style: .default) { _ in
-                        
-                        self.blockLists.append(publicPosts[indexPath.row].uid)
-                        
-                        UserManager.shared.updateBlockList(blockLists: blockLists)
-                        
-                        gpsArtTableView.reloadData()
-                    }
-                    
-                    let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
-                    
-                    controller.addAction(okAction)
-                    
-                    controller.addAction(cancelAction)
-                    
-                    present(controller, animated: true, completion: nil)
+                    self?.present(.confirmationAlert(
+                        title: "", message: "確定要將此人加入黑名單嗎?\n一但加入即無法取消唷",
+                        preferredStyle: .alert, actions: [
+                            UIAlertAction.addAction(
+                                title: String.confirmed, style: .default,
+                                handler: { [weak self] _ in
+                                    
+                                    self?.blockLists.append(self?.publicPosts[indexPath.row].uid ?? "")
+                                    UserManager.shared.updateBlockList(blockLists: self?.blockLists ?? [])
+                                    self?.gpsArtTableView.reloadData()
+                                    
+                                }), UIAlertAction.addAction(
+                                    title: String.cancel, style: .destructive, handler: nil)
+                        ]), animated: true, completion: nil)
                 }
             
             return UIMenu(title: "", image: nil, identifier: nil,
@@ -275,7 +267,7 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let navZoomInvc = UIStoryboard.gallery.instantiateViewController(
-            withIdentifier: "ZoomIn"
+            withIdentifier: String(describing: ZoomInViewController.self)
         ) as? ZoomInViewController else { return }
         
         navZoomInvc.screenshotURL = publicPosts[indexPath.row].screenshotURL

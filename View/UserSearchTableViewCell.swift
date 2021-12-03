@@ -12,7 +12,7 @@ class UserSearchTableViewCell: UITableViewCell {
     lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.loadImage(UserManager.shared.uid, placeHolder: UIImage(systemName: "person.crop.circle"))
+        imageView.loadImage(UserManager.shared.uid, placeHolder: UIImage.system(.personPlacehloder))
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
@@ -22,7 +22,7 @@ class UserSearchTableViewCell: UITableViewCell {
         
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 18)
+        label.font = UIFont.regular(size: 18)
         label.textAlignment = .left
         label.numberOfLines = 0
         return label
@@ -31,23 +31,12 @@ class UserSearchTableViewCell: UITableViewCell {
     lazy var addFriendButton: UIButton = {
         
         let button = UIButton()
-        button.setTitle("加入好友", for: .normal)
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
-        button.backgroundColor = UIColor.C4
-        button.layer.cornerRadius = 10
-        button.layer.shadowOpacity = 0.3
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.clipsToBounds = true
-        button.layer.masksToBounds = false
-        button.layoutIfNeeded()
-
+        button.setTitle(String.addFriend, for: .normal)
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
+        button.buttonConfig(button, cornerRadius: 10)
         return button
     }()
-    
-    var buttonIsEnable: Bool = true
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
  
@@ -70,6 +59,10 @@ class UserSearchTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not beed implemented")
     }
+}
+
+// MARK: - UI design
+extension UserSearchTableViewCell {
     
     private func setupProfileImageView() {
         
@@ -113,16 +106,5 @@ class UserSearchTableViewCell: UITableViewCell {
             addFriendButton.heightAnchor.constraint(equalToConstant: 30),
             addFriendButton.widthAnchor.constraint(equalToConstant: 120)
         ])
-        
-        if buttonIsEnable {
-            
-            addFriendButton.isEnabled = true
-            addFriendButton.backgroundColor = UIColor.C4
-        } else {
-            
-            addFriendButton.isEnabled = false
-            addFriendButton.backgroundColor = .lightGray
-        }
-        
     }
 }

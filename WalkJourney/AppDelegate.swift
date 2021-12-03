@@ -17,14 +17,14 @@ import FirebaseAuth
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
         FirebaseApp.configure()
         IQKeyboardManager.shared.enable = true
         GMSServices.provideAPIKey("AIzaSyA3xiyraxaO6CE9-W5CbacBaljht39XheU")
         GMSPlacesClient.provideAPIKey("AIzaSyA3xiyraxaO6CE9-W5CbacBaljht39XheU")
                 
         if let user = Auth.auth().currentUser {
-            print("You are sign in as \(user.uid), email: \(user.email)")
+            print("signed in as \(String(describing: user.uid)), email: \(String(describing: user.email))")
         }
         
         return true

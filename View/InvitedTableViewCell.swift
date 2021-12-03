@@ -12,8 +12,9 @@ class InvitedTableViewCell: UITableViewCell {
     lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "person.crop.circle")
-//        imageView.layer.cornerRadius = imageView.frame.width / 2
+        imageView.image = UIImage.system(.personPlacehloder)
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 10
         return imageView
     }()
     
@@ -21,7 +22,7 @@ class InvitedTableViewCell: UITableViewCell {
         
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.kleeOneRegular(ofSize: 20)
+        label.font = UIFont.regular(size: 20)
         label.textAlignment = .left
         return label
     }()
@@ -30,8 +31,9 @@ class InvitedTableViewCell: UITableViewCell {
         
         let button = UIButton()
         
-        button.setTitle("確認", for: .normal)
-        buttonConfig(button)
+        button.setTitle(String.confirmed, for: .normal)
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
+        button.buttonConfig(button, cornerRadius: 10)
         return button
     }()
     
@@ -39,16 +41,15 @@ class InvitedTableViewCell: UITableViewCell {
         
         let button = UIButton()
         
-        button.setTitle("取消", for: .normal)
-        buttonConfig(button)
+        button.setTitle(String.cancelMandarin, for: .normal)
+        button.titleLabel?.font = UIFont.semiBold(size: 18)
+        button.buttonConfig(button, cornerRadius: 10)
         return button
     }()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        profileImageView.layer.cornerRadius = profileImageView.bounds.height / 2
-        profileImageView.clipsToBounds = true
+   
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -63,20 +64,11 @@ class InvitedTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not beed implemented")
     }
-    
-    private func buttonConfig(_ button: UIButton) {
-        
-        button.titleLabel?.font = UIFont.kleeOneSemiBold(ofSize: 18)
-        button.backgroundColor = UIColor.C4
-        button.layer.cornerRadius = 10
-        button.layer.shadowOpacity = 0.3
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.clipsToBounds = true
-        button.layer.masksToBounds = false
-        button.layoutIfNeeded()
-    }
+}
+
+// MARK: - UI design
+
+extension InvitedTableViewCell {
     
     private func setupProfileImageView() {
         

@@ -20,7 +20,6 @@ class InvitationManager {
     
     let uid = Auth.auth().currentUser?.uid
     
-    // create
     func createInvitationRequest(searchNameResult: String) {
         
         guard let uid = uid else { return }
@@ -35,7 +34,6 @@ class InvitationManager {
         ])
     }
     
-    // fetch all invitation data
     func fetchAllInvitationInfo(completion: @escaping (Result<[Invitation], Error>) -> Void) {
         
         db.collection(Collections.invitation.rawValue).getDocuments { (querySnapshot, error) in
@@ -67,7 +65,6 @@ class InvitationManager {
         }
     }
     
-    // fetch certain user invitation data
     func fetchUserInvitationInfo(completion: @escaping (Result<[Invitation], Error>) -> Void) {
         
         guard let uid = UserManager.shared.uid else { return }
@@ -88,7 +85,11 @@ class InvitationManager {
                     for document in querySnapshot.documents {
                         
                         do {
-                            if let userInvitation = try document.data(as: Invitation.self, decoder: Firestore.Decoder()) {
+                            if let userInvitation = try document.data(
+                                
+                                as: Invitation.self, decoder: Firestore.Decoder()
+                            ) {
+                                
                                 userInvitations.append(userInvitation)
                             }
                             
@@ -127,7 +128,6 @@ class InvitationManager {
             }
     }
     
-    // update invitation request
     func updateInvitedStatus(sender: String) {
         
         guard let uid = uid else { return }
@@ -152,7 +152,6 @@ class InvitationManager {
             }
     }
     
-    // delete Invited Request
     func deleteInvitedRequest(sender: String) {
         
         guard let uid = UserManager.shared.uid else { return }
@@ -167,18 +166,13 @@ class InvitationManager {
                     
                     print("delete InvitedRequest \(error)")
                 } else {
-                
-                guard let snapshot = snapshot else { return }
-                
-                snapshot.documents.forEach { snapshot in
-                    snapshot.reference.delete()
+                    
+                    guard let snapshot = snapshot else { return }
+                    
+                    snapshot.documents.forEach { snapshot in
+                        snapshot.reference.delete()
+                    }
                 }
             }
-            }
     }
-    
-    // get real time data
-    func getRealTimeFriendList() {
-    }
-    
 }

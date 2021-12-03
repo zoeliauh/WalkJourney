@@ -11,14 +11,14 @@ class RecordViewController: UIViewController {
     
     lazy var recordTableView: UITableView = {
         
-        let table = UITableView()
-        table.dataSource = self
-        table.delegate = self
-        table.rowHeight = UITableView.automaticDimension
-        table.register(RecordTableViewCell.self, forCellReuseIdentifier: RecordTableViewCell.identifier)
-        table.reloadData()
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.register(RecordTableViewCell.self, forCellReuseIdentifier: RecordTableViewCell.identifier)
+        tableView.reloadData()
 
-        return table
+        return tableView
     }()
     
     lazy var refreshControl: UIRefreshControl! = {
@@ -29,7 +29,7 @@ class RecordViewController: UIViewController {
         return refreshControl
     }()
                 
-    var stepData: [StepData] = [] {
+    var journeyRecords: [StepData] = [] {
         
         didSet {
             recordTableView.reloadData()
@@ -64,22 +64,21 @@ class RecordViewController: UIViewController {
     @objc func navDetailRecordVC(_ sender: UIButton) {
 
         guard let detailRecordVC = UIStoryboard.record.instantiateViewController(
-            withIdentifier: "DetailRecord"
+            withIdentifier: String(describing: DetailRecordViewController.self)
         ) as? DetailRecordViewController else { return }
         
-        detailRecordVC.latitudeArr = stepData[sender.tag].latitude
+        detailRecordVC.latitudeArr = journeyRecords[sender.tag].latitude
         
-        detailRecordVC.longitudeArr = stepData[sender.tag].longitude
+        detailRecordVC.longitudeArr = journeyRecords[sender.tag].longitude
         
         detailRecordVC.walkDate = Date.dateFormatter.string(
-            from: Date.init(milliseconds: stepData[sender.tag].createdTime ?? Int64(0.0)
-                           ))
+            from: Date.init(milliseconds: journeyRecords[sender.tag].createdTime ?? Int64(0.0)))
         
-        detailRecordVC.walkTime = stepData[sender.tag].durationOfTime
+        detailRecordVC.walkTime = journeyRecords[sender.tag].durationOfTime
         
-        detailRecordVC.walkStep = stepData[sender.tag].numberOfSteps
+        detailRecordVC.walkStep = journeyRecords[sender.tag].numberOfSteps
         
-        detailRecordVC.walkDistance = stepData[sender.tag].distanceOfWalk
+        detailRecordVC.walkDistance = journeyRecords[sender.tag].distanceOfWalk
         
         navigationController?.pushViewController(detailRecordVC, animated: true)
     }
@@ -90,9 +89,9 @@ class RecordViewController: UIViewController {
         
             switch result {
                 
-            case .success(let stepData):
+            case .success(let journeyRecords):
                 
-                self?.stepData = stepData
+                self?.journeyRecords = journeyRecords
                                                 
             case .failure(let error):
                 
@@ -103,10 +102,10 @@ class RecordViewController: UIViewController {
     
     func deleteRecordStepsData(indexPath: IndexPath) {
         
-        guard let createdTime = stepData[indexPath.row].createdTime else { return }
+        guard let createdTime = journeyRecords[indexPath.row].createdTime else { return }
         
         RecordManager.shared.deleteRecord(createdTime: createdTime)                
-        stepData.remove(at: indexPath.row)
+        journeyRecords.remove(at: indexPath.row)
         recordTableView.deleteRows(at: [indexPath], with: .fade)
     }
         
@@ -141,7 +140,7 @@ class RecordViewController: UIViewController {
         ])
     }
 }
-// MARK: - UITableViewDelegate, UITableViewDataSource
+
 extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -151,7 +150,7 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return stepData.count
+        return journeyRecords.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -163,9 +162,9 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
                 
         cell.dateLabel.text = Date.dateFormatter.string(
             from: Date.init(
-                milliseconds: stepData[indexPath.row].createdTime ?? Int64(0.0)))
+                milliseconds: journeyRecords[indexPath.row].createdTime ?? Int64(0.0)))
         
-        cell.stepsLabel.text = "\(stepData[indexPath.row].numberOfSteps.description) 步"
+        cell.stepsLabel.text = "\(journeyRecords[indexPath.row].numberOfSteps.description) 步"
         
         cell.detailButton.tag = indexPath.item
         
@@ -179,22 +178,21 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let detailRecordVC = UIStoryboard.record.instantiateViewController(
-            withIdentifier: "DetailRecord"
+            withIdentifier: String(describing: DetailRecordViewController.self)
         ) as? DetailRecordViewController else { return }
         
-        detailRecordVC.latitudeArr = stepData[indexPath.row].latitude
+        detailRecordVC.latitudeArr = journeyRecords[indexPath.row].latitude
         
-        detailRecordVC.longitudeArr = stepData[indexPath.row].longitude
+        detailRecordVC.longitudeArr = journeyRecords[indexPath.row].longitude
         
         detailRecordVC.walkDate = Date.dateFormatter.string(
-            from: Date.init(milliseconds: stepData[indexPath.row].createdTime ?? Int64(0.0)
-                           ))
+            from: Date.init(milliseconds: journeyRecords[indexPath.row].createdTime ?? Int64(0.0)))
         
-        detailRecordVC.walkTime = stepData[indexPath.row].durationOfTime
+        detailRecordVC.walkTime = journeyRecords[indexPath.row].durationOfTime
         
-        detailRecordVC.walkStep = stepData[indexPath.row].numberOfSteps
+        detailRecordVC.walkStep = journeyRecords[indexPath.row].numberOfSteps
         
-        detailRecordVC.walkDistance = stepData[indexPath.row].distanceOfWalk
+        detailRecordVC.walkDistance = journeyRecords[indexPath.row].distanceOfWalk
         
         self.navigationController?.pushViewController(detailRecordVC, animated: true)
     }

@@ -17,13 +17,3 @@ struct User: Codable {
     var blockLists: [String]?
     var friendLists: [String]?
 }
-
-struct BlockLists: Codable {
-    
-    var blockFriends: String
-}
-
-struct FriendLists: Codable {
-    
-    var friends: String
-}

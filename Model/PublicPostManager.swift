@@ -20,7 +20,6 @@ class PublicPostManager {
     
     let uid = Auth.auth().currentUser?.uid
     
-    // create
     func createPublicPost(screenshotURL: String, completion: @escaping (Result<String, Error>) -> Void) {
         
         guard let uid = uid else { return }
@@ -45,38 +44,39 @@ class PublicPostManager {
         }
     }
     
-    // fetch all publicPost data
     func fetchAllPublicPostInfo(completion: @escaping (Result<[PublicPost], Error>) -> Void) {
         
         db.collection(Collections.publicPost.rawValue)
             .getDocuments { (querySnapshot, error) in
-            
-            if let error = error {
                 
-                completion(.failure(error))
-            } else {
-                
-                var allPublicPosts = [PublicPost]()
-                
-                guard let querySnapshot = querySnapshot else { return }
-                
-                for document in querySnapshot.documents {
+                if let error = error {
                     
-                    do {
-                        if let allpublicPost = try document.data(as: PublicPost.self, decoder: Firestore.Decoder()) {
-                            allPublicPosts.append(allpublicPost)
-                        }
-                    } catch {
+                    completion(.failure(error))
+                } else {
+                    
+                    var allPublicPosts = [PublicPost]()
+                    
+                    guard let querySnapshot = querySnapshot else { return }
+                    
+                    for document in querySnapshot.documents {
                         
-                        completion(.failure(error))
+                        do {
+                            if let allpublicPost = try document.data(
+                                as: PublicPost.self, decoder: Firestore.Decoder()
+                            ) {
+                                allPublicPosts.append(allpublicPost)
+                            }
+                        } catch {
+                            
+                            completion(.failure(error))
+                        }
                     }
+                    
+                    completion(.success(allPublicPosts))
                 }
-                
-                completion(.success(allPublicPosts))
             }
-        }
     }
-    // delete personal post
+    
     func deletePersonalPost(createdTime: Int64) {
         
         guard let uid = UserManager.shared.uid else { return }
@@ -84,7 +84,7 @@ class PublicPostManager {
         db.collection(Collections.publicPost.rawValue)
             .whereField("uid", isEqualTo: uid)
             .whereField("createdTime", isEqualTo: createdTime)
-            .getDocuments { snapshot, error in
+            .getDocuments { snapshot, _ in
                 
                 guard let snapshot = snapshot else { return }
                 

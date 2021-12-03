@@ -14,7 +14,7 @@ extension UIImageView {
 
         guard urlString != nil else { return }
         
-        let url = URL(string: urlString!)
+        let url = URL(string: urlString ?? "no urlString")
 
         self.kf.setImage(with: url, placeholder: placeHolder)
     }

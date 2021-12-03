@@ -8,7 +8,6 @@
 import Foundation
 
 class TimeManager {
-    // MARK: - get days in month
     static let shared = TimeManager()
     
     func getDaysInMonth(month: Int, year: Int) -> Int? {
@@ -31,4 +30,23 @@ class TimeManager {
         
         return diff.day
     }
+    
+    func secondToSecMinHour(seconds: Int) -> (Int, Int, Int) {
+        
+        return ((seconds / 3600), ((seconds % 3600) / 60), ((seconds % 3600) % 60))
+    }
+    
+    func makeTimeString(hour: Int, min: Int, sec: Int) -> String {
+        
+        var timeString: String = ""
+        
+        timeString += String(format: "%02d", hour)
+        timeString += " : "
+        timeString += String(format: "%02d", min)
+        timeString += " : "
+        timeString += String(format: "%02d", sec)
+        
+        return timeString
+    }
+    
 }

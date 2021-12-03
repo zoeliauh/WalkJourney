@@ -28,7 +28,6 @@ class LAEUViewController: UIViewController {
     }
     
     // MARK: - method
-    
     private func loadURL() {
         
         let LAEUURL = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
@@ -40,7 +39,6 @@ class LAEUViewController: UIViewController {
     }
     
     // MARK: - UI properties
-    
     private lazy var webView: WKWebView = {
         let web = WKWebView()
         web.navigationDelegate = self
@@ -49,7 +47,6 @@ class LAEUViewController: UIViewController {
 }
 
 // MARK: - conform to WKNavigationDelegate
-
 extension LAEUViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
@@ -67,7 +64,6 @@ extension LAEUViewController: WKNavigationDelegate {
 }
 
 // MARK: - config UI method
-
 extension LAEUViewController {
     
     private func setWebView() {
