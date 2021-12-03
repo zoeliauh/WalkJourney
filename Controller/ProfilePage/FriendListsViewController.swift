@@ -9,7 +9,7 @@ import UIKit
 
 class FriendListsViewController: UIViewController {
     
-    lazy var friendListsCollectionView: UICollectionView = {
+    lazy var friendListCollectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
         let width = view.frame.size.width
@@ -19,8 +19,7 @@ class FriendListsViewController: UIViewController {
         layout.itemSize = CGSize(width: ((width - 44) / 3), height: width / 3 * 1.5)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(FriendListsCollectionViewCell.self,
-                                forCellWithReuseIdentifier: FriendListsCollectionViewCell.identifier
-        )
+                                forCellWithReuseIdentifier: FriendListsCollectionViewCell.identifier)
         collectionView.backgroundColor = .white
         
         return collectionView
@@ -28,13 +27,13 @@ class FriendListsViewController: UIViewController {
     
     var myID = UserManager.shared.uid
     
-    var friendLists: [String] = []
+    var friendList: [String] = []
     
     var friendInfo: [String: User] = [:]
+        
+    var blockList: [String] = []
     
-    var friendID: String = ""
-    
-    var blockLists: [String] = []
+    // user info
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +47,7 @@ class FriendListsViewController: UIViewController {
         
         guard let myID = myID else { return }
         
-        UserManager.shared.fetchUserInfo(userID: myID) { [self] result in
+        UserManager.shared.fetchUserInfo(userID: myID) { [weak self] result in
             
             switch result {
                 
@@ -56,11 +55,11 @@ class FriendListsViewController: UIViewController {
                 
                 let group = DispatchGroup()
                 
-                self.friendLists = friendList.friendLists ?? []
+                self?.friendList = friendList.friendLists ?? []
                 
-                self.blockLists = friendList.blockLists ?? []
+                self?.blockList = friendList.blockLists ?? []
                 
-                for friend in self.friendLists {
+                for friend in self?.friendList ?? [] {
                     
                     group.enter()
                     
@@ -70,7 +69,7 @@ class FriendListsViewController: UIViewController {
                             
                         case .success(let friends):
                             
-                            self.friendInfo[friend] = friends
+                            self?.friendInfo[friend] = friends
                             
                             group.leave()
                             
@@ -83,9 +82,9 @@ class FriendListsViewController: UIViewController {
                     }
                 }
                 group.notify(queue: .main) {
-                    friendListsCollectionView.dataSource = self
-                    friendListsCollectionView.delegate = self
-                    friendListsCollectionView.reloadData()
+                    self?.friendListCollectionView.dataSource = self
+                    self?.friendListCollectionView.delegate = self
+                    self?.friendListCollectionView.reloadData()
                 }
                 
             case .failure(let error):
@@ -98,11 +97,11 @@ class FriendListsViewController: UIViewController {
         
         Toast.showSuccess(text: "建置中")
         
-        guard let funnyMapPagevc = UIStoryboard.position.instantiateViewController(
+        guard let funnyMapPageVC = UIStoryboard.position.instantiateViewController(
             withIdentifier: String(describing: FunnyMapViewController.self)
         ) as? FunnyMapViewController else { return }
         
-        self.navigationController?.pushViewController(funnyMapPagevc, animated: true)
+        self.navigationController?.pushViewController(funnyMapPageVC, animated: true)
     }
 }
 
@@ -110,7 +109,7 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return friendLists.count
+        return friendList.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -124,7 +123,7 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
             fatalError("can not dequeue collectionViewCell")
         }
         
-        friendID = friendLists[indexPath.row]
+        let friendID = friendList[indexPath.row]
         
         guard let userInfo = friendInfo[friendID] else { return cell }
         
@@ -144,36 +143,33 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
             
             let blockAction = UIAction(
                 
-                title: "封鎖使用者", image: UIImage(systemName: "person.fill.xmark"),
+                title: "封鎖使用者", image: UIImage.system(.personFillXMark),
                 
                 identifier: nil,
                 
-                discoverabilityTitle: nil, attributes: .destructive) { [self]_ in
+                discoverabilityTitle: nil, attributes: .destructive) { [weak self]_ in
                     
-                    let controller = UIAlertController(title: "",
-                                                       message: "確定要將此人加入黑名單嗎?\n一但加入即無法取消唷",
-                                                       preferredStyle: .alert)
-                    
-                    let okAction = UIAlertAction(title: "確定", style: .default) { _ in
-                        
-                        self.blockLists.append(friendLists[indexPath.row])
-                        
-                        UserManager.shared.updateBlockList(blockLists: blockLists)
-                        
-                        friendLists.remove(at: indexPath.row)
-                        
-                        UserManager.shared.updateFriendList(friendLists: friendLists)
-                        
-                        friendListsCollectionView.reloadData()
-                    }
-                    
-                    let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
-                    
-                    controller.addAction(okAction)
-                    
-                    controller.addAction(cancelAction)
-                    
-                    present(controller, animated: true, completion: nil)
+                    self?.present(.confirmationAlert(
+                        title: "", message: "確定要將此人加入黑名單嗎?\n一但加入即無法取消唷",
+                        preferredStyle: .alert,
+                        actions: [UIAlertAction.addAction(
+                            title: String.confirmed,
+                            style: .default,
+                            handler: { [weak self] _ in
+                            
+                            self?.blockList.append(self?.friendList[indexPath.row] ?? "")
+                            
+                            UserManager.shared.updateBlockList(blockLists: self?.blockList ?? [])
+                            
+                            self?.friendList.remove(at: indexPath.row)
+                            
+                            UserManager.shared.updateFriendList(friendLists: self?.friendList ?? [])
+                            
+                            self?.friendListCollectionView.reloadData()
+                            
+                        }), UIAlertAction.addAction(title: String.cancel, style: .destructive, handler: nil)
+                                  
+                                 ]), animated: true, completion: nil)
                 }
             
             return UIMenu(title: "", image: nil, identifier: nil,
@@ -187,16 +183,16 @@ extension FriendListsViewController: UICollectionViewDelegate, UICollectionViewD
     
     func setupCollectionView() {
         
-        view.addSubview(friendListsCollectionView)
+        view.addSubview(friendListCollectionView)
         
-        friendListsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        friendListCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
-            friendListsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            friendListsCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 44),
-            friendListsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            friendListsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            friendListCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            friendListCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 44),
+            friendListCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            friendListCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }

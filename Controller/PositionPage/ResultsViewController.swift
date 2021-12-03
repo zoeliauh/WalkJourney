@@ -6,20 +6,24 @@
 //
 
 import UIKit
+import GoogleMaps
 import CoreLocation
 
 protocol ResultsViewControllerDelegate: AnyObject {
-    func didTapPlace(with coordinate: CLLocationCoordinate2D)
+    func didTapPlace(with coordinate: CLLocationCoordinate2D, marker: GMSMarker)
 }
 
 class ResultsViewController: UIViewController {
     
     weak var delegate: ResultsViewControllerDelegate?
     
-    private let tableView: UITableView = {
-        let table = UITableView()
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        return table
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.backgroundColor = .white
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        return tableView
     }()
     
     private var places: [Place] = []
@@ -30,12 +34,6 @@ class ResultsViewController: UIViewController {
         view.addSubview(tableView)
         
         view.backgroundColor = .white
-                
-        tableView.delegate = self
-        
-        tableView.dataSource = self
-        
-        tableView.backgroundColor = .white
     }
     
     override func viewDidLayoutSubviews() {
@@ -78,6 +76,8 @@ extension ResultsViewController: UITableViewDelegate, UITableViewDataSource {
         
         let place = places[indexPath.row]
         
+        let marker = GMSMarker()
+        
         GooglePlacesManager.shared.resolveLocation(for: place) { [weak self] result in
             
             switch result {
@@ -85,9 +85,9 @@ extension ResultsViewController: UITableViewDelegate, UITableViewDataSource {
             case .success(let coordinate):
                 
                 DispatchQueue.main.async {
-                    self?.delegate?.didTapPlace(with: coordinate)
+                    self?.delegate?.didTapPlace(with: coordinate, marker: marker)
                 }
-                
+            
             case .failure(let error):
                 print(error)
             }

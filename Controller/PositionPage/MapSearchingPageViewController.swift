@@ -17,10 +17,6 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     let searchVC = UISearchController(searchResultsController: ResultsViewController())
     
     var locationManager = CLLocationManager()
-        
-    let marker = GMSMarker()
-    
-    var camera = GMSCameraPosition()
     
     var currentLocation = [Double]()
     
@@ -31,15 +27,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
         let button = UIButton()
         button.setTitle(String.letsGo, for: .normal)
         button.titleLabel?.font = UIFont.semiBold(size: 18)
-        button.backgroundColor = UIColor.C4
-        button.layer.cornerRadius = 20
-        button.layer.shadowOpacity = 0.3
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.clipsToBounds = true
-        button.layer.masksToBounds = false
-        button.layoutIfNeeded()
+        button.buttonConfig(button, cornerRadius: 20)
         return button
     }()
     
@@ -48,26 +36,24 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
                         
         GoogleMapsManager.initLocationManager(locationManager, delegate: self)
         
+        GoogleMapsManager.defaultPostion(googleMapView)
+        
         setupSearchVC()
-        
-        defaultPosition()
-        
-        googleMapView.layer.cornerRadius = 10
-        
+                        
         setupStartButton()
     }
     
     @objc func startButtonPressed(_ sender: UIButton) {
     
-        guard let startToWalkPagevc = UIStoryboard.position.instantiateViewController(
+        guard let startToWalkPageVC = UIStoryboard.position.instantiateViewController(
             withIdentifier: String(describing: StartToWalkPageViewController.self)
         ) as? StartToWalkPageViewController else { return }
 
-        let navvc = UINavigationController(rootViewController: startToWalkPagevc)
-        navvc.modalPresentationStyle = .fullScreen
-        self.present(navvc, animated: true, completion: nil)
+        let navVC = UINavigationController(rootViewController: startToWalkPageVC)
+        navVC.modalPresentationStyle = .fullScreen
+        self.present(navVC, animated: true, completion: nil)
  
-        startToWalkPagevc.currentLocation = currentLocation
+        startToWalkPageVC.currentLocation = currentLocation
     }
     
     func setupSearchVC() {
@@ -81,21 +67,6 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
         searchVC.searchBar.backgroundColor = .white
     }
     
-    func defaultPosition() {
-        
-        camera = GMSCameraPosition.camera(withLatitude: 25.043, longitude: 121.565, zoom: 16.0)
-                
-        googleMapView.delegate = self
-        
-        googleMapView.camera = camera
-        
-        googleMapView.settings.myLocationButton = true
-        
-        googleMapView.isMyLocationEnabled = true
-        
-        marker.map = googleMapView
-    }
-    
     func createLocation() {
         
         CountingStepManager.shared.addNewLocation(latitude: currentLocation[0],
@@ -104,9 +75,7 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
             switch result {
                 
             case .success:
-                
-                print("success to create new location")
-                
+                                
                 self.newLocation?()
                 
             case .failure(let error):
@@ -114,35 +83,6 @@ class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
                 print("create location.failure: \(error)")
             }
         }
-    }
-    
-    func reportLocationServicesDeniedError() {
-        
-        let alert = UIAlertController(title: "Oops! Location Services Disabled.",
-                                      message: "Please go to Settings to enable location services for this app.",
-                                      preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        
-        alert.addAction(okAction)
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func setupStartButton() {
-        
-        view.addSubview(startButton)
-        
-        startButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            
-            startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
-            startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
-            startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
-        ])
-                
-        startButton.addTarget(self, action: #selector(startButtonPressed(_:)), for: .touchUpInside)
     }
 }
 
@@ -203,12 +143,23 @@ extension MapSearchingPageViewController: UISearchResultsUpdating {
             }
         }
     }
+    
+    func reportLocationServicesDeniedError() {
+        
+        present(.confirmationAlert(title: "Oops! Location Services Disabled.",
+                                   message: "Please go to Settings to enable location services for this app.",
+                                   preferredStyle: .alert,
+                                   actions: [UIAlertAction.addAction(title: "ok", style: .default, handler: nil)]
+                                  ), animated: true, completion: nil)
+    }
 }
 
 extension MapSearchingPageViewController: ResultsViewControllerDelegate {
-    
-    func didTapPlace(with coordinate: CLLocationCoordinate2D) {
+
+    func didTapPlace(with coordinate: CLLocationCoordinate2D, marker: GMSMarker) {
         
+        var camera = GMSCameraPosition()
+
         searchVC.searchBar.resignFirstResponder()
         
         searchVC.dismiss(animated: true, completion: nil)
@@ -232,5 +183,25 @@ extension MapSearchingPageViewController: ResultsViewControllerDelegate {
         createLocation()
         
         print("location defined by user is \(coordinate)")
+    }
+}
+
+// MARK: - UI design
+extension MapSearchingPageViewController {
+    
+    func setupStartButton() {
+        
+        view.addSubview(startButton)
+        
+        startButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
+            startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
+            startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
+        ])
+                
+        startButton.addTarget(self, action: #selector(startButtonPressed(_:)), for: .touchUpInside)
     }
 }

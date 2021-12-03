@@ -32,30 +32,28 @@ class RecordCatagoryViewController: UIViewController {
         
         return [recordContainerView, challengeContainerView]
     }
-    
-    var selectedYear: String = "2021"
+        
+    var selectedYear: String = Date.yearFormat()
     
     var yearMonth: [String] = []
     
-    var selectedMonth: String = "11"
+    var selectedMonth: String = Date.monthFormat()
     
-    var currentDate: String = "2021.11" {
+    var currentDate: String = "" {
         
         didSet {
-            
             currentDate = "\(selectedYear) + . + \(selectedMonth)"
         }
     }
+        
+    var journeyRecords: [StepData] = []
     
-    let dateFormatDay = DateFormatter()
+    var monthOfDays: Int = 30
     
-    var stepDataArr: [StepData] = []
-    
-    var numberOfDays: Int = 30
-    
-    var stepAverage = 0 {
+    var totalStep = 0 {
+        
         didSet {
-            stepsNumLabel.text = (stepAverage / numberOfDays).description
+            stepsNumLabel.text = (totalStep / monthOfDays).description
         }
     }
     
@@ -86,6 +84,119 @@ class RecordCatagoryViewController: UIViewController {
         
         return pickerTextField
     }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.tabBarController?.tabBar.backgroundImage =  UIImage()
+        
+        self.navigationController?.navigationBar.isHidden = true
+        
+        fetchRecordStepsData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupMonthTextField()
+        setupPullImageView()
+        setupBackgroundView()
+        setupAverageLabel()
+        setupStepsNumLabel()
+        setupStepLabel()
+        setupPushButton()
+        setupChartSegmentedControl()
+    }
+    
+    @objc func pushToMonthChartVC(_ sender: UIButton!) {
+        
+        guard let monthChartViewController = UIStoryboard.record.instantiateViewController(
+            withIdentifier: String(describing: MonthChartViewController.self)
+        ) as? MonthChartViewController else { return }
+        
+        monthChartViewController.selectedYear = selectedYear
+        
+        monthChartViewController.selectedMonth = selectedMonth
+        
+        monthChartViewController.journeyRecords = journeyRecords
+        
+        self.navigationController?.pushViewController(monthChartViewController, animated: true)
+    }
+    
+    @objc func segmentAction(_ segmentedControl: UISegmentedControl) {
+        
+        guard let type = RecordType(rawValue: segmentedControl.selectedSegmentIndex) else { return }
+        
+        updateContainer(type: type)
+    }
+    
+    private func updateContainer(type: RecordType) {
+        
+        containerViews.forEach({ $0.isHidden = true })
+        
+        switch type {
+            
+        case .record:
+            recordContainerView.isHidden = false
+            
+        case .challenge:
+            challengeContainerView.isHidden = false
+        }
+    }
+    
+    func fetchRecordStepsData() {
+        
+        setupLottie()
+        
+        var totalStep = 0
+        
+        var steps: [Int] = []
+        
+        let group = DispatchGroup()
+        
+        RecordManager.shared.fetchMonthRecord(
+            calenderDay: selectedYear + "." + selectedMonth
+            
+        ) { [weak self] result in
+            
+            group.enter()
+            
+            switch result {
+                
+            case .success(let stepData):
+                
+                self?.journeyRecords = stepData
+                                
+                for items in stepData {
+
+                    steps.append(items.numberOfSteps)
+                }
+
+                totalStep = steps.reduce(0, { (totalStep, num) -> Int in
+
+                    return totalStep + num
+                })
+
+                group.leave()
+                
+            case .failure(let error):
+                
+                print("fetchStepsData.failure: \(error)")
+                
+                group.leave()
+            }
+            
+            group.notify(queue: .main) {
+                
+                self?.totalStep = totalStep 
+                self?.animationView.removeFromSuperview()
+            }
+        }
+        
+        monthOfDays = TimeManager.shared.getDaysInMonth(month: Int(selectedMonth) ?? 0,
+                                                         year: Int(selectedYear) ?? 0
+        ) ?? 30
+    }
     
     lazy var pullImageView: UIImageView = {
         
@@ -178,112 +289,6 @@ class RecordCatagoryViewController: UIViewController {
         animationView.layoutIfNeeded()
         return animationView
     }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.tabBarController?.tabBar.backgroundImage =  UIImage()
-        
-        self.navigationController?.navigationBar.isHidden = true
-        
-        fetchRecordStepsData()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        setupMonthTextField()
-        setupPullImageView()
-        setupBackgroundView()
-        setupAverageLabel()
-        setupStepsNumLabel()
-        setupStepLabel()
-        setupPushButton()
-        setupChartSegmentedControl()
-    }
-    
-    @objc func pushToMonthChartVC(_ sender: UIButton!) {
-        
-        guard let monthChartViewController = UIStoryboard.record.instantiateViewController(
-            withIdentifier: String(describing: MonthChartViewController.self)
-        ) as? MonthChartViewController else { return }
-        
-        monthChartViewController.selectedYear = selectedYear
-        
-        monthChartViewController.selectedMonth = selectedMonth
-        
-        monthChartViewController.stepDataArr = stepDataArr
-        
-        self.navigationController?.pushViewController(monthChartViewController, animated: true)
-    }
-    
-    @objc func segmentAction(_ segmentedControl: UISegmentedControl) {
-        
-        guard let type = RecordType(rawValue: segmentedControl.selectedSegmentIndex) else { return }
-        
-        updateContainer(type: type)
-    }
-    
-    private func updateContainer(type: RecordType) {
-        
-        containerViews.forEach({ $0.isHidden = true })
-        
-        switch type {
-            
-        case .record:
-            recordContainerView.isHidden = false
-            
-        case .challenge:
-            challengeContainerView.isHidden = false
-        }
-    }
-    
-    func fetchRecordStepsData() {
-        
-        setupLottie()
-        
-        var tempStepAverage = 0
-        
-        let group = DispatchGroup()
-        
-        RecordManager.shared.fetchMonthRecord(
-            calenderDay: selectedYear + "." + selectedMonth
-            
-        ) { [weak self] result in
-            
-            group.enter()
-            
-            switch result {
-                
-            case .success(let stepData):
-                
-                self?.stepDataArr = stepData
-                                
-                for items in stepData {
-                    
-                    tempStepAverage += items.numberOfSteps
-                }
-                
-                group.leave()
-                
-            case .failure(let error):
-                
-                print("fetchStepsData.failure: \(error)")
-                
-                group.leave()
-            }
-            
-            group.notify(queue: .main) {
-                
-                self?.stepAverage = tempStepAverage
-                self?.animationView.removeFromSuperview()
-            }
-        }
-        
-        numberOfDays = TimeManager.shared.getDaysInMonth(month: Int(selectedMonth) ?? 0,
-                                                         year: Int(selectedYear) ?? 0
-        ) ?? 30
-    }
 }
 
 // MARK: - UI design
@@ -299,12 +304,8 @@ extension RecordCatagoryViewController {
         
         NSLayoutConstraint.activate([
             
-            monthPickerTextField.leadingAnchor.constraint(
-                equalTo: (nav.leadingAnchor),
-                constant: 30),
-            monthPickerTextField.topAnchor.constraint(
-                equalTo: nav.topAnchor,
-                constant: 15),
+            monthPickerTextField.leadingAnchor.constraint(equalTo: (nav.leadingAnchor), constant: 30),
+            monthPickerTextField.topAnchor.constraint(equalTo: nav.topAnchor, constant: 15),
             monthPickerTextField.heightAnchor.constraint(equalToConstant: 30),
             monthPickerTextField.widthAnchor.constraint(equalToConstant: 250)
         ])
@@ -318,11 +319,8 @@ extension RecordCatagoryViewController {
         
         NSLayoutConstraint.activate([
             
-            pullImageView.leadingAnchor.constraint(
-                equalTo: (monthPickerTextField.trailingAnchor),
-                constant: -60),
-            pullImageView.topAnchor.constraint(
-                equalTo: monthPickerTextField.topAnchor),
+            pullImageView.leadingAnchor.constraint(equalTo: (monthPickerTextField.trailingAnchor), constant: -60),
+            pullImageView.topAnchor.constraint(equalTo: monthPickerTextField.topAnchor),
             pullImageView.heightAnchor.constraint(equalToConstant: 30),
             pullImageView.widthAnchor.constraint(equalToConstant: 30)
             

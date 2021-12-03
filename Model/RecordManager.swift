@@ -223,17 +223,9 @@ class RecordManager {
     func addNewRecord(
         distanceWalk: String, durationTime: String, numStep: Int,
         latitude: [CLLocationDegrees], longitude: [CLLocationDegrees],
-        date: String, year: String, month: String, screenshot: UIImageView,
+        screenshot: UIImageView,
         completion: @escaping(Result<String, Error>) -> Void
     ) {
-        
-        let today = Date()
-        let formatterDate = DateFormatter()
-        let formatterYear = DateFormatter()
-        let formatterMonth = DateFormatter()
-        formatterDate.dateFormat = "yyyy.MM.dd"
-        formatterYear.dateFormat = "yyyy"
-        formatterMonth.dateFormat = "yyyy.MM"
         
         let document = db.collection(Collections.stepData.rawValue).document()
         
@@ -250,9 +242,9 @@ class RecordManager {
                 "numberOfSteps": numStep,
                 "latitude": latitude,
                 "longitude": longitude,
-                "date": formatterDate.string(from: today),
-                "year": formatterYear.string(from: today),
-                "month": formatterMonth.string(from: today),
+                "date": Date.dateFormat(),
+                "year": Date.yearFormat(),
+                "month": Date.yearMonthFormat(),
                 "screenshot": url
             ]) { error in
                 

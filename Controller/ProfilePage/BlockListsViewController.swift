@@ -29,7 +29,7 @@ class BlockListsViewController: UIViewController {
     
     var myID = UserManager.shared.uid
     
-    var blockLists: [String] = []
+    var blockList: [String] = []
     
     var blockInfo: [String: User] = [:]
     
@@ -47,7 +47,7 @@ class BlockListsViewController: UIViewController {
         
         guard let myID = myID else { return }
         
-        UserManager.shared.fetchUserInfo(userID: myID) { [self] result in
+        UserManager.shared.fetchUserInfo(userID: myID) { [weak self] result in
             
             switch result {
                 
@@ -57,9 +57,9 @@ class BlockListsViewController: UIViewController {
                 
                 guard let lists = blockList.blockLists else { return }
                 
-                self.blockLists = lists
+                self?.blockList = lists
                 
-                for block in self.blockLists {
+                for block in lists {
                     
                     group.enter()
                     
@@ -69,7 +69,7 @@ class BlockListsViewController: UIViewController {
                             
                         case .success(let blockFriends):
                             
-                            self.blockInfo[block] = blockFriends
+                            self?.blockInfo[block] = blockFriends
                             
                             print("friends are \(blockFriends)")
                         
@@ -83,9 +83,9 @@ class BlockListsViewController: UIViewController {
                     }
                 }
                 group.notify(queue: .main) {
-                    blockListsCollectionView.dataSource = self
-                    blockListsCollectionView.delegate = self
-                    blockListsCollectionView.reloadData()
+                    self?.blockListsCollectionView.dataSource = self
+                    self?.blockListsCollectionView.delegate = self
+                    self?.blockListsCollectionView.reloadData()
                 }
                     
             case .failure(let error):
@@ -99,7 +99,7 @@ extension BlockListsViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return blockLists.count
+        return blockList.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -113,7 +113,7 @@ extension BlockListsViewController: UICollectionViewDelegate, UICollectionViewDa
             fatalError("can not dequeue collectionViewCell")
         }
         
-        blockID = blockLists[indexPath.row]
+        blockID = blockList[indexPath.row]
         
         guard let userInfo = blockInfo[blockID] else { return cell }
 

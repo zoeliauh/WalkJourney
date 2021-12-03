@@ -22,7 +22,13 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     
     @IBOutlet weak var distanceLabel: UILabel!
     
-    @IBOutlet weak var currentRouteMapView: GMSMapView!
+    @IBOutlet weak var currentRouteMapView: GMSMapView! {
+        
+        didSet {
+            currentRouteMapView.layer.cornerRadius = 20
+            currentRouteMapView.delegate = self
+        }
+    }
     
     var db: Firestore!
     
@@ -34,15 +40,18 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     
     var currentLocation = [Double]()
     
-    let activityManager = CMMotionActivityManager()
-    
     let pedometer = CMPedometer()
     
     var timer = Timer()
     
     var count: Int = 0
     
-    var timeString: String = ""
+    var timeString: String = "" {
+        
+        didSet {
+            durationLabel.text = timeString
+        }
+    }
     
     var lastLocation: CLLocation?
     
@@ -50,19 +59,11 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     
     var newRecord: (() -> Void)?
     
-    var eachLatitude: [CLLocationDegrees] = []
-    
-    var eachLongitude: [CLLocationDegrees] = []
+    var eachLocation: [CLLocationDegrees: CLLocationDegrees] = [:]
     
     var certainLat: [CLLocationDegrees] = []
     
     var certainLong: [CLLocationDegrees] = []
-    
-    var date: String = ""
-    
-    var year: String = ""
-    
-    var month: String = ""
     
     var screenshotImageView = UIImageView()
     
@@ -78,36 +79,26 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         let button = UIButton()
         button.setTitle(String.finish, for: .normal)
         button.titleLabel?.font = UIFont.semiBold(size: 18)
-        button.backgroundColor = UIColor.C4
-        button.layer.cornerRadius = 20
-        button.layer.shadowOpacity = 0.3
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.clipsToBounds = true
-        button.layer.masksToBounds = false
-        button.layoutIfNeeded()
+        button.buttonConfig(button, cornerRadius: 20)
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupFinishButton()
-        
-        setUpDismissButton()
-        
         db = Firestore.firestore()
+        
+        GoogleMapsManager.initLocationManager(locationManager, delegate: self)
+        
+        GoogleMapsManager.defaultPostion(currentRouteMapView)
         
         countTimer()
         
         countSteps()
         
-        GoogleMapsManager.initLocationManager(locationManager, delegate: self)
+        setupFinishButton()
         
-        currentRouteMapView.layer.cornerRadius = 20
-        
-        defaultPosition()        
+        setUpDismissButton()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -135,17 +126,6 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
         let time = TimeManager.shared.secondToSecMinHour(seconds: count)
         
         timeString = TimeManager.shared.makeTimeString(hour: time.0, min: time.1, sec: time.2)
-        
-        durationLabel.text = timeString
-    }
-    
-    func defaultPosition() {
-        
-        currentRouteMapView.delegate = self
-        
-        currentRouteMapView.settings.myLocationButton = true
-        
-        currentRouteMapView.isMyLocationEnabled = true
     }
     
     func createNewRecord() {
@@ -161,14 +141,12 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
                                           numStep: numStep,
                                           latitude: certainLat,
                                           longitude: certainLong,
-                                          date: date, year: year, month: month,
                                           screenshot: screenshotImageView) { result in
             
             switch result {
                 
             case .success:
                 
-                print("successful to upload the new record")
                 self.newRecord?()
                 
             case .failure(let error):
@@ -218,20 +196,14 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
             
             path.addLatitude(location.coordinate.latitude, longitude: location.coordinate.longitude)
             
-            eachLatitude.append(location.coordinate.latitude)
-            
-            eachLongitude.append(location.coordinate.longitude)
-            
-            print(eachLongitude.count)
-            
-            if eachLatitude.count == 1 {
+            if eachLocation.count == 1 {
                 
                 certainLat.append(location.coordinate.latitude)
                 
                 certainLong.append(location.coordinate.longitude)
             }
             
-            if eachLatitude.count % 8 == 0 {
+            if eachLocation.count % 8 == 0 {
                 
                 certainLat.append(location.coordinate.latitude)
                 
@@ -258,6 +230,7 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
                 
                 distanceLabel.text = formatDistanceSum
             }
+            
             self.lastLocation = location
         }
     }
@@ -271,19 +244,16 @@ extension StartToWalkPageViewController: CLLocationManagerDelegate {
     
     func successMessage() {
         
-        let controller = UIAlertController(title: String.successfulSave,
-                                           message: nil,
-                                           preferredStyle: .alert)
-        let okAction = UIAlertAction(title: String.confirmed,
-                                     style: .default
-        ) { (_: UIAlertAction) in
-            
-            self.dismiss(animated: true, completion: nil)
-        }
-        
-        controller.addAction(okAction)
-        
-        present(controller, animated: true, completion: nil)
+        present(.confirmationAlert(
+            title: String.successfulSave, message: nil,
+            preferredStyle: .alert,
+            actions: [
+                UIAlertAction.addAction(
+                    title: String.confirmed, style: .default,
+                    handler: { [weak self] _ in
+                        self?.dismiss(animated: true, completion: nil)
+                    })]
+        ), animated: true, completion: nil)
     }
 }
 // MARK: - UI design

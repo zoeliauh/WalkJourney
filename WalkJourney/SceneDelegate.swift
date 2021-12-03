@@ -25,12 +25,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         .instantiateViewController(
                             withIdentifier: String(describing: LoginViewController.self)
                         ) as? LoginViewController else {
-                            
+
                             return
                         }
-                
+
                 window.rootViewController = loginvc
-                
+
                 self.window = window
             }
         }

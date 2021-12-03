@@ -15,8 +15,7 @@ class InvitationViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.register(
             InvitedTableViewCell.self,
-            forCellReuseIdentifier: InvitedTableViewCell.identifier
-        )
+            forCellReuseIdentifier: InvitedTableViewCell.identifier)
         
         return tableView
     }()
@@ -24,16 +23,15 @@ class InvitationViewController: UIViewController {
     var invitedRequests: [Invitation] = [] {
         
         didSet {
-            
             invitedTableView.reloadData()
         }
     }
     
     var myID = UserManager.shared.uid
     
-    var friendLists: [String] = []
+    var friendList: [String] = []
     
-    var senderFriendLists: [String] = []
+    var senderFriendList: [String] = []
         
     var senderInfo: [String: User] = [:]
     
@@ -66,7 +64,7 @@ class InvitationViewController: UIViewController {
             case .success(let friendList):
                 guard let lists = friendList.friendLists else { return }
                         
-                self.friendLists = lists
+                self.friendList = lists
                                 
             case .failure(let error):
                 print("fetchAllInvitation.failure: \(error)")
@@ -84,7 +82,7 @@ class InvitationViewController: UIViewController {
             case .success(let friendList):
                 guard let lists = friendList.friendLists else { return }
                         
-                self.senderFriendLists = lists
+                self.senderFriendList = lists
                                                 
             case .failure(let error):
                 print("fetchSenderFriendLists.failure: \(error)")
@@ -108,6 +106,7 @@ class InvitationViewController: UIViewController {
                         
                         return true
                     } else {
+                        
                         return false
                     }
                 })
@@ -149,15 +148,15 @@ class InvitationViewController: UIViewController {
     
     @objc func confirmedPressed(_ sender: UIButton!) {
         
-        self.friendLists.append(invitedRequests[sender.tag].sender)
+        self.friendList.append(invitedRequests[sender.tag].sender)
         
-    print("confirm \(senderFriendLists)")
+    print("confirm \(senderFriendList)")
         
-        self.senderFriendLists.append(invitedRequests[sender.tag].receiver)
+        self.senderFriendList.append(invitedRequests[sender.tag].receiver)
 
-        UserManager.shared.updateFriendList(friendLists: friendLists)
+        UserManager.shared.updateFriendList(friendLists: friendList)
         
-        UserManager.shared.updateOtherUserFriendList(sender: senderID, friendLists: senderFriendLists)
+        UserManager.shared.updateOtherUserFriendList(sender: senderID, friendLists: senderFriendList)
 
         InvitationManager.shared.updateInvitedStatus(sender: invitedRequests[sender.tag].sender)
         
@@ -200,7 +199,7 @@ extension InvitationViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.notNowButton.tag = indexPath.row
         
-        cell.profileImageView.loadImage(userInfo.userImageURL, placeHolder: UIImage(systemName: "person.crop.circle"))
+        cell.profileImageView.loadImage(userInfo.userImageURL, placeHolder: UIImage.system(.personPlacehloder))
         
         cell.userName.text = userInfo.username
                             
