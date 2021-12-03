@@ -77,6 +77,10 @@ class RecordTableViewCell: UITableViewCell {
             logoImageView.widthAnchor.constraint(equalToConstant: 30)
         ])
     }
+}
+
+// MARK: - UI design
+extension RecordTableViewCell {
     
     private func setupDateLabel() {
         

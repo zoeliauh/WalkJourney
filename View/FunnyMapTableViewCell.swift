@@ -21,14 +21,7 @@ class FunnyMapTableViewCell: UITableViewCell {
         let button = UIButton()
         button.setTitle(String.challengeStart, for: .normal)
         button.titleLabel?.font = UIFont.semiBold(size: 18)
-        button.backgroundColor = UIColor.C4
-        button.layer.cornerRadius = 20
-        button.layer.shadowOpacity = 0.3
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.clipsToBounds = true
-        button.layer.masksToBounds = false
+        button.buttonConfig(button, cornerRadius: 20)
         return button
     }()
     
@@ -46,6 +39,10 @@ class FunnyMapTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not beed implemented")
     }
+}
+
+// MARK: - UI design
+extension FunnyMapTableViewCell {
     
     private func setupShapeImageView() {
         
@@ -63,7 +60,7 @@ class FunnyMapTableViewCell: UITableViewCell {
         ])
     }
     
-    func setupGoButton() {
+    private func setupGoButton() {
         
         contentView.addSubview(goButton)
         

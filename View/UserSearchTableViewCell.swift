@@ -33,21 +33,10 @@ class UserSearchTableViewCell: UITableViewCell {
         let button = UIButton()
         button.setTitle(String.addFriend, for: .normal)
         button.titleLabel?.font = UIFont.semiBold(size: 18)
-        button.backgroundColor = UIColor.C4
-        button.layer.cornerRadius = 10
-        button.layer.shadowOpacity = 0.3
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.clipsToBounds = true
-        button.layer.masksToBounds = false
-        button.layoutIfNeeded()
-
+        button.buttonConfig(button, cornerRadius: 10)
         return button
     }()
-    
-    var buttonIsEnable: Bool = true
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
  
@@ -70,6 +59,10 @@ class UserSearchTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not beed implemented")
     }
+}
+
+// MARK: - UI design
+extension UserSearchTableViewCell {
     
     private func setupProfileImageView() {
         
@@ -113,16 +106,5 @@ class UserSearchTableViewCell: UITableViewCell {
             addFriendButton.heightAnchor.constraint(equalToConstant: 30),
             addFriendButton.widthAnchor.constraint(equalToConstant: 120)
         ])
-        
-        if buttonIsEnable {
-            
-            addFriendButton.isEnabled = true
-            addFriendButton.backgroundColor = UIColor.C4
-        } else {
-            
-            addFriendButton.isEnabled = false
-            addFriendButton.backgroundColor = .lightGray
-        }
-        
     }
 }

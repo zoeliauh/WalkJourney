@@ -16,6 +16,7 @@ class BlockListsCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.image = UIImage.system(.personPlacehloder)
         imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -40,9 +41,7 @@ class BlockListsCollectionViewCell: UICollectionViewCell {
         
         setupProfileImageView()
         setupfriendNameLabel()
-        
-        profileImageView.layer.cornerRadius = 20
-        
+                
         contentView.backgroundColor = .D1
         contentView.layer.cornerRadius = 10
     }
@@ -55,22 +54,6 @@ class BlockListsCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         contentViewConfig()
-        
-        profileImageView.clipsToBounds = true
-    }
-
-    private func buttonConfig(_ button: UIButton) {
-        
-        button.titleLabel?.font = UIFont.regular(size: 15)
-        button.backgroundColor = UIColor.C4
-        button.layer.cornerRadius = 10
-        button.layer.shadowOpacity = 0.3
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.clipsToBounds = true
-        button.layer.masksToBounds = false
-        button.layoutIfNeeded()
     }
     
     private func contentViewConfig() {

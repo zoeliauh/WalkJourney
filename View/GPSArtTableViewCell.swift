@@ -67,6 +67,10 @@ class GPSArtTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not beed implemented")
     }
+}
+
+// MARK: - UI design
+extension GPSArtTableViewCell {
     
     private func setupProfileImageView() {
         

@@ -62,6 +62,10 @@ class ChallengeTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not beed implemented")
     }
+}
+
+// MARK: - UI design
+extension ChallengeTableViewCell {
     
     private func setupLogoImageView() {
         
