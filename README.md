@@ -95,6 +95,7 @@
 ## ReleaseNotes
 | Version | Date | Description                                                                                     |
 | :-------| :----|:------------------------------------------------------------------------------------------------|
+| 1.1.0   | 2021.12.08 | Improved performance. |
 | 1.0.0   | 2021.11.25 | Launched in App Store|
 ## Contact
 Zoe Liauh <br>woanjwuliauh@gmail.com</br>
