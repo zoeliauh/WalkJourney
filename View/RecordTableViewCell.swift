@@ -10,7 +10,7 @@ import UIKit
 
 class RecordTableViewCell: UITableViewCell {
     
-    lazy var logoImageView: UIImageView = {
+    private lazy var logoImageView: UIImageView = {
         
         let imageView = UIImageView()
         imageView.image = UIImage.asset(.loginIcon)

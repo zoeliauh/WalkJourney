@@ -13,7 +13,7 @@ import CoreLocation
 class MapSearchingPageViewController: UIViewController, GMSMapViewDelegate {
     
     @IBOutlet weak var googleMapView: GMSMapView!
-        
+            
     let searchVC = UISearchController(searchResultsController: ResultsViewController())
     
     var locationManager = CLLocationManager()
@@ -107,7 +107,7 @@ extension MapSearchingPageViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
-        GoogleMapsManager.handle(manager, didChangeAuthorization: status)
+        GoogleMapsManager.handle(manager, didChangeAuthorization: status, viewController: self)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
