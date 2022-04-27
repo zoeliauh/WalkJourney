@@ -8,9 +8,10 @@
 import Foundation
 import GoogleMaps
 import CoreLocation
+import UIKit
 
 struct GoogleMapsManager {
-    
+        
     static let appWorks = CLLocation(latitude: 25.043, longitude: 121.565)
     
     static var preciseLocationZoomLevel: Float = 15.0
@@ -65,7 +66,7 @@ struct GoogleMapsManager {
         marker.map = mapView        
     }
     
-    static func handle(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    static func handle(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus, viewController: UIViewController) {
 
         let accuracy = manager.accuracyAuthorization
         
@@ -83,6 +84,7 @@ struct GoogleMapsManager {
             print("Location access was restricted.")
         case .denied:
             print("User denied access to location.")
+            actionIfUserDenied(viewController: viewController)
         case .notDetermined:
             print("Location status not determined.")
         case .authorizedAlways:
@@ -92,5 +94,22 @@ struct GoogleMapsManager {
         @unknown default:
             fatalError()
         }
+    }
+    
+    static func actionIfUserDenied(viewController: UIViewController) {
+        
+        let settingsAction = UIAlertAction(title: "設定", style: .default) { _ in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                
+                UIApplication.shared.open(url, options: [:])
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
+        
+        viewController.present(.confirmationAlert(
+            title: "無法讀取位置", message: "請開啟定位服務",
+            preferredStyle: .actionSheet,
+            actions: [settingsAction, cancelAction]), animated: true, completion: nil)
     }
 }

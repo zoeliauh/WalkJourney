@@ -195,6 +195,11 @@ class GoogleArtViewController: UIViewController, GMSMapViewDelegate {
             self.coverImageView.alpha = 0
         }
     }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus, viewController: UIViewController) {
+        
+        GoogleMapsManager.handle(manager, didChangeAuthorization: status, viewController: self)
+    }
 }
 
 extension GoogleArtViewController: CLLocationManagerDelegate {

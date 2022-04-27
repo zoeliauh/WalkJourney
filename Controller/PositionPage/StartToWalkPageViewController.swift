@@ -66,7 +66,7 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
     var certainLong: [CLLocationDegrees] = []
     
     var screenshotImageView = UIImageView()
-    
+        
     lazy var dismissButton: UIButton = {
         
         let button = UIButton()
@@ -180,6 +180,11 @@ class StartToWalkPageViewController: UIViewController, GMSMapViewDelegate {
                 }
             }
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus, viewController: UIViewController) {
+        
+        GoogleMapsManager.handle(manager, didChangeAuthorization: status, viewController: self)
     }
 }
 
