@@ -45,7 +45,7 @@ extension Date {
         
         let monthFormatter = DateFormatter()
         
-        monthFormatter.dateFormat = "M"
+        monthFormatter.dateFormat = "MM"
         
         let month = monthFormatter.string(from: today)
         

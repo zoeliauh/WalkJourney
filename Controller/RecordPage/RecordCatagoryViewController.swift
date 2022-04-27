@@ -64,10 +64,10 @@ class RecordCatagoryViewController: UIViewController {
         pickerTextField.layer.cornerRadius = 10
         pickerTextField.textAlignment = .left
         pickerTextField.font = UIFont.boldSystemFont(ofSize: 30)
-        pickerTextField.pickerYear = ["2019年", "2020年", "2021年", "2022年", "2023年"]
-        pickerTextField.pickerMonth = ["1月", "2月", "3月", "4月",
-                                       "5月", "6月", "7月", "8月",
-                                       "9月", "10月", "11月", "12月"]
+        pickerTextField.pickerYear = ["2019年", "2020年", "2021年", "2022年", "2023年", "2024年", "2025年"]
+        pickerTextField.pickerMonth = ["01月", "02月", "03月", "04月",
+                                       "05月", "06月", "07月", "08月",
+                                       "09月", "10月", "11月", "12月"]
         
         pickerTextField.displayNameHandle = { item in
             self.selectedYear = item[0..<4]
